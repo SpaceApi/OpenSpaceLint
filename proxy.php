@@ -8,7 +8,7 @@ if (!$url || !preg_match("/^https?:/i", $url)) {
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+//curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $data = curl_exec($ch);
 $info = curl_getinfo($ch);
