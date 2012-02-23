@@ -222,6 +222,10 @@ jsl.interactions = (function () {
             $('#faq').slideToggle();
         });
 
+        $('#propsButton').click(function () {
+            $('#props').slideToggle();
+        });
+	
         if (jsonParam) {
             $('#json_input').val(jsonParam);
             $('#validate').click();

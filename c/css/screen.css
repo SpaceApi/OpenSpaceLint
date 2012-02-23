@@ -82,6 +82,15 @@ input.text, input.title {
 	overflow: auto;
 	margin-top: 1em;
 }
+
+#props {
+	border: 2px solid #CCC;
+	padding: 1em;
+	height: 10em;
+	overflow: auto;
+	margin-top: 1em;
+}
+
 #faqAccordion div {
 	margin-left: 2em;
 }
