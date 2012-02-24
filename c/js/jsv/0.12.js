@@ -151,7 +151,7 @@ var os_schema =
 				}
 			},
 			"feeds":{
-				"required": true,
+				"required": false,
 				"type": "object",
 				"properties": {
 					"name":{

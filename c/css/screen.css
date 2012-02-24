@@ -158,3 +158,11 @@ input.text, input.title {
 .light {
     color: #AAA;
 }
+
+.success h3 {
+    color: #529214;
+}
+
+.error h3 {
+    color: #D12F19;
+}

@@ -118,6 +118,44 @@ jsl.interactions = (function () {
                 $('div.linedwrap').removeClass('redBorder').addClass('greenBorder');
                 $('#results').text('Valid JSON');
 
+                // check against the specs
+                var env = JSV.createEnvironment("json-schema-draft-03");
+                var report = env.validate( JSON.parse(jsonVal), os_schema);
+                var uri = report.instance._uri;
+                
+                //console.log(report);
+                                        
+                $("#specs-results").show();
+                if(report.errors.length > 0)
+                {
+                    $("#specs-results").text("Your JSON is not compliant to the specs 0.12.").wrapInner("<h3>");
+                    $("#specs-results").removeClass('success').addClass('error');
+
+                    var err, msg;
+                    for(i=0; i<report.errors.length; i++){
+
+                        err = report.errors[i];
+                        msg = err.message;
+                        
+                        if(err.message === "Instance is not one of the possible values")
+                            msg = "The member '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
+                        
+                        if(err.message === "Property is required")
+                            msg = "Property '" + err.uri + "' is missing.";
+        
+                        if(err.message === "Instance is not a required type")
+                            msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";;
+        
+                        msg = msg.replace(uri+"/", "");
+                        $("#specs-results").append("<div>" + msg + "</div>");           
+                    }
+                }
+                else
+                {
+                    $("#specs-results").text("Your JSON is compliant to the specs version 0.12.").wrapInner("<h3>");
+                    $("#specs-results").removeClass('error').addClass('success');
+                }
+
                 if (reformat) {
                     $('#json_input').val(JSON.stringify(JSON.parse(jsonVal), null, "    "));
                 }
@@ -164,39 +202,15 @@ jsl.interactions = (function () {
             }
 
             $('#results').text(parseException.message);
-
             $('#results').removeClass('success').addClass('error');
             $('div.linedwrap').removeClass('greenBorder').addClass('redBorder');
+            
+            $('#specs-results').text("").hide();
         }
 
         $('#loadSpinner').hide();
-	
-	//*
-	var tovalidate =
-			{
-			    "api": "0.12",
-			    "space": "syn2cat",
-			    "url": "http://www.hackerspace.lu",
-			    "logo": "http://wiki.hackerspace.lu/w/images/8/86/Syn2catLOGO.png",
-			    "open": true,
-			    "icon": {
-				"open": "http://wiki.hackerspace.lu/w/thumb.php?f=LightOn.svg&width=100",
-				"closed": "http://wiki.hackerspace.lu/w/thumb.php?f=LightOff.svg&width=100"
-			    }
-			}
-	
-	var env = JSV.createEnvironment("json-schema-draft-03");
-	var report = env.validate( tovalidate, os_schema);		
-	
-	if(report.errors.length > 0)
-		console.log("Check not passed.");
-	else
-		console.log("Check passed.");
-				
-	for(i=0; i<report.errors.length; i++)
-		console.log(report.errors[i].message);
-			
-	return false;
+                
+        return false;
     }
 
     /**
