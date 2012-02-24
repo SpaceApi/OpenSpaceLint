@@ -22,47 +22,6 @@
 	<script type="text/javascript" src="c/js/jsv/json-schema-draft-03.js"></script>
 	<script type="text/javascript" src="c/js/jsv/0.12.js"></script>
 	
-	<script type="text/javascript">
-	jQuery(document).ready(function(){
-
-		var env = JSV.createEnvironment("json-schema-draft-03");
-		
-		//var tovalidate = {}
-		//*
-		var tovalidate =	{
-			
-			  "api":"0.12",
-			  "space":"RevSpace",
-			  "url":"https:\/\/revspace.nl",
-			  "icon":{
-			    "open":"https://revspace.nl/icon/open.png",
-			    "closed":"https://revspace.nl/icon/closed.png"
-			  },
-			  "lat":-123.1324,
-			  "open":true,
-			  "events":{
-				  "name":"",
-				  "type":"",
-				  "t":1234
-			  },
-			"feeds":{
-				"name": "test",
-				"url": ""
-			},
-			"sensors":{
-				"temp":[]
-			}
-		}
-		//*/
-		
-		var report = env.validate( tovalidate, os_schema);		
-		if(report.errors.length > 0)
-			console.log("Check not passed.");
-		else
-			console.log("Check passed.");
-	});
-	</script>
-        
 	<script type="text/javascript" src="c/js/jsl.parser.js"></script>
         <script type="text/javascript" src="c/js/jsl.format.js"></script>
         <script type="text/javascript" src="c/js/jsl.interactions.js"></script>

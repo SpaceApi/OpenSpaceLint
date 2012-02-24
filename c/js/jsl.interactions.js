@@ -170,6 +170,33 @@ jsl.interactions = (function () {
         }
 
         $('#loadSpinner').hide();
+	
+	//*
+	var tovalidate =
+			{
+			    "api": "0.12",
+			    "space": "syn2cat",
+			    "url": "http://www.hackerspace.lu",
+			    "logo": "http://wiki.hackerspace.lu/w/images/8/86/Syn2catLOGO.png",
+			    "open": true,
+			    "icon": {
+				"open": "http://wiki.hackerspace.lu/w/thumb.php?f=LightOn.svg&width=100",
+				"closed": "http://wiki.hackerspace.lu/w/thumb.php?f=LightOff.svg&width=100"
+			    }
+			}
+	
+	var env = JSV.createEnvironment("json-schema-draft-03");
+	var report = env.validate( tovalidate, os_schema);		
+	
+	if(report.errors.length > 0)
+		console.log("Check not passed.");
+	else
+		console.log("Check passed.");
+				
+	for(i=0; i<report.errors.length; i++)
+		console.log(report.errors[i].message);
+			
+	return false;
     }
 
     /**
