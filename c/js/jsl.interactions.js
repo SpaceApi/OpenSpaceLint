@@ -118,43 +118,64 @@ jsl.interactions = (function () {
                 $('div.linedwrap').removeClass('redBorder').addClass('greenBorder');
                 $('#results').text('Valid JSON');
 
+
+                /********************************************************************************/
                 // check against the specs
-                var env = JSV.createEnvironment("json-schema-draft-03");
-                var report = env.validate( JSON.parse(jsonVal), os_schema);
-                var uri = report.instance._uri;
                 
-                //console.log(report);
+                var env = JSV.createEnvironment("json-schema-draft-03");
+                var report, uri;
+                for(version in os_schema)
+                {
+                    //console.log(version);
+                    
+                    report = env.validate( JSON.parse(jsonVal), os_schema[version]);
+                    uri = report.instance._uri;
+                    
+                    console.log(report);
                                         
-                $("#specs-results").show();
-                if(report.errors.length > 0)
-                {
-                    $("#specs-results").text("Your JSON is not compliant to the specs 0.12.").wrapInner("<h3>");
-                    $("#specs-results").removeClass('success').addClass('error');
-
-                    var err, msg;
-                    for(i=0; i<report.errors.length; i++){
-
-                        err = report.errors[i];
-                        msg = err.message;
+                    //console.log("#results-specs-"+ version);
+                    //console.log($("#results-specs-"+ version));
+                    
+                    $("#results-specs-"+ version).show();
+                    
+                    if(report.errors.length > 0)
+                    {
                         
-                        if(err.message === "Instance is not one of the possible values")
-                            msg = "The member '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
-                        
-                        if(err.message === "Property is required")
-                            msg = "Property '" + err.uri + "' is missing.";
-        
-                        if(err.message === "Instance is not a required type")
-                            msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";;
-        
-                        msg = msg.replace(uri+"/", "");
-                        $("#specs-results").append("<div>" + msg + "</div>");           
+                        $("#results-specs-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h3>");
+                        $("#results-specs-"+ version).removeClass('success').addClass('error');
+
+                        var err, msg;
+                        for(i=0; i<report.errors.length; i++){
+
+                            err = report.errors[i];
+                            msg = err.message;
+                            
+                            if(err.message === "Instance is not one of the possible values")
+                                msg = "The member '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
+                            
+                            if(err.message === "Property is required")
+                                msg = "Property '" + err.uri + "' is missing.";
+            
+                            if(err.message === "Instance is not a required type")
+                                msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";;
+            
+                            msg = msg.replace(uri+"/", "");
+                            $("#results-specs-"+ version).append("<div>" + msg + "</div>");           
+                        }
                     }
+                    else
+                    {
+                        $("#results-specs-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h3>");
+                        $("#results-specs-"+ version).removeClass('error').addClass('success');
+                    }
+                    
+                    //$("#results-specs-0.12").show();
+                    //$("#results-specs-0.12").text("teest");
+                    //console.log("text written");
                 }
-                else
-                {
-                    $("#specs-results").text("Your JSON is compliant to the specs version 0.12.").wrapInner("<h3>");
-                    $("#specs-results").removeClass('error').addClass('success');
-                }
+                
+                /********************************************************************************/
+                    
 
                 if (reformat) {
                     $('#json_input').val(JSON.stringify(JSON.parse(jsonVal), null, "    "));
@@ -205,7 +226,10 @@ jsl.interactions = (function () {
             $('#results').removeClass('success').addClass('error');
             $('div.linedwrap').removeClass('greenBorder').addClass('redBorder');
             
-            $('#specs-results').text("").hide();
+            $('#results-specs-0.12').text("").hide();
+            $('#results-specs-0.11').text("").hide();
+            $('#results-specs-0.9').text("").hide();
+            $('#results-specs-0.8').text("").hide();
         }
 
         $('#loadSpinner').hide();
