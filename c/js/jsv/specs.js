@@ -6,7 +6,7 @@ var os_schema =
                 "type": "string",
                 "required": true,
                 "enum": [
-                    "0.12"
+                    "0.8","0.9","0.11","0.12"
                 ]
             },
             "space": {
@@ -178,7 +178,7 @@ var os_schema =
                 "type": "string",
                 "required": true,
                 "enum": [
-                    "0.11"
+                    "0.8","0.9","0.11","0.12"
                 ]
             },
             "space": {
@@ -312,7 +312,7 @@ var os_schema =
                 "type": "string",
                 "required": true,
                 "enum": [
-                    "0.9"
+                    "0.8","0.9","0.11","0.12"
                 ]
             },
             "space": {
@@ -432,7 +432,7 @@ var os_schema =
                 "type": "string",
                 "required": true,
                 "enum": [
-                    "0.8"
+                    "0.8","0.9","0.11","0.12"
                 ]
             },
             "space": {
