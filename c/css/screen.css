@@ -166,3 +166,8 @@ input.text, input.title {
 .error h3 {
     color: #D12F19;
 }
+
+#space-url {
+    margin-left: 20px;
+    color: #888888;
+}

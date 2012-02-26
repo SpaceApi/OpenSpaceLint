@@ -66,13 +66,16 @@ listitems.sort(function(a, b) {
 //*/
 
 $(document).ready(function(){
-    $("#JSONValidate").before('<div ><select id="spacedirectory"></select></div><br>');
+    $("#JSONValidate").before('<div ><select id="spacedirectory"></select><span id="space-url"></span></div><br>');
     $("#spacedirectory")
         .append("<option>Choose a known hackerspace</option>")
         .change(function(){
             var selected = $("option:selected",this).first();
             var space = selected.text();
             var url = selected.attr("value");
+            
+            $("#space-url").text(url);
+            
             //console.log(space);
             //console.log(url);
             $("#json_input").val(url);
