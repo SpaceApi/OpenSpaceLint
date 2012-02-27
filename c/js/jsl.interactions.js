@@ -136,37 +136,40 @@ jsl.interactions = (function () {
                     //console.log("#results-specs-"+ version);
                     //console.log($("#results-specs-"+ version));
                     
-                    $("#results-specs-"+ version).show();
+                    $("#results-specs-container-"+ version).show();
                     
                     if(report.errors.length > 0)
                     {
                         
-                        $("#results-specs-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h3>");
-                        $("#results-specs-"+ version).removeClass('success').addClass('error');
-
-                        var err, msg;
+                        $("#results-specs-header-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h1>");
+                        $("#results-specs-container-"+ version).removeClass('success').addClass('error');
+			
+			// remove the old results    
+			$("#results-specs-"+ version).text(""); 
+                        
+			var err, msg;
                         for(i=0; i<report.errors.length; i++){
 
                             err = report.errors[i];
                             msg = err.message;
                             
                             if(err.message === "Instance is not one of the possible values")
-                                msg = "The member '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
+                                msg = "Property '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
                             
                             if(err.message === "Property is required")
                                 msg = "Property '" + err.uri + "' is missing.";
             
                             if(err.message === "Instance is not a required type")
-                                msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";;
+                                msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";
             
                             msg = msg.replace(uri+"/", "");
-                            $("#results-specs-"+ version).append("<div>" + msg + "</div>");           
+                            $("#results-specs-"+ version).append(msg + "\n");           
                         }
                     }
                     else
                     {
-                        $("#results-specs-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h3>");
-                        $("#results-specs-"+ version).removeClass('error').addClass('success');
+                        $("#results-specs-header-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h1>");
+                        $("#results-specs-container-"+ version).removeClass('error').addClass('success');
                     }
                     
                     //$("#results-specs-0.12").show();
@@ -226,10 +229,10 @@ jsl.interactions = (function () {
             $('#results').removeClass('success').addClass('error');
             $('div.linedwrap').removeClass('greenBorder').addClass('redBorder');
             
-            $('#results-specs-0.12').text("").hide();
-            $('#results-specs-0.11').text("").hide();
-            $('#results-specs-0.9').text("").hide();
-            $('#results-specs-0.8').text("").hide();
+            $('#results-specs-container-0.12').hide();
+            $('#results-specs-container-0.11').hide();
+            $('#results-specs-container-0.9').hide();
+            $('#results-specs-container-0.8').hide();
         }
 
         $('#loadSpinner').hide();

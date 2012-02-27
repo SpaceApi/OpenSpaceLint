@@ -47,40 +47,40 @@
                 </div>
                 <div class="right span-12 unimportant" style="text-align: right;">
                     <div>
-			<a href="http://hackerspaces.org" id="labHint" name="labHint" target="_blank"><img style="margin-right: 9px;" src="c/images/hackerzone.png"></a>
+			<a href="http://hackerspaces.org" id="labHint" target="_blank"><img style="margin-right: 9px;" src="c/images/hackerzone.png" alt="Hacker Zone"></a>
                     </div>
                     <div>
-                        A tool made for <a href="http://hackerspaces.org" id="sourceLink" name="sourceLink">hackerspaces.</a><br>
+                        A tool made for <a href="http://hackerspaces.org" id="sourceLink">hackerspaces.</a><br>
                     </div>
                 </div>
             </div>
             <hr>
-            <form id="JSONValidate" method="post" action="." name="JSONValidate">
+            <form id="JSONValidate" method="post" action=".">
                 <input type="hidden" id="reformat" value="1" />
                 <input type="hidden" id="compress" value="0" />
                 <div>
-                    <textarea id="json_input" name="json_input" class="json_input" rows="30" cols="100" spellcheck="false" placeholder="Enter the space status JSON or the URL providing it to validate."></textarea>
+                    <textarea id="json_input" class="json_input" rows="30" cols="100" spellcheck="false" placeholder="Enter the space status JSON or the URL providing it to validate."></textarea>
                 </div>
                 <div class="validateButtons clear">
                     <div class="left">
-                        <button name="validate" id="validate" value="Validate" class="button left bold" onclick="">Validate</button>
+                        <button id="validate" value="Validate" class="button left bold" onclick="">Validate</button>
                     </div>
                     <div class="right">
-			<a href="#" id="faqButton" class="bold" name="faqButton">FAQ</a>&nbsp;&nbsp;
-                        <a href="#" id="propsButton" class="bold" name="propsButton">Props</a>
+			<a href="#" id="faqButton" class="bold">FAQ</a>&nbsp;&nbsp;
+                        <a href="#" id="propsButton" class="bold">Props</a>
                     </div>
                 </div>
             </form>
             <div id="results_header" class="hide">
                 <h3>
-                    Results <img title="Loading..." class="reset" alt="Loading" src="c/images/loadspinner.gif" id="loadSpinner" name="loadSpinner">
+                    Results <img title="Loading..." class="reset" alt="Loading" src="c/images/loadspinner.gif" id="loadSpinner">
                 </h3>
             </div>
             <pre id="results"></pre>
-            <pre id="results-specs-12"></pre>
-            <pre id="results-specs-11"></pre>
-            <pre id="results-specs-9"></pre>
-            <pre id="results-specs-8"></pre>
+            <div id="results-specs-container-12"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre></div>
+            <div id="results-specs-container-11"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre></div>
+            <div id="results-specs-container-9"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre></div>
+            <div id="results-specs-container-8"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre></div>
 	    <div id="props" class="hide">
 		<h3>
                     Props

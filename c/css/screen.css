@@ -159,11 +159,19 @@ input.text, input.title {
     color: #AAA;
 }
 
-.success h3 {
-    color: #529214;
+.success h1, .error h1 {
+	font-size: 1.5em;
 }
 
-.error h3 {
+.success pre, .error pre {
+	margin: 0;
+}
+
+.success h1 {
+    color: #529214;	
+}
+
+.error h1 {
     color: #D12F19;
 }
 
