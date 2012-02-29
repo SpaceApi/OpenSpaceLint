@@ -66,7 +66,7 @@ listitems.sort(function(a, b) {
 //*/
 
 $(document).ready(function(){
-    $("#JSONValidate").before('<div ><select id="spacedirectory"></select><span id="space-url"></span></div><br>');
+
     $("#spacedirectory")
         .append("<option>Choose a known hackerspace</option>")
         .change(function(){

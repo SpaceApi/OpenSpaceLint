@@ -177,5 +177,24 @@ input.text, input.title {
 
 #space-url {
     margin-left: 20px;
-    color: #888888;
+    color: #bbbbbb;
+	font-size: 1.6em;
+}
+
+.styled-select {
+   width: 280px;
+   height: 34px;
+   overflow: hidden;
+   background: url('../images/down_arrow_select.jpg') no-repeat right;
+   float: left;
+}
+
+.styled-select select {
+   color: #555555;
+   background: transparent;
+   width: 310px;
+   padding: 5px;
+   font-size: 16px;
+   border: 1px solid #ccc;
+   height: 34px;
 }
