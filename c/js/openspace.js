@@ -70,6 +70,10 @@ $(document).ready(function(){
     $("#spacedirectory")
         .append("<option>Choose a known hackerspace</option>")
         .change(function(){
+		
+		// get rid of the focus border, can this also be done in CSS?
+		$("#spacedirectory").blur();
+		
             var selected = $("option:selected",this).first();
             var space = selected.text();
             var url = selected.attr("value");
@@ -80,6 +84,7 @@ $(document).ready(function(){
             //console.log(url);
             $("#json_input").val(url);
             $("#validate").click();
+	
         })
         ;
 
