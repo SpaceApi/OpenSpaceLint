@@ -122,60 +122,54 @@ jsl.interactions = (function () {
                 /********************************************************************************/
                 // check against the specs
                 
-                var env = JSV.createEnvironment("json-schema-draft-03");
-                var report, uri;
-                for(version in os_schema)
+		var versions = ["0.8", "0.9", "0.11", "0.12"];
+                var report, uri, version;
+                for(int index=0; index < versions.length; index++)
                 {
-                    //console.log(version);
-                    
-                    report = env.validate( JSON.parse(jsonVal), os_schema[version]);
-                    uri = report.instance._uri;
-                    
-                    console.log(report);
+			version = versions[index];
+			
+			report = apienv.validate( JSON.parse(jsonVal), os_schema[version]);
+			uri = report.instance._uri;
+
+			console.log(report);
 			// reset the old messages
 			$("#results-specs-"+ version).text("");
-                    //console.log("#results-specs-"+ version);
-                    //console.log($("#results-specs-"+ version));
                     
-                    $("#results-specs-container-"+ version).show();
-                    
-                    if(report.errors.length > 0)
-                    {
-                        
-                        $("#results-specs-header-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h1>");
-                        $("#results-specs-container-"+ version).removeClass('success').addClass('error');
-			
-			// remove the old results    
-			$("#results-specs-"+ version).text(""); 
-                        
-			var err, msg;
-                        for(i=0; i<report.errors.length; i++){
+			$("#results-specs-container-"+ version).show();
 
-                            err = report.errors[i];
-                            msg = err.message;
-                            
-                            if(err.message === "Instance is not one of the possible values")
-                                msg = "Property '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
-                            
-                            if(err.message === "Property is required")
-                                msg = "Property '" + err.uri + "' is missing.";
-            
-                            if(err.message === "Instance is not a required type")
-                                msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";
-            
-                            msg = msg.replace(uri+"/", "");
-                            $("#results-specs-"+ version).append(msg + "\n");           
-                        }
-                    }
-                    else
-                    {
-                        $("#results-specs-header-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h1>");
-                        $("#results-specs-container-"+ version).removeClass('error').addClass('success');
-                    }
-                    
-                    //$("#results-specs-0.12").show();
-                    //$("#results-specs-0.12").text("teest");
-                    //console.log("text written");
+			if(report.errors.length > 0)
+			{
+                        
+				$("#results-specs-header-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h1>");
+				$("#results-specs-container-"+ version).removeClass('success').addClass('error');
+				
+				// remove the old results    
+				$("#results-specs-"+ version).text(""); 
+				
+				var err, msg;
+				for(i=0; i<report.errors.length; i++){
+
+					err = report.errors[i];
+					msg = err.message;
+
+					if(err.message === "Instance is not one of the possible values")
+						msg = "Property '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
+
+					if(err.message === "Property is required")
+						msg = "Property '" + err.uri + "' is missing.";
+
+					if(err.message === "Instance is not a required type")
+						msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";
+
+					msg = msg.replace(uri+"/", "");
+					$("#results-specs-"+ version).append(msg + "\n");           
+				}
+			}
+			else
+			{
+				$("#results-specs-header-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h1>");
+				$("#results-specs-container-"+ version).removeClass('error').addClass('success');
+			}
                 }
                 
                 /********************************************************************************/
@@ -189,7 +183,7 @@ jsl.interactions = (function () {
                     $('#json_input').val(JSON.stringify(JSON.parse(jsonVal), null, ""));
                 }
             } else {
-                alert("An unknown error occurred. Please contact Arc90.");
+                alert("An unknown error occurred. Please contact Slopjong.");
             }
         } catch (parseException) {
 
