@@ -127,7 +127,7 @@ jsl.interactions = (function () {
                 for(index=0; index < versions.length; index++)
                 {
 			version = versions[index];
-			report = apienv.validate( JSON.parse(jsonVal), os_schema["0."+version]);
+			report = apienv.validate( JSON.parse(jsonVal), os_schema[version]);
 			uri = report.instance._uri;
 
 			console.log(report);
