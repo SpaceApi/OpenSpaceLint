@@ -13,6 +13,10 @@ $(document).ready(function () {
                 "type": "string",
                 "required": true
             },
+            "logo": {
+                "type": "string",
+                "required": true
+            },
             "url": {
                 "required": true,
                 "type": "string"
@@ -38,14 +42,12 @@ $(document).ready(function () {
                 "type": "array",
                 "items": {
                     "type": "string"
-                }
+                },
+                "minItems": 1
             },
             "stream": {
                 "required": false,
-                "type": "array",
-                "items": {
-                    "type": "string"
-                }
+                "type": "object"
             },
             "open": {
                 "required": true,
@@ -61,23 +63,27 @@ $(document).ready(function () {
             },
             "events": {
                 "required": false,
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "required": true,
-                        "type": "string"
-                    },
-                    "type": {
-                        "required": true,
-                        "type": "string"
-                    },
-                    "t": {
-                        "required": true,
-                        "type": "number"
-                    },
-                    "extra": {
-                        "required": false,
-                        "type": "string"
+                "type": "array",
+                "items": {
+                    "required": false,
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "required": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "required": true,
+                            "type": "string"
+                        },
+                        "t": {
+                            "required": true,
+                            "type": "number"
+                        },
+                        "extra": {
+                            "required": false,
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -155,39 +161,35 @@ $(document).ready(function () {
         "properties": {
             "sensors": {
                 "required": false,
-                "type": "object",
-                "properties": {
-                    "temp": {
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "required": true,
-                            "type": "array",
-                            "items": {
-                                "required": true,
-                                "minItems": 2,
-                                "maxItems": 2,
-                                "type": "string"
-                            }
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "temp": {
+                            "required": false,
+                            "type": "object"
                         }
                     }
                 }
             },
             "feeds": {
                 "required": false,
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "required": true,
-                        "type": "string"
-                    },
-                    "type": {
-                        "required": false,
-                        "type": "string"
-                    },
-                    "url": {
-                        "required": true,
-                        "type": "string"
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "required": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "required": false,
+                            "type": "string"
+                        },
+                        "url": {
+                            "required": true,
+                            "type": "string"
+                        }
                     }
                 }
             }
