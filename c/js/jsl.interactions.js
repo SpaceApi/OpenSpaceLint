@@ -122,13 +122,12 @@ jsl.interactions = (function () {
                 /********************************************************************************/
                 // check against the specs
                 
-		var versions = ["0.8", "0.9", "0.11", "0.12"];
+		var versions = ["8", "9", "11", "12"];
                 var report, uri, version;
-                for(int index=0; index < versions.length; index++)
+                for(index=0; index < versions.length; index++)
                 {
 			version = versions[index];
-			
-			report = apienv.validate( JSON.parse(jsonVal), os_schema[version]);
+			report = apienv.validate( JSON.parse(jsonVal), os_schema["0."+version]);
 			uri = report.instance._uri;
 
 			console.log(report);
@@ -171,7 +170,7 @@ jsl.interactions = (function () {
 				$("#results-specs-container-"+ version).removeClass('error').addClass('success');
 			}
                 }
-                
+
                 /********************************************************************************/
                     
 
