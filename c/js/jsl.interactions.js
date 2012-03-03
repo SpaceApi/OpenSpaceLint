@@ -132,7 +132,8 @@ jsl.interactions = (function () {
                     uri = report.instance._uri;
                     
                     console.log(report);
-                                        
+			// reset the old messages
+			$("#results-specs-"+ version).text("");
                     //console.log("#results-specs-"+ version);
                     //console.log($("#results-specs-"+ version));
                     
