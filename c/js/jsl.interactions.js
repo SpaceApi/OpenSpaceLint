@@ -124,13 +124,15 @@ jsl.interactions = (function () {
                 
 		var versions = ["8", "9", "11", "12"];
                 var report, uri, version;
+		
                 for(index=0; index < versions.length; index++)
                 {
 			version = versions[index];
-			report = apienv.validate( JSON.parse(jsonVal), os_schema[version]);
+			
+			var schema = apienv.findSchema("http://openspace.slopjong.de/specs"+ version);
+			report = apienv.validate( JSON.parse(jsonVal), schema);
 			uri = report.instance._uri;
 
-			console.log(report);
 			// reset the old messages
 			$("#results-specs-"+ version).text("");
                     
