@@ -3,7 +3,7 @@
     "Bitlair": "https://bitlair.nl/statejson.php",
     "TkkrLab": "http://tkkrlab.nl/statejson.php",
     "Frack": "http://frack.nl/spacestate/?api",
-    "Fablier": "http://status.fabelier.org/status.json",
+    "Fabelier": "http://status.fabelier.org/status.json",
     "Syn2cat": "http://www.hackerspace.lu/od/",
     "Tetalab": "http://status.tetalab.org/status.json",
     "ACKspace": "https://ackspace.nl/status.php",
@@ -17,5 +17,7 @@
     "MidsouthMakers": "http://midsouthmakers.org/spaceapi/",
     "Hickerspace": "http://hickerspace.org/api/info/",
     "TOG": "http://tog.ie/cgi-bin/space",
-    "miLKlabs": "http://status.mlkl.bz/json"
+    "miLKlabs": "http://status.mlkl.bz/json",
+    "RaumZeitLabor": "http://openspace.slopjong.de/raumzeitlabor.json",
+    "Shackspace": "http://openspace.slopjong.de/shackspace.json"
 }

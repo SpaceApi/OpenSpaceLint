@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+#Options +FollowSymlinks
+RewriteEngine on
+RewriteBase /
+RewriteRule ^(.*)\.json$ c/php/spacehandlers/$1.php [NC]
+RewriteRule ^proxy\.php$ c/php/proxy.php [NC]
+</IfModule>
+
+ErrorDocument 400 http://openspace.slopjong.de/error.html
+ErrorDocument 401 http://openspace.slopjong.de/error.html
+ErrorDocument 403 http://openspace.slopjong.de/error.html
+ErrorDocument 404 http://openspace.slopjong.de/error.html
+ErrorDocument 500 http://openspace.slopjong.de/error.html
+ErrorDocument 503 http://openspace.slopjong.de/error.html
