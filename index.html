@@ -57,106 +57,116 @@
                 </div>
             </div>
             <hr>
-	    
-	    <div>
-		<div class="styled-select">
-			<select id="spacedirectory"></select>
+	    <div id="validator-container">
+		<div>
+		    <div class="styled-select">
+			    <select id="spacedirectory"></select>
+		    </div>
+		    <span id="space-url">
+		    &nbsp; <!-- fix for a margin issue in chrome -->
+		    </span>
 		</div>
-		<span id="space-url">
-		&nbsp; <!-- fix for a margin issue in chrome -->
-		</span>
-	    </div>
-	    
-	    <br>
-	    
-            <form id="JSONValidate" method="post" action=".">
-                <input type="hidden" id="reformat" value="1" />
-                <input type="hidden" id="compress" value="0" />
-                <div>
-                    <textarea id="json_input" class="json_input" rows="30" cols="100" spellcheck="false" placeholder="Enter the space status JSON or the URL providing it to validate."></textarea>
-                </div>
-                <div class="validateButtons clear">
-                    <div class="left">
-                        <button id="validate" value="Validate" class="button left bold" onclick="">Validate</button>
-                    </div>
-                    <div class="right">
-			<a href="#" id="faqButton" class="bold">FAQ</a>&nbsp;&nbsp;
-                        <a href="#" id="propsButton" class="bold">Props</a>
-                    </div>
-                </div>
-            </form>
-            <div id="results_header" class="hide">
-                <h3>
-                    Results <img title="Loading..." class="reset" alt="Loading" src="c/images/loadspinner.gif" id="loadSpinner">
-                </h3>
-            </div>
-            <pre id="results"></pre>
-            <div id="results-specs-container-12"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre></div>
-            <div id="results-specs-container-11"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre></div>
-            <div id="results-specs-container-9"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre></div>
-            <div id="results-specs-container-8"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre></div>
-	    <div id="props" class="hide">
-		<h3>
-                    Props
-                </h3>
-		<hr>
-		Props to <a href="http://www.umbrae.net/">Chris Dary</a> of <a href="http://jsonlint.com/">jsonlint.com</a>,<br />
-		<a href="http://www.crockford.com/">Douglas Crockford</a> of <a href="http://www.json.org">JSON</a> and <a href="http://www.jslint.com">JS Lint</a> and <br />
-		<a href="http://zaa.ch/">Zach Carter</a>, who provided the <a href="https://github.com/zaach/jsonlint">pure JS implementation of jsonlint</a>. <br/><br/>
-		Props to <a href="http://www.guislip.com.br/" target="_blank">Guilherme Rodrigues Soares</a> of the <a href="http://openclipart.org/detail/145861" target="_blank">hacker zone logo</a>,<br/>
-		<a href="http://winsh.me/" target="_blank">Kjell Winblad</a> of the <a href="http://www.favicon.cc/?action=icon_list&user_id=43770" target="_blank">animated</a> and <a href="http://porg.es" target="_blank">George Pollard</a> of the <a href="http://www.favicon.cc/?action=icon_list&user_id=24245" target="_blank">static</a> favicon.
-	    </div>
-            <div id="faq" class="hide">
-                <h3>
-                    FAQ
-                </h3>
-                <hr>
-                <div id="faqAccordion">
-                    <h5>
-                        What is OpenSpaceLint?
-                    </h5>
-                    <div>
-                        <p>
-                            OpenSpaceLint is a validator and reformatter for <a href="http://www.json.org/">JSON</a> and checks if the <a href="https://hackerspaces.nl/spaceapi/" target="_blank">spaceapi</a> was correctly implemented.
-                        </p>
-                    </div>
-                    <h5>
-                        What are some common errors?
-                    </h5>
-                    <div>
-                        <dl>
-                            <dt>
-                                <code>Expecting 'STRING'</code>
-                            </dt>
-                            <dd>
-                                You probably have an extra comma at the end of your collection. Something like: <code>{ "a": "b"<span class="highlight">,</span> }</code>
-                            </dd>
-                            <dt>
-                                <code>Expecting 'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE', '{', '['</code>
-                            </dt>
-                            <dd>
-                                You probably have an extra comma at the end of your list. Something like: <code>[ "a", "b"<span class="highlight">,</span> ]</code>
-                                <br />
-                                You also may have not enclosed your collection keys in quotes. Proper format for a collection is: <code>{ "key": "value" }</code>
-                            </dd>
-                        </dl>
-                        <p>
-                            Be sure to follow <a href="http://www.json.org/">JSON's syntax</a> properly. For example, <strong>always use double quotes, always quotify your keys, and remove all callback functions</strong>.
-                        </p>
-                    </div>
-                    <h5>
-                        A friend and I pasted the same JSON in and got different results. Wat do?
-                    </h5>
-                    <div>
-                        <p>
-                            If you and your friend are on different systems (Win/Unix), this is possible due to the way windows handles newlines. Essentially, if you have just newline characters (\n) in your JSON and paste it into JSONLint from a windows machine, it can validate it as valid erroneously since Windows may need a carriage return (\r) as well to detect newlines properly.
-                        </p>
-                        <p>
-                            The solution: Either use direct URL input, or make sure your content's newlines match the architecture your system expects!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+		
+		<br>
+		
+		<form id="JSONValidate" method="post" action=".">
+		    <input type="hidden" id="reformat" value="1" />
+		    <input type="hidden" id="compress" value="0" />
+		    <div>
+			<textarea id="json_input" class="json_input" rows="30" cols="100" spellcheck="false" placeholder="Enter the space status JSON or the URL providing it to validate."></textarea>
+		    </div>
+		    <div class="validateButtons clear">
+			<div class="left">
+			    <button id="validate" value="Validate" class="button left bold" onclick="">Validate</button>
+			</div>
+			<div class="right">
+			    <a href="#" id="faqButton" class="bold">FAQ</a>&nbsp;&nbsp;
+			    <a href="#" id="propsButton" class="bold">Props</a>
+			</div>
+		    </div>
+		</form>
+		<div id="results_header" class="hide">
+		    <h3>
+			Results <img title="Loading..." class="reset" alt="Loading" src="c/images/loadspinner.gif" id="loadSpinner">
+		    </h3>
+		</div>
+		<pre id="results"></pre>
+		<div id="results-specs-container-12"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre></div>
+		<div id="results-specs-container-11"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre></div>
+		<div id="results-specs-container-9"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre></div>
+		<div id="results-specs-container-8"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre></div>
+		<div id="props" class="hide">
+		    <h3>
+			Props
+		    </h3>
+		    <hr>
+		    Props to <a href="http://www.umbrae.net/">Chris Dary</a> of <a href="http://jsonlint.com/">jsonlint.com</a>,<br />
+		    <a href="http://www.crockford.com/">Douglas Crockford</a> of <a href="http://www.json.org">JSON</a> and <a href="http://www.jslint.com">JS Lint</a> and <br />
+		    <a href="http://zaa.ch/">Zach Carter</a>, who provided the <a href="https://github.com/zaach/jsonlint">pure JS implementation of jsonlint</a>. <br/><br/>
+		    Props to <a href="http://www.guislip.com.br/" target="_blank">Guilherme Rodrigues Soares</a> of the <a href="http://openclipart.org/detail/145861" target="_blank">hacker zone logo</a>,<br/>
+		    <a href="http://winsh.me/" target="_blank">Kjell Winblad</a> of the <a href="http://www.favicon.cc/?action=icon_list&user_id=43770" target="_blank">animated</a> and <a href="http://porg.es" target="_blank">George Pollard</a> of the <a href="http://www.favicon.cc/?action=icon_list&user_id=24245" target="_blank">static</a> favicon.
+		</div>
+		<div id="faq" class="hide">
+		    <h3>
+			FAQ
+		    </h3>
+		    <hr>
+		    <div id="faqAccordion">
+			<h5>
+			    What is OpenSpaceLint?
+			</h5>
+			<div>
+			    <p>
+				OpenSpaceLint is a validator and reformatter for <a href="http://www.json.org/">JSON</a> and checks if the <a href="https://hackerspaces.nl/spaceapi/" target="_blank">spaceapi</a> was correctly implemented.
+			    </p>
+			</div>
+			<h5>
+			    What are some common errors?
+			</h5>
+			<div>
+			    <dl>
+				<dt>
+				    <code>Expecting 'STRING'</code>
+				</dt>
+				<dd>
+				    You probably have an extra comma at the end of your collection. Something like: <code>{ "a": "b"<span class="highlight">,</span> }</code>
+				</dd>
+				<dt>
+				    <code>Expecting 'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE', '{', '['</code>
+				</dt>
+				<dd>
+				    You probably have an extra comma at the end of your list. Something like: <code>[ "a", "b"<span class="highlight">,</span> ]</code>
+				    <br />
+				    You also may have not enclosed your collection keys in quotes. Proper format for a collection is: <code>{ "key": "value" }</code>
+				</dd>
+			    </dl>
+			    <p>
+				Be sure to follow <a href="http://www.json.org/">JSON's syntax</a> properly. For example, <strong>always use double quotes, always quotify your keys, and remove all callback functions</strong>.
+			    </p>
+			</div>
+			<h5>
+			    A friend and I pasted the same JSON in and got different results. Wat do?
+			</h5>
+			<div>
+			    <p>
+				If you and your friend are on different systems (Win/Unix), this is possible due to the way windows handles newlines. Essentially, if you have just newline characters (\n) in your JSON and paste it into JSONLint from a windows machine, it can validate it as valid erroneously since Windows may need a carriage return (\r) as well to detect newlines properly.
+			    </p>
+			    <p>
+				The solution: Either use direct URL input, or make sure your content's newlines match the architecture your system expects!
+			    </p>
+			</div>
+		    </div>
+		</div>
+	    </div> <!-- validator-container -->
+	    <noscript>
+		<style type="text/css">
+		    #validator-container {display:none;}
+		</style>
+		<div style="margin-top: 60px; margin-left: 60px">
+		    <img src="c/images/nojavascriptenabled.png" alt="No javascript enabled"/>
+		</div>
+	    </noscript>
+
+        </div><!-- container -->
     </body>
 </html>
