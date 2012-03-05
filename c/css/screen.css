@@ -86,7 +86,7 @@ input.text, input.title {
 #props {
 	border: 2px solid #CCC;
 	padding: 1em;
-	height: 12em;
+	height: 13.5em;
 	overflow: auto;
 	margin-top: 1em;
 }
