@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 // this script should synchronize with gmc's directory later
 
 header('Content-type: application/json');

@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 $url = "http://shackspace.de/sopen/text/en";
 
 function get_data($url)

@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 
 $url = filter_var($_POST['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
 

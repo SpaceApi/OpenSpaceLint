@@ -32,6 +32,8 @@
  * THE SOFTWARE.
  */
 
+ error_reporting(0);
+ 
 /**
  * The reCAPTCHA server URL's
  */

@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 // better use http://status.raumzeitlabor.de/api/full.json
 $url = "http://status.raumzeitlabor.de/";
 
