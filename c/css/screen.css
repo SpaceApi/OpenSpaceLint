@@ -175,12 +175,15 @@ input.text, input.title {
     color: #D12F19;
 }
 
+/* The URL displayed next to the select box */
 #space-url {
     margin-left: 20px;
     color: #bbbbbb;
 	font-size: 1.6em;
 }
 
+
+/* Stylish select box */
 .styled-select {
    width: 280px;
    height: 34px;
@@ -197,4 +200,34 @@ input.text, input.title {
    font-size: 16px;
    border: 1px solid #ccc;
    height: 34px;
+}
+
+.validateButtons .right a {
+   margin-left: 7px;
+}
+
+/* Some styling of the add space input */
+#add-space-input-box{
+	border: 1px solid #C0C0C0;
+	background-color: #ffffff/*#e0e0e0*/;
+	padding-right: 7px;
+	padding-left: 4px;
+	float: left;
+	/*padding-left: 3px;*/
+	height: 19px;
+	display: none;
+}
+
+#add-space-input{
+	padding-left: 4px;
+	height: 12px;
+	font-size: 8pt;
+	border: none;
+	border-right: 1px solid #C0C0C0;
+	color: #888888;
+	width: 350px;
+}
+
+#add-space-input-box a{
+	/*background-color: #e0e0e0;*/
 }
