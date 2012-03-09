@@ -35,8 +35,70 @@
         <link rel="stylesheet" href="c/css/blueprint/plugins/css-classes/css-classes.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="c/css/screen.css" type="text/css" media="screen, projection">
 	
+	<style type="text/css">
+	    .modal {
+		background-color: #ffffff;
+		border: 2px solid #333333;
+		border-radius: 20px 20px 20px 20px;
+		box-shadow: 0 0 150px 200px #eeeeee;
+		display: none;
+		opacity: 1;
+		padding: 25px;
+		text-align: left;
+		width: 442px;
+	    }
+	    .modal h2 {
+		/*background: url("c/images/info.png") no-repeat scroll 0 80% transparent;*/
+		border-bottom: 1px solid #333333;
+		font-size: 20px;
+		margin: 0;
+		/*padding: 10px 0 10px 45px;*/
+	    }
+	</style>
+	<script type="text/javascript" src="c/js/jquery.router-0.5.3.js"></script>
+	<script type="text/javascript" src="c/js/jquery.tools.min.js"></script>
+	
+	<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>	
+	<script type="text/javascript" src="c/js/add-hackerspace.js"></script>
     </head>
     <body>
+
+    <!-- Put this into c/js/add-hackerspace.js and append them with jQuery to this document -->
+    <!-- ---------------------------------------------------------------- -->
+    <div class="modal valid-overlay" rel="#valid"></div>
+    <div class="modal invalid-overlay" rel="#invalid"></div>
+    
+    <div class="modal" id="valid">
+	<h2>Confirm that you are not a bot</h2>
+	
+	<form id="add-space-form" action="add-hackerspace" method="POST">
+	    <p>
+		<div id="add-space-form-error" class="error" style="display: none"></div>
+	    </p>
+	    <p>
+		<div id="recaptcha_div"></div>
+	    </p>
+	    <p>
+		<button type="submit">Confirm</button>
+		<button class="close">Cancel</button>
+	    </p>
+	</form>
+	
+    </div>
+    
+    <div class="modal" id="invalid">
+	<h2>Error</h2>
+	<p>
+	    <div class="error">
+		Your hackerspce got not added to the directory. Please adapt your JSON to be valid against one specification version at least.
+	    </div>
+	</p>
+	<p>
+	    <button class="close">Ok</button>
+	</p>
+    </div>
+    <!-- ---------------------------------------------------------------- -->
+    
         <div class="container">
             <div class="banner clear">
                 <div class="left">
@@ -85,16 +147,19 @@
 			</div>
 		    </div>
 		</form>
+		
 		<div id="results_header" class="hide">
 		    <h3>
 			Results <img title="Loading..." class="reset" alt="Loading" src="c/images/loadspinner.gif" id="loadSpinner">
 		    </h3>
 		</div>
+		
 		<pre id="results"></pre>
 		<div id="results-specs-container-12"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre></div>
 		<div id="results-specs-container-11"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre></div>
 		<div id="results-specs-container-9"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre></div>
 		<div id="results-specs-container-8"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre></div>
+		
 		<div id="props" class="hide">
 		    <h3>
 			Props
@@ -106,6 +171,7 @@
 		    Props to <a href="http://www.guislip.com.br/" target="_blank">Guilherme Rodrigues Soares</a> of the <a href="http://openclipart.org/detail/145861" target="_blank">hacker zone logo</a>,<br/>
 		    <a href="http://winsh.me/" target="_blank">Kjell Winblad</a><sup><a href="http://conwaysgameoflife.appspot.com/" target="_blank">1</a></sup> of the <a href="http://www.favicon.cc/?action=icon_list&user_id=43770" target="_blank">animated</a> and <a href="http://porg.es" target="_blank">George Pollard</a> of the <a href="http://www.favicon.cc/?action=icon_list&user_id=24245" target="_blank">static</a> favicon.
 		</div>
+		
 		<div id="faq" class="hide">
 		    <h3>
 			FAQ
@@ -157,7 +223,9 @@
 			</div>
 		    </div>
 		</div>
+		
 	    </div> <!-- validator-container -->
+	    
 	    <noscript>
 		<style type="text/css">
 		    #validator-container {display:none;}
