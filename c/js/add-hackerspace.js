@@ -3,36 +3,56 @@
  * the #add=<url> route and adds a 'New Space' link to the DOM.
  */
 
-$(document).ready(function(){	
-
-    function addOnShowHandler(){
-        /* if the DIVs that this handler is bounded to are hidden, the script becomes unresponsive */
-        $.fn.extend({ 
-          onShow: function(callback, unbind){
-            return this.each(function(){
-              var obj = this;
-              var bindopt = (unbind==undefined)?true:unbind; 
-              if($.isFunction(callback)){
-                if($(this).is(':hidden')){
-                  var checkVis = function(){
-                    if($(obj).is(':visible')){
-                      callback.call();
-                      if(bindopt){
-                        $('body').unbind('click keyup keydown', checkVis);
-                      }
-                    }                         
-                  }
-                  $('body').bind('click keyup keydown', checkVis);
-                }
-                else{
-                  callback.call();
-                }
-              }
-            });
-          }
-        });
-    }
+function poll(url){
+  setTimeout(function(){
     
+      var valid = $('h1:contains("Your JSON is compliant")').size();
+      var invalid = $('h1:contains("Your JSON is not compliant ")').size();
+    
+      if(valid) {
+                              
+          // set the space name and url in the form
+          // to be sent to the add-hacker-space php script                 
+          var json;
+          try{
+            var jsonVal = $('#json_input').val();
+            json = JSON.parse(jsonVal);
+          } catch(e){
+            alert("Something went wrong: " + e.message);
+            // no extra exception handling is required because
+            // JSON should already be checked by json lint
+            return;
+          }
+          if(json.hasOwnProperty("url")){
+             // TODO: check if json.url is part of the passed url argument.
+             //       This should prevent to override an existent entry
+          }
+          $("#add-hackerspace-url").val(url);
+           
+          if(json.hasOwnProperty("space"))
+            $("#add-hackerspace-space").val(json.space);
+          
+        
+          // reload the captcha and focus the text field
+          Recaptcha.reload();
+          Recaptcha.focus_response_field();
+          
+          // show the overlay
+          jQuery(".valid-overlay").data("overlay").load();
+          
+      } else {
+          var total = valid+invalid;
+          if(total==4)
+            jQuery(".invalid-overlay").data("overlay").load();
+          else{
+            poll(url);
+          }
+      }
+  }, 200);
+}
+
+$(document).ready(function(){	
+     
     jQuery(".valid-overlay").overlay({
         mask: {
             color: '#ebecff',
@@ -59,53 +79,8 @@ $(document).ready(function(){
             $("#json_input").val(url);
             $("#validate").click();
             
-            // bind a 'onShow' handler to the results to
-            // execute some code after the results are displayed
-            addOnShowHandler();
-            $("#results-specs-header-12").onShow(function(){
-                       
-                // wait 1.5 seconds until the browser rendered the DIVs
-                // Update: 1.5s is not always enough.
-                // TODO: poll
-                setTimeout(function(){
-                    var valid = $('div:contains("Your JSON is compliant")').size();
-                    if(valid) {
-                                            
-                        // set the space name and url in the form
-                        // to be sent to the add-hacker-space php script                 
-                        var json;
-                        try{
-                          var jsonVal = $('#json_input').val();
-                          json = JSON.parse(jsonVal);
-                        } catch(e){
-                          alert("Something went wrong: " + e.message);
-                          // no extra exception handling is required because
-                          // JSON should already be checked by json lint
-                          return;
-                        }
-                        if(json.hasOwnProperty("url")){
-                           // TODO: check if json.url is part of the passed url argument.
-                           //       This should prevent to override an existent entry
-                        }
-                        $("#add-hackerspace-url").val(url);
-                         
-                        if(json.hasOwnProperty("space"))
-                          $("#add-hackerspace-space").val(json.space);
-                        
-                      
-                        // reload the captcha and focus the text field
-                        Recaptcha.reload();
-                        Recaptcha.focus_response_field();
-                        
-                        // show the overlay
-                        jQuery(".valid-overlay").data("overlay").load();
-                        
-                    } else {
-                        jQuery(".invalid-overlay").data("overlay").load();
-                    }
-                }, 1500);
-            
-            }, true);
+            // now poll the results
+            poll(url);
         
         }, function(m, url) {}
     );
