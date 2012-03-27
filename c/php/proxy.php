@@ -6,6 +6,7 @@ header('Content-type: application/json');
  * cURLs a website and if open_basedir is set or safe_mode enabled
  * then the FOLLOWLOCATION mode is done "manually".
  * Reused and modified zsalab's implementation.
+ * http://www.php.net/manual/de/function.curl-setopt.php#102121
  */
 function curl_exec_follow($ch, &$maxredirect = null) {
     
