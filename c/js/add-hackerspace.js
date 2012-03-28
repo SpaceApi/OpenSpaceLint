@@ -4,6 +4,7 @@
  */
 
 function poll(url){
+  
   setTimeout(function(){
     
       var valid = $('h1:contains("Your JSON is compliant")').size();
@@ -36,6 +37,11 @@ function poll(url){
           // reload the captcha and focus the text field
           Recaptcha.reload();
           Recaptcha.focus_response_field();
+          
+          // reset the error message
+          $("#add-space-form-error")
+            .text("")
+            .hide();
           
           // show the overlay
           jQuery(".valid-overlay").data("overlay").load();
@@ -162,6 +168,19 @@ $(document).ready(function(){
       $("#add-space-input").data("validator").checkValidity();
       var isUrl = $("#add-space-input").data("validator").checkValidity();
       if(isUrl){
+        
+        // reset the json textarea and hide the results
+        $("#results-container > div")
+          .removeClass("success")
+          .removeClass("error")
+          .hide();
+        $("#results").text("")
+          .removeClass("success")
+          .removeClass("error");          
+        $("#results-container h1").text("");
+
+        $("#json_input").val("");
+        
         var url = $("#add-space-input").val();
         if(url.indexOf("http") == -1)
           url = "http://" + url;
