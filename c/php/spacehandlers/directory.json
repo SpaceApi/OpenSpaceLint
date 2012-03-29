@@ -17,7 +17,7 @@
     "RaumZeitLabor": "http://openspace.slopjong.de/raumzeitlabor.json",
     "RevSpace": "https://revspace.nl/status/status.php",
     "Shackspace": "http://openspace.slopjong.de/shackspace.json",
-    "Syn2cat": "http://www.hackerspace.lu/od/",
+    "syn2cat": "http://www.hackerspace.lu/od/",
     "Tetalab": "http://status.tetalab.org/status.json",
     "TkkrLab": "http://tkkrlab.nl/statejson.php",
     "TOG": "http://tog.ie/cgi-bin/space",
