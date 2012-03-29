@@ -26,21 +26,26 @@ function sortObject(o) {
 }
 
 function reset_results_and_json_input(){
-  
-  var $ = jQuery;
-  
-  // reset the json textarea and hide the results
-  $("#results-container > div")
-    .removeClass("success")
-    .removeClass("error")
-    .hide();
-  $("#results").text("")
-    .removeClass("success")
-    .removeClass("error");          
-  $("#results-container h1").text("");
 
-  $("#json_input").val("");
+	reset_results();		
+	jQuery("#json_input").val("");
   
+}
+
+function reset_results(){
+	
+	var $ = jQuery;
+	
+	// reset the results
+	$("#results-container > div")
+	  .removeClass("success")
+	  .removeClass("error")
+	  .hide();
+	$("#results").text("")
+	  .removeClass("success")
+	  .removeClass("error");          
+	$("#results-container h1").text("");
+	
 }
 
 // for testing

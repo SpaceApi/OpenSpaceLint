@@ -256,8 +256,10 @@ jsl.interactions = (function () {
         }
 
         $('#validate').click(function () {
+			
             $('#results_header, #loadSpinner').show();
-
+			reset_results();
+			
             var jsonVal = $.trim($('#json_input').val());
 
             if (jsonVal.substring(0, 4).toLowerCase() === "http") {
