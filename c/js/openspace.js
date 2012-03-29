@@ -25,6 +25,23 @@ function sortObject(o) {
     return sorted;
 }
 
+function reset_results_and_json_input(){
+  
+  var $ = jQuery;
+  
+  // reset the json textarea and hide the results
+  $("#results-container > div")
+    .removeClass("success")
+    .removeClass("error")
+    .hide();
+  $("#results").text("")
+    .removeClass("success")
+    .removeClass("error");          
+  $("#results-container h1").text("");
+
+  $("#json_input").val("");
+  
+}
 
 // for testing
 /*
@@ -71,22 +88,23 @@ $(document).ready(function(){
         .append("<option>Choose a known hackerspace</option>")
         .change(function(){
 		
-		// get rid of the focus border, can this also be done in CSS?
-		$("#spacedirectory").blur();
-		
-            var selected = $("option:selected",this).first();
-            var space = selected.text();
-            var url = selected.attr("value");
-            
-            $("#space-url").text(url);
-            
-            //console.log(space);
-            //console.log(url);
-            $("#json_input").val(url);
-            $("#validate").click();
+			// get rid of the focus border, can this also be done in CSS?
+			$("#spacedirectory").blur();
+			
+			var selected = $("option:selected",this).first();
+			var space = selected.text();
+			var url = selected.attr("value");
+			
+			$("#space-url").text(url);
+			
+			reset_results_and_json_input();
+			
+			//console.log(space);
+			//console.log(url);
+			$("#json_input").val(url);
+			$("#validate").click();
 	
-        })
-        ;
+		});
 
     $.getJSON("http://openspace.slopjong.de/directory.json")
         .success(function(directory){ 

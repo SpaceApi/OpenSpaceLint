@@ -57,6 +57,7 @@ function poll(url){
   }, 200);
 }
 
+// TODO: some duplicate with openspace.js
 function reload_space_list(){
   var $ = jQuery;
   $.getJSON("http://openspace.slopjong.de/directory.json", function(directory){
@@ -194,23 +195,13 @@ $(document).ready(function(){
       $("#add-space-input").data("validator").checkValidity();
       var isUrl = $("#add-space-input").data("validator").checkValidity();
       if(isUrl){
-        
-        // reset the json textarea and hide the results
-        $("#results-container > div")
-          .removeClass("success")
-          .removeClass("error")
-          .hide();
-        $("#results").text("")
-          .removeClass("success")
-          .removeClass("error");          
-        $("#results-container h1").text("");
 
-        $("#json_input").val("");
-        
+        reset_results_and_json_input();
+      
         var url = $("#add-space-input").val();
         if(url.indexOf("http") == -1)
           url = "http://" + url;
-
+          
         window.location = "http://openspace.slopjong.de/#add=" + $("#add-space-input").val();
         $("#add-space-input-box").hide();
         $("#add-space-link").show();
