@@ -65,11 +65,12 @@ function reload_space_list(){
     // the select box
     var list = $("#spacedirectory");
     
-    // empty the select box
+    // reset the select box
     list
     .find('option')
     .remove()
     .end()
+    .append("<option>Choose a known hackerspace</option>")
     ;
     
     // sort the directory
@@ -79,7 +80,23 @@ function reload_space_list(){
     $.each(directory, function(space, url){        
         list.append('<option value="'+ url +'">'+ space +'</option>');
     });
-
+        
+    // select the item with the current space's name
+    try{
+      var json = JSON.parse($("#json_input").val());
+      
+      // remove "selected" from any options that might already be selected
+      $('#spacedirectory option[selected="selected"]').each(
+          function() {
+              $(this).removeAttr('selected');
+          }
+      );
+      
+      $("option:contains('"+ json.space +"')").attr("selected", "selected");
+    } catch(e) {
+      // do nothing
+    }
+    
   });
 }
 
@@ -196,12 +213,16 @@ $(document).ready(function(){
       var isUrl = $("#add-space-input").data("validator").checkValidity();
       if(isUrl){
 
-        reset_results_and_json_input();
-      
         var url = $("#add-space-input").val();
         if(url.indexOf("http") == -1)
           url = "http://" + url;
-          
+            
+        // reset the select box, results and json input
+        reset_results_and_json_input();
+        $("#spacedirectory")[0].selectedIndex = 0;
+        // set the url label text
+        $("#space-url").text(url);
+        
         window.location = "http://openspace.slopjong.de/#add=" + $("#add-space-input").val();
         $("#add-space-input-box").hide();
         $("#add-space-link").show();
