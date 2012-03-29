@@ -57,6 +57,31 @@ function poll(url){
   }, 200);
 }
 
+function reload_space_list(){
+  var $ = jQuery;
+  $.getJSON("http://openspace.slopjong.de/directory.json", function(directory){
+    
+    // the select box
+    var list = $("#spacedirectory");
+    
+    // empty the select box
+    list
+    .find('option')
+    .remove()
+    .end()
+    ;
+    
+    // sort the directory
+    directory = sortObject(directory); 
+   
+    // fill the select box with the new directory  
+    $.each(directory, function(space, url){        
+        list.append('<option value="'+ url +'">'+ space +'</option>');
+    });
+
+  });
+}
+
 $(document).ready(function(){	
      
     jQuery(".valid-overlay").overlay({
@@ -113,7 +138,8 @@ $(document).ready(function(){
                 
                 if(response.ok){
                     $("#add-space-form-error").text("").hide();
-                    jQuery(".valid-overlay").data("overlay").close();				
+                    jQuery(".valid-overlay").data("overlay").close();
+                    reload_space_list();
                 }
                 else{
                     $("#add-space-form-error")
