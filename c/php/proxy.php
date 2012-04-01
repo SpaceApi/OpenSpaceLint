@@ -3,7 +3,7 @@ error_reporting(0);
 
 header('Content-type: application/json');
 
-require_once('get_data.php');
+require_once('utils.php');
 
 $url = filter_var($_POST['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
 
@@ -24,10 +24,11 @@ $response = get_data($url);
 if($response === null)
     return;
     
-$data = $response->data;
+$data = $response->content;
 
-if($data === false) {
-    echo '{ "result": "Unable to parse URL. Please check your URL and try again.", "error": true }';
+if($data === false || is_null($data)) {
+				echo '{ "result": "Unable to fetch your JSON file. Please check your server.", "error": true }';
+    //echo '{ "result": "Unable to parse URL. Please check your URL and try again.", "error": true }';
     return;
 }
 

@@ -3,10 +3,10 @@ error_reporting(0);
 header('Content-type: application/json');
 
 require_once('recaptchalib.php');
-require_once('get_data.php');
+require_once('utils.php');
 
 $publickey = "6LdMsM4SAAAAAItMjpij0bI7j_2wIqlGlehNBlL3";
-$privatekey = "";
+$privatekey = "6LdMsM4SAAAAAM6wchNIVZRmbgAU_ZKvsdclFHMe";
 
 if(isset($_GET["recaptcha_response_field"])) {
         
