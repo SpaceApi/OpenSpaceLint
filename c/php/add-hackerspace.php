@@ -5,13 +5,11 @@ header('Content-type: application/json');
 require_once('recaptchalib.php');
 require_once('utils.php');
 
-$publickey = "6LdMsM4SAAAAAItMjpij0bI7j_2wIqlGlehNBlL3";
-$privatekey = "6LdMsM4SAAAAAM6wchNIVZRmbgAU_ZKvsdclFHMe";
 
 if(isset($_GET["recaptcha_response_field"])) {
         
 				$resp = recaptcha_check_answer (
-								$privatekey,
+								$recaptcha_key["private"],
 								$_SERVER["REMOTE_ADDR"],
 								stripslashes(strip_tags($_GET["recaptcha_challenge_field"])),
 								stripslashes(strip_tags($_GET["recaptcha_response_field"]))

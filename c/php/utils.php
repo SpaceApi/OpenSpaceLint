@@ -1,6 +1,8 @@
 <?php
 error_reporting(0);
 
+require_once("../../config.php");
+
 /**
  * cURLs a website and if open_basedir is set or safe_mode enabled
  * then the FOLLOWLOCATION mode is done "manually".
@@ -73,6 +75,8 @@ function curl_exec_follow($ch, &$maxredirect = null, $timeout = 7) {
  * Loads data from the given URL. If $limit is false data of more than 10 megs can be returned.
  */
 function get_data($url, $limit = true){
+				
+				global $second_stage_proxy;
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -86,7 +90,9 @@ function get_data($url, $limit = true){
 				// if $data is NULL or empty then the host might use a non-standard port
 				// which is blocked by the shared host's firewall => proxy the proxy :-)
 				if(is_null($data) || empty($data)){
-								curl_setopt($ch, CURLOPT_URL, "http://evening-snow-4067.herokuapp.com/?url=". $url);
+								// http://evening-snow-4067.herokuapp.com/?url=
+								//curl_setopt($ch, CURLOPT_URL, $second_stage_proxy . $url);
+								curl_setopt($ch, CURLOPT_URL, $second_stage_proxy . $url);
 								$data = (isset($follow) ) ? curl_exec_follow($ch) : curl_exec($ch);
 				}
 				
