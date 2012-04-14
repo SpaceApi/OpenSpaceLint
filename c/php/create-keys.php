@@ -57,13 +57,18 @@ function list_space_array_keys()
 								$sorted_to_space[$json["space"]] = $members;
 				}
 				
-				// create a list of what space uses a certain member
+				// Create a list of what space uses a certain member.
+				// Each element is an array containing spaces.
 				foreach ($sorted_to_space as $space => $members)
 				{
 								foreach($members as $member)
 								{
 												$val = $sorted_to_member[$member];
-												$sorted_to_member[$member] = $val . ((!empty($val)) ? "," : "" ). $space;
+												if(empty($val))
+																$val = array();
+																
+												array_push($val, $space);
+												$sorted_to_member[$member] = $val;
 								}
 				}
 				
