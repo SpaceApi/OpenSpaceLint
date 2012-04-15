@@ -13,6 +13,7 @@ if(isset($_GET["space"]))
 {
 				$spaces = stripslashes(strip_tags($_GET["space"]));
 				$spaces = explode(",", $spaces);
+				sort($spaces);
 				
 				$arr = array();
 				foreach($spaces as $space)
@@ -39,6 +40,7 @@ if(isset($_GET["member"]))
 								else
 												$spaces = array_intersect($spaces, $array_keys_arr[1][$member]);
 				}
+				sort($spaces);
 				
 				$arr = array();
 				foreach($spaces as $space)
