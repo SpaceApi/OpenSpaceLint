@@ -1,0 +1,21 @@
+{
+  "api":"0.11",
+  "space":"ACKspace",
+  "logo":"https:\/\/ackspace.nl\/ACKspace.150px.png",
+  "icon":{
+    "open":"https://ackspace.nl/icon/open.png",
+    "closed":"https://ackspace.nl/icon/closed.png"
+  },
+  "url":"https:\/\/ackspace.nl\/",
+  "address":"Putgraaf 188, 6411 GT Heerlen, The Netherlands",
+  "contact":{
+    "irc":"irc://freenode/#ACKspace",
+    "twitter":"@ACKspace",
+    "email":"contact@ackspace.nl",
+    "ml":"info@lists.ackspace.nl"},
+  "lat":50.886802,
+  "lon":5.983515,
+"open":false,
+"status":"closed",
+"lastchange":1334437408
+}

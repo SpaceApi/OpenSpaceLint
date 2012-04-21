@@ -1,0 +1,22 @@
+{
+  "api":"0.11",
+  "space":"MidsouthMakers",
+  "url":"http:\/\/www.midsouthmakers.org",
+  "icon":{
+    "open":"http:\/\/www.midsouthmakers.org\/images\/open.png",
+    "closed":"http:\/\/www.midsouthmakers.org\/images\/closed.png"
+  },
+  "address":"2203 Freemont Rd. Memphis, TN 38114, USA",
+  "contact":{
+    "twitter":"@MidsouthMakers",
+    "ml":"midsouth-makers@googlegroups.com",
+    "email":"info@MidsouthMakers.org",
+    "irc":"irc:\/\/freenode\/#MidsouthMakers"
+  },
+  "lat":"35.092344",
+  "lon":"-89.989931",
+  "logo":"http:\/\/www.midsouthmakers.org\/images\/MM-SpaceAPI-Logo.png",
+  "open":false,
+  "status":"members only",
+  "lastchange":1334445713  
+}

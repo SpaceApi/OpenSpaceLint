@@ -1,0 +1,22 @@
+{
+   "icon" : {
+      "closed" : "http://tog.ie/wp-content/gallery/general/closed.jpg",
+      "open" : "http://tog.ie/wp-content/gallery/general/open.jpg"
+   },
+   "lat" : "53.341487",
+   "stream" : "http://www.ustream.tv/channel/togdublin",
+   "contact" : {
+      "irc" : "irc://irc.freenode.net/#tog",
+      "ml" : "tog@lists.tog.ie",
+      "twitter" : "@tog_dublin",
+      "phone" : "+35316581845"
+   },
+   "space" : "TOG",
+   "api" : "0.11",
+   "open" : false,
+   "logo" : "http://tog.ie/images/logo.png",
+   "lastchange" : 1334432852,
+   "url" : "https://tog.ie",
+   "long" : "-6.268891",
+   "address" : "Warehouse UNIT C, Chancery Lane, Dublin 8, Ireland"
+}

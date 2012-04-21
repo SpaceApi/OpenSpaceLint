@@ -1,0 +1,20 @@
+{
+  "api": "0.11",
+  "space": "miLKlabs",
+  "logo": "http:\/\/status.mlkl.bz\/logo.png",
+  "icon": {
+    "open": "http:\/\/status.mlkl.bz\/open.png",
+    "closed": "http:\/\/status.mlkl.bz\/closed.png"
+  },
+  "url": "http:\/\/milklabs.ie",
+  "address": "Franciscan Friary, Lower Henry Street, Limerick",
+  "contact": {
+    "phone": "+353894569898",
+    "twitter": "@milklabs",
+    "ml": "limerick-hackerspace@googlegroups.com"
+  },
+  "lat": 52.663965395,
+  "lon": -8.62887561321,
+  "open": false,
+  "status": "there's nobody home"
+}
