@@ -1,15 +1,23 @@
+AddType  application/json  .json
 
 <FilesMatch ^config.php$>
 deny from all
 </FilesMatch>
 
 <IfModule mod_rewrite.c>
-#Options +FollowSymlinks
+
+Options +FollowSymlinks
 RewriteEngine on
 RewriteBase /
-RewriteRule ^(.*)\.json$ c/php/spacehandlers/$1.php [NC]
-RewriteRule ^proxy\.php$ c/php/proxy.php [NC]
-RewriteRule ^add-hackerspace$ c/php/add-hackerspace.php [NC]
+
+RewriteRule ^filters\.json$ /c/php/cache/array_keys.json [L] # L doesn't stop but goes to a new subprocess
+
+RewriteCond %{REQUEST_URI} !=/c/php/cache/array_keys.json
+RewriteRule ^(.*)\.json$ /c/php/spacehandlers/$1.php [L,NC]
+
+RewriteRule ^proxy\.php$ /c/php/proxy.php [NC]
+RewriteRule ^add-hackerspace$ /c/php/add-hackerspace.php [NC]
+
 </IfModule>
 
 ErrorDocument 400 http://openspace.slopjong.de/error.html

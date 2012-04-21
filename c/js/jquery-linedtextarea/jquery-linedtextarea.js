@@ -36,19 +36,22 @@
 		
 		// Get the Options
 		var opts = $.extend({}, $.fn.linedtextarea.defaults, options);
-		
-		
+				
 		/*
 		 * Helper function to make sure the line numbers are always
 		 * kept up to the current system
 		 */
 		var fillOutLines = function(codeLines, h, lineNo){
 			while ( (codeLines.height() - h ) <= 0 ){
+				
+				if( lineNo == 501)
+					break;
+				
 				if ( lineNo == opts.selectedLine )
 					codeLines.append("<div class='lineno lineselect'>" + lineNo + "</div>");
 				else
 					codeLines.append("<div class='lineno'>" + lineNo + "</div>");
-				
+					
 				lineNo++;
 			}
 			return lineNo;
@@ -116,15 +119,14 @@
 				linesDiv.height( domTextArea.clientHeight + 6 );
 			});
 			
-			
 			window.setInterval( function(tn) {
+				
 				linesDiv.height(textarea.height());
 				var scrollTop 		= textarea[0].scrollTop;
 				var clientHeight 	= textarea[0].clientHeight;
 				codeLinesDiv.css( {'margin-top': (-1*scrollTop) + "px"} );
 				lineNo = fillOutLines( codeLinesDiv, scrollTop + clientHeight, lineNo );
-			},10);
-				
+			},10);			
 		});
 	};
 
