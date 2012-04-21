@@ -135,7 +135,7 @@ $(document).ready(function(){
     );
     
     Recaptcha.create(
-        "6LdMsM4SAAAAAItMjpij0bI7j_2wIqlGlehNBlL3",
+        "6Lcsss8SAAAAAD4080SvtHcts5CBHyMhLU9q3eGS",
         "recaptcha_div",
         {
             lang: "en",
@@ -223,7 +223,8 @@ $(document).ready(function(){
         // set the url label text
         $("#space-url").text(url);
         
-        window.location = "http://openspace.slopjong.de/#add=" + $("#add-space-input").val();
+        //window.location = "http://openspace.slopjong.de/?#add=" + $("#add-space-input").val();
+        window.location.href = "http://openspace.slopjong.de/?#add=" + $("#add-space-input").val();
         $("#add-space-input-box").hide();
         $("#add-space-link").show();
       }
