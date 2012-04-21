@@ -24,21 +24,21 @@ if(isset($_GET["space"]))
 				exit(0);
 }
 
-if(isset($_GET["member"]))
+if(isset($_GET["filter"]))
 {
-				$members = stripslashes(strip_tags($_GET["member"]));				
-				$members = explode(",", $members);
+				$filters = stripslashes(strip_tags($_GET["filter"]));				
+				$filters = explode(",", $filters);
 				
 				$spaces = array();
-				foreach($members as $member)
+				foreach($filters as $filter)
 				{
 								$array_keys_json = file_get_contents("../cache/array_keys.json");
 								$array_keys_arr = json_decode($array_keys_json, true);
 								
 								if(count($spaces)==0)
-												$spaces = $array_keys_arr[1][$member];
+												$spaces = $array_keys_arr[1][$filter];
 								else
-												$spaces = array_intersect($spaces, $array_keys_arr[1][$member]);
+												$spaces = array_intersect($spaces, $array_keys_arr[1][$filter]);
 				}
 				sort($spaces);
 				
