@@ -242,19 +242,20 @@ jsl.interactions = (function () {
      * @return void
     **/
     function init() {
+		 
         reformatParam = getURLParameter('reformat');
         reformat      = reformatParam !== '0' && reformatParam !== 'no';
         compress      = reformatParam === 'compress',
         jsonParam     = getURLParameter('json');
         
         if (compress) {
-            $('#headerText').html('JSONLint<span class="light">Compressor</span>');
+            $('#headerText').html('OpenSpace<span class="light">Compressor</span>');
         }
 
         if (!reformat) {
-            $('#headerText').html('JSONLint<span class="light">Lite</span>');
+            $('#headerText').html('OpenSpace<span class="light">Lite</span>');
         }
-
+	
         $('#validate').click(function () {
 			
             $('#results_header, #loadSpinner').show();
@@ -273,17 +274,17 @@ jsl.interactions = (function () {
 
             return false;
         });
-        
+
         $('#json_input').keyup(function () {
             $('div.linedwrap').removeClass('greenBorder').removeClass('redBorder');
         }).linedtextarea({
             selectedClass: 'lineselect'
         }).focus();
-
+				
         $('#reset').click(function () {
             $('#json_input').val('').focus();
         });
-
+		
         $('#faqButton').click(function () {
             $('#faq').slideToggle();
         });
@@ -295,13 +296,14 @@ jsl.interactions = (function () {
         if (jsonParam) {
             $('#json_input').val(jsonParam);
             $('#validate').click();
-        }
+        }		
     }
 
     return {
         'init': init
     };
 }());
+
 
 $(function () {
     jsl.interactions.init();    
