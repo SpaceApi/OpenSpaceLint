@@ -13,9 +13,9 @@
    },
    "space" : "TOG",
    "api" : "0.11",
-   "open" : false,
+   "open" : true,
    "logo" : "http://tog.ie/images/logo.png",
-   "lastchange" : 1334432852,
+   "lastchange" : 1335188722,
    "url" : "https://tog.ie",
    "long" : "-6.268891",
    "address" : "Warehouse UNIT C, Chancery Lane, Dublin 8, Ireland"

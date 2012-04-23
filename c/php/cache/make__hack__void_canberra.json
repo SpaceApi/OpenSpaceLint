@@ -1,0 +1,22 @@
+{
+   "status":"The MHV space is closed, sorry!",
+   "space":"Make, Hack, Void Canberra",
+   "url":"http://www.makehackvoid.com",
+   "lat":149.145911,
+   "lon":-35.244511,
+   "api":"0.12",
+   "lastchange":1335189060,
+   "logo": "http://space.makehackvoid.com/resources/MHV.png",
+   "icon":{
+      "open":"http://space.makehackvoid.com/resources/MHV_icon_open.png",
+      "closed":"http://space.makehackvoid.com/resources/MHV_icon_closed.png"
+   },
+   "contact":{
+      "ml":"http://www.makehackvoid.com/community/mailing-lists",
+      "twitter":"@MakeHackVoid",
+      "irc":"irc://irc.freenode.net/#makehackvoid",
+      "email":"makers@makehackvoid.com"
+   },
+   "address":"Downer Business Park, Frencham St, Downer, ACT 2612",
+   "open":false
+}

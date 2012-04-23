@@ -20,59 +20,59 @@
   },
   "lat":53.197916,
   "lon":5.796962,
-  "open":false,
-  "status":"Sorry, gesloten",
-  "lastchange":1334361336,
+  "open":true,
+  "status":"Je bent welkom",
+  "lastchange":1335197534,
   "events":[
     {
       "name":"Frack",
-      "type":"check-out",
-      "t":1334361336
-    },
-    {
-      "name":"Frack",
       "type":"check-in",
-      "t":1334331533
+      "t":1335197534
     },
     {
       "name":"Frack",
       "type":"check-out",
-      "t":1334314880
+      "t":1335124909
     },
     {
       "name":"Frack",
       "type":"check-in",
-      "t":1334314390
+      "t":1335092234
     },
     {
       "name":"Frack",
       "type":"check-out",
-      "t":1334273651
+      "t":1334955519
     },
     {
       "name":"Frack",
       "type":"check-in",
-      "t":1334249630
+      "t":1334938340
     },
     {
       "name":"Frack",
       "type":"check-out",
-      "t":1334134195
+      "t":1334935009
     },
     {
       "name":"Frack",
       "type":"check-in",
-      "t":1334134042
+      "t":1334923150
     },
     {
       "name":"Frack",
       "type":"check-out",
-      "t":1334128785
+      "t":1334920429
     },
     {
       "name":"Frack",
       "type":"check-in",
-      "t":1334128418
+      "t":1334920275
+    },
+    {
+      "name":"Frack",
+      "type":"check-out",
+      "t":1334918807
     }
   ]
 }

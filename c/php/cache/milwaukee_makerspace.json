@@ -22,5 +22,5 @@
     {"name":"photos","type":"text/xml","url":"http://api.flickr.com/services/feeds/groups_pool.gne?id=1554189@N20&lang=en-us&format=rss_200"},
     {"name":"calendar","type":"text/calendar","url":"http://www.google.com/calendar/ical/milwaukeemakerspace.org_kckatpfskv1lerggn73utbadgc%40group.calendar.google.com/public/basic.ics"}
   ],
-  "lastchange":1334445715  
+  "lastchange":1335198554  
 }
