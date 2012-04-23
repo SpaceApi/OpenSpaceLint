@@ -226,69 +226,117 @@
 				<div>
 					<a href="#" class="directory-back-button">Back to the validator</a>
 				</div>
-				
-				<br>
 					
-				<div>
-					<h2>Directory</h2>
-				</div>
-				
-				<div>
-					<p>
-						The OpenSpace directory is a JSON containing a list of hackerspaces that have implemented the <a href="https://hackerspaces.nl/spaceapi/" target="_blank">Space API</a>. This directory can be loaded by any web and mobile application by requesting the resource <a href="http://openspace.slopjong.de/directory.json" target="_blank"><code>http://openspace.slopjong.de/directory.json</code></a>
-					</p>
-					<p>
-						If your space is missing go back to the validator page and click on <em>New Space</em>. Your JSON will be checked against the specification. If there are no errors it'll be added after you confirmed that you're not a bot.
-					</p>
-					<p>
-						The directory also offers a preselection feature for those applications that rely on certain fields that must be present in a Space API JSON. As a showing example a video application is only interested in such JSONs which have the <code>stream</code> field. There are many other use cases where the preselection makes life easier.
-					</p>
-					<p>
-						To use the preselection append <code>?filter=</code> to the directory URL and specify a filter which stands for a JSON field. Nested fields are concatenated with a dot e.g. <code>sensors.barometer.value</code> corresponds to the following nested JSON structure:
-						
-						<pre><code>{
+                <p>
+                    
+                    <h2>Directory</h2>
+                
+                    <p>
+                        The OpenSpace directory is a JSON containing a list of hackerspaces that have implemented the <a href="https://hackerspaces.nl/spaceapi/" target="_blank">Space API</a>. This directory can be loaded by any web and mobile application by requesting the resource <a href="http://openspace.slopjong.de/directory.json" target="_blank"><code>http://openspace.slopjong.de/directory.json</code></a>
+                    </p>
+                    <p>
+                        If your space is missing go back to the validator page and click on <em>New Space</em>. Your JSON will be checked against the specification. If there are no errors it'll be added after you confirmed that you're not a bot.
+                    </p>
+                    <p>
+                        The directory also offers a preselection feature for those applications that rely on certain fields that must be present in a Space API JSON. As a showing example a video application is only interested in such JSONs which have the <code>stream</code> field. There are many other use cases where the preselection makes life easier.
+                    </p>
+                    <p>
+                        To use the preselection append <code>?filter=</code> to the directory URL and specify a filter which stands for a JSON field. Nested fields are concatenated with a dot e.g. <code>sensors.barometer.value</code> corresponds to the following nested JSON structure:
+                        
+                        <pre><code>{
   "sensors":[
     "barometer":[
       "value" : 23
     ]									
   ]
 }</code></pre>
-					If you wrote an app for monitoring the temperature you would be interested in all the spaces' JSON providing temperature sensor data. You'd get the preselection with <a href="http://openspace.slopjong.de/directory.json?filter=sensors.barometer.value" target="_blank"><code>http://openspace.slopjong.de/directory.json?filter=sensors.barometer.value</code></a>
-					</p>
+                    If you wrote an app for monitoring the temperature you would be interested in all the spaces' JSON providing temperature sensor data. You'd get the preselection with <a href="http://openspace.slopjong.de/directory.json?filter=sensors.barometer.value" target="_blank"><code>http://openspace.slopjong.de/directory.json?filter=sensors.barometer.value</code></a>
+                    </p>
+                    <p>
+                        The filters can also be combined as shown below.
+                    </p>
+                
+				<p>
+                    
+                    <h2>Filters</h2>
+                    
+					<!--
 					<p>
-						The filters are updated once a day. If you change your JSON it will take some time to take effect.
+						<strong>Note:</strong> The filters list got messed up. The space names are not a filter!
 					</p>
-				</div>
+					-->
+					
+                    <div id="directory-tabs">
+                        
+                        <ul>
+                            <li><a href="#directory-tab0">Overview</a></li>
+                            <li><a href="#directory-tab1">My space offers ...</a></li>
+                            <li><a href="#directory-tab2">Filter supported by ...</a></li>
+                        </ul>
+                        
+                        <div id="directory-tab0">
+                            <ol id="filters-overview"></ol>
+                        </div>
+                        
+                        <div id="directory-tab1">
+                            <table id="directory-list-0"></table>
+                        </div>
+                        
+                        <div id="directory-tab2">
+                            <table id="directory-list-1"></table>
+                        </div>
+                        
+                    </div>
 				
-				<br>
-					
-				<div>
-					<h2>Filters</h2>
-				</div>
-				
-				<div id="directory-tabs">
-					
-					<ul>
-						<li><a href="#directory-tab0">Overview</a></li>
-						<li><a href="#directory-tab1">My space offers ...</a></li>
-						<li><a href="#directory-tab2">Filter supported by ...</a></li>
-					</ul>
-					
-					<div id="directory-tab0">
-						<ol id="filters-overview"></ol>
-					</div>
-					
-					<div id="directory-tab1">
-						<table id="directory-list-0"></table>
-					</div>
-					
-					<div id="directory-tab2">
-						<table id="directory-list-1"></table>
-					</div>
-					
-				</div>
-				
-				<br>
+				</p>
+                
+                <p>
+                    
+                    <h2>Combining Filters</h2>
+                    
+                    Filters can be combined as shown in the following examples.
+                    
+                    <p>
+                        <h3>Disjunction</h3>
+                        
+                        Get all the space JSONs which include the <code>contact</code> or <code>feeds</code> field.
+                        
+                        <pre><code>or( contact , feeds )</code></pre>
+                        
+                        Try <a href="http://openspace.slopjong.de/directory.json?filter=or(contact,feeds)" target="_blank">directory.json?filter=or(contact,feeds)</a>
+                    </p>
+                
+                    <p>
+                        <h3>Conjunction</h3>
+                        
+                        Get all the space JSONs which include the <code>contact.irc</code> and <code>contact.phone</code> field.
+                        
+                        <pre><code>and( contact.irc , contact.phone )</code></pre>
+                        
+                        Try <a href="http://openspace.slopjong.de/directory.json?filter=and(contact.irc,contact.phone)" target="_blank">directory.json?filter=and(contact.irc,contact.phone)</a>
+                    </p>
+                
+                    <p>
+                        <h3>Mixed</h3>
+                        
+                        <p>
+                            Get all the space JSONs which include the fields as follows:
+                        </p>
+                        
+                        <p>
+                            <ul>
+                                <li><code>contact</code> and <code>feeds</code> and <code>sensors</code></li> or
+                                <li><code>contact</code> and <code>feeds</code> and <code>stream</code></li>
+                            </ul>
+                        </p>
+                    
+                        <pre><code>and( contact , feeds , or( sensors , stream ) )</code></pre>
+                        
+                        Try <a href="http://openspace.slopjong.de/directory.json?filter=and(contact,feeds,or(sensors,stream))" target="_blank">directory.json?filter=and(contact,feeds,or(sensors,stream))</a>
+                    </p>
+                    
+                </p>
+                
 					
 				<div>
 					<a href="#" class="directory-back-button">Back to the validator</a>

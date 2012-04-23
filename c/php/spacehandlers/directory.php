@@ -6,6 +6,8 @@ error_reporting(0);
 
 header('Content-type: application/json');
 
+require_once("../slogix-parser.php");
+
 $directory_json = file_get_contents('directory.json');
 $directory_array = json_decode($directory_json, true);
 
@@ -26,20 +28,24 @@ if(isset($_GET["space"]))
 
 if(isset($_GET["filter"]))
 {
-				$filters = stripslashes(strip_tags($_GET["filter"]));				
-				$filters = explode(",", $filters);
-				
-				$spaces = array();
-				foreach($filters as $filter)
-				{
-								$array_keys_json = file_get_contents("../cache/array_keys.json");
-								$array_keys_arr = json_decode($array_keys_json, true);
+				$array_keys_json = file_get_contents("../cache/array_keys.json");
+				$array_keys_arr = json_decode($array_keys_json, true);
 								
-								if(count($spaces)==0)
-												$spaces = $array_keys_arr[1][$filter];
-								else
-												$spaces = array_intersect($spaces, $array_keys_arr[1][$filter]);
-				}
+				$filters = stripslashes(strip_tags($_GET["filter"]));				
+				
+				if($slogix = decode_slogix($filters))
+								$filters = $slogix;
+				else			
+								if($json = json_decode($filters, true))
+												$filters = $json;
+				
+				if(gettype($filters) === "string")
+								$filters = array("or" => array($filters));
+								
+				
+				// input is a boolean expression as an abstract syntax tree
+				// and the sets whose keys which are used in the expression
+				$spaces = slogix_evaluate($filters, $array_keys_arr[1]);				
 				sort($spaces);
 				
 				$arr = array();
@@ -47,6 +53,7 @@ if(isset($_GET["filter"]))
 				{
 								$arr[$space] = $directory_array[$space];
 				}
+				
 				echo json_encode($arr);
 				exit(0);
 }

@@ -100,6 +100,55 @@ function reload_space_list(){
   });
 }
 
+/**
+ * Reloads the filter
+ */
+function refresh_filters_list()
+{
+  var $ = jQuery;
+  
+  $.getJSON("http://openspace.slopjong.de/filters.json", function(data){
+
+    // remove all the list items from the overview
+    // the makeacolumnlists plugin creates columns which are themselves ordered lists
+    // which must be removed too
+    $('#filters-overview li').remove();
+    $('#directory-tab0  .undefined').remove();
+    
+    $('#directory-list-0 tbody').remove();
+    $('#directory-list-1 tbody').remove();
+    
+    // populate the two tables in the tabs
+    //   "My space offers ..."
+    //   "Filters supported by ..."
+    for(i=0; i<2; i++)
+    {
+        $.each(data[i], function(index, value){
+        var l = "<ol>";
+        $.each(value.sort(), function(i, v){
+            l = l + "<li>"+ v +"</li>";
+        });
+        l = l + "</ol>";
+        $("<tr><td>"+ index +"</td><td>"+ l +"</td></tr>").appendTo($("#directory-list-"+ i));
+        });
+    }
+    
+    // sortObject is defined in openspace.js
+    $.each(sortObject(data[1]), function(filter, value){
+        $("#filters-overview").append("<li>"+ filter +"</li>");
+    });
+    
+    $('#filters-overview').makeacolumnlists({cols:4,colWidth:185,equalHeight:false,startN:1});
+    $('#directory-list-0 ol').makeacolumnlists({cols:4,colWidth:170,equalHeight:false,startN:1});
+    $('#directory-list-1 ol').makeacolumnlists({cols:4,colWidth:170,equalHeight:false,startN:1});
+    });
+    
+    $(function() {
+    $("#directory-tabs").tabs();
+ 
+  });
+}
+
 $(document).ready(function(){	
      
     jQuery(".valid-overlay").overlay({
@@ -158,6 +207,7 @@ $(document).ready(function(){
                     $("#add-space-form-error").text("").hide();
                     jQuery(".valid-overlay").data("overlay").close();
                     reload_space_list();
+                    refresh_filters_list();
                 }
                 else{
                     $("#add-space-form-error")

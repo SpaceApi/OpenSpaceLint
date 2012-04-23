@@ -5,7 +5,6 @@ header('Content-type: application/json');
 require_once('recaptchalib.php');
 require_once('utils.php');
 
-
 if(isset($_GET["recaptcha_response_field"])) {
         
 				$resp = recaptcha_check_answer (
@@ -41,10 +40,16 @@ if(isset($_GET["recaptcha_response_field"])) {
 												$dirarr = json_decode($dirjson, true);
 												
 												//if(!in_array($url, $dirarr)){
-												if($dirarr[$space_name] === null) {
+												if($dirarr[$space_name] === null)
+            {
+                // add the space to the directory
 																$dirarr[$space_name] = $url;
 																$dirjson = json_encode($dirarr);
 																file_put_contents($file, $dirjson);
+                
+                // cache the json
+                cache_json_from_argument($space_name, $space_json);                
+                
 																$response["message"] = "The space got added to the directory.";
 												}
 												else

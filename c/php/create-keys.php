@@ -51,10 +51,15 @@ function list_space_array_keys()
 				// create a list of what members a certain space supports
 				foreach (glob("cache/*.json") as $filename)
 				{
-								$json = json_decode(file_get_contents($filename), true);				
-								$members = array();
-								space_array_keys($json, $members);
-								$sorted_to_space[$json["space"]] = $members;
+								// be sure to not include the filters list itself
+								// TODO: move the filters list file to another place
+								if(! preg_match("~array_keys~", $filename))
+								{
+												$json = json_decode(file_get_contents($filename), true);				
+												$members = array();
+												space_array_keys($json, $members);
+												$sorted_to_space[$json["space"]] = $members;
+								}
 				}
 				
 				// Create a list of what space uses a certain member.
@@ -83,5 +88,9 @@ function list_space_array_keys()
 				return array($sorted_to_space, $sorted_to_member);
 }
 
-//echo json_encode(list_space_array_keys());
+if(isset($_GET["debug"]))
+{
+				header('Content-type: application/json');
+				echo json_encode(list_space_array_keys());
+}
 ?>

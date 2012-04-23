@@ -1,7 +1,8 @@
 <?php
 error_reporting(0);
 
-require_once("../../config.php");
+require_once('../../config.php');
+require_once('create-keys.php');
 
 /**
  * cURLs a website and if open_basedir is set or safe_mode enabled
@@ -147,15 +148,11 @@ function rrmdir($dir) {
 }
 
 /**
- * Cache one JSON file.
+ * Cache one JSON file from a URL.
  */
-function cache_json($space, $url){
-				
-				// filter some characters which could cause some trouble
-				// instead of preg_replace strtr() would be an alternative
-				$file_name = preg_replace("/[^a-zA-Z0-9]/i", "_", $space);
-				$file_name = strtolower($file_name) . ".json";
-				
+function cache_json_from_url($space, $url)
+{				
+				$file_name = cache_file_name($space);
 				$response = get_data($url);
 
 				// if the response _and_ the data are not null, empty or false
@@ -171,6 +168,50 @@ function cache_json($space, $url){
 				{
 								file_put_contents("cache/". $file_name, $data);
 				}
+}
+
+/**
+ * Creates a 'good' file name for JSON that should be saved somewhere e.g. in the cache.
+ */
+function cache_file_name($space_name)
+{
+				// filter some characters which could cause some trouble
+				// instead of preg_replace strtr() would be an alternative
+				$file_name = preg_replace("/[^a-zA-Z0-9]/i", "_", $space_name);
+				$file_name = strtolower($file_name) . ".json";
+				
+				return $file_name;
+}
+
+/**
+ * Cache one JSON passes as an argument.
+ */
+function cache_json_from_argument($space, $data)
+{				
+				$file_name = cache_file_name($space);
+				
+				switch(gettype($data))
+				{
+								case "string":
+												
+												// check if the string is really a json
+												if( null !== json_decode($data) )
+																file_put_contents("cache/". $file_name, $data);												
+												break;
+								
+								case "array":
+								case "object":
+												
+												file_put_contents("cache/". $file_name, json_encode($data));
+												break;
+								
+								default:
+												
+												; // do nothing
+				}
+				
+				$lists = list_space_array_keys();
+				file_put_contents("cache/array_keys.json", json_encode($lists));
 }
 
 /**
@@ -214,7 +255,7 @@ function update_cache($full = false){
 																								
 																								// @child
 																																					
-																								cache_json($space, $url);																			
+																								cache_json_from_url($space, $url);																			
 																								break;
 																				
 																				default:
@@ -226,7 +267,7 @@ function update_cache($full = false){
 																}
 												}
 												else
-																cache_json($space, $url);
+																cache_json_from_url($space, $url);
 								}
 								//*/
 				}
