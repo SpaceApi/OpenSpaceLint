@@ -8,9 +8,39 @@ header('Content-type: application/json');
 
 require_once("../slogix-parser.php");
 
+function output_json($data)
+{
+				if(isset($_GET['fmt']) && $_GET['fmt']=='a')
+				{
+								$data = json_decode($data);
+								
+								Class SpaceDirEntry
+								{
+												public $name;
+												public $url;
+												public function __construct($name,$url)
+												{
+																$this->name=$name;
+																$this->url=$url;
+												}
+								}
+								
+								$objdir=array();
+								foreach($data as $name=>$url) {
+												$objdir[]=new SpaceDirEntry($name,$url);
+								}
+								
+								$data = json_encode((object) array('spaces'=>$objdir));
+				}
+				
+				echo $data;
+				exit(0);			
+}
+
 $directory_json = file_get_contents('directory.json');
 $directory_array = json_decode($directory_json, true);
 
+// TODO: document, make it public to the world
 if(isset($_GET["space"]))
 {
 				$spaces = stripslashes(strip_tags($_GET["space"]));
@@ -22,8 +52,8 @@ if(isset($_GET["space"]))
 				{
 								$arr[$space] = $directory_array[$space];
 				}
-				echo json_encode($arr);
-				exit(0);
+				
+				output_json($arr);
 }
 
 if(isset($_GET["filter"]))
@@ -54,11 +84,11 @@ if(isset($_GET["filter"]))
 								$arr[$space] = $directory_array[$space];
 				}
 				
-				echo json_encode($arr);
-				exit(0);
+				output_json($arr);
 }
 
-// echo the full directory
-echo $directory_json;
+// output the full directory
+output_json($directory_json);
+//echo $directory_json;
 
 ?>
