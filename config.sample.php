@@ -4,9 +4,21 @@
  * reCaptcha
  *****************************/
 
+// if you change the keys, don't forget to change the public key
+// in c/js/add-hackerspace.js in the code block:
+//
+//    Recaptcha.create(
+//        "6Lcsss8SAAAAAD4080SvtHcts5CBHyMhLU9q3eGS",
+//        "recaptcha_div",
+//        {
+//            lang: "en",
+//            theme: "clean",
+//            callback: Recaptcha.focus_response_field
+//        });
+    
 $recaptcha_key = array(
 				"public" => "6Lcsss8SAAAAAD4080SvtHcts5CBHyMhLU9q3eGS",
-				"private" => "asdf87asd8ff0a89_asdf8ayusdufj13kj234kj"				
+				"private" => "6Lcsss8SAAAAAJ7Izqs_sQIgj91UyuY1AMsRisWy"				
 				);
 
 /*****************************
