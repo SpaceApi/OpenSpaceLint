@@ -184,7 +184,7 @@ $(document).ready(function(){
     );
     
     Recaptcha.create(
-        "6Lcsss8SAAAAAD4080SvtHcts5CBHyMhLU9q3eGS",
+        "6LcoCtwSAAAAAGGHyF1gt7on2AZ3j-kBdi6A7kHD",
         "recaptcha_div",
         {
             lang: "en",
