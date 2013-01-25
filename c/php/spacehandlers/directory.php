@@ -5,6 +5,7 @@ error_reporting(0);
 // TODO: this script should synchronize with gmc's directory later
 
 header('Content-type: application/json');
+header('Access-Control-Allow-Origin: *');
 
 require_once("../slogix-parser.php");
 
@@ -53,7 +54,7 @@ if(isset($_GET["space"]))
 								$arr[$space] = $directory_array[$space];
 				}
 				
-				output_json($arr);
+				output_json(json_encode($arr));
 }
 
 if(isset($_GET["filter"]))
@@ -63,6 +64,7 @@ if(isset($_GET["filter"]))
 								
 				$filters = stripslashes(strip_tags($_GET["filter"]));				
 				
+				// a slogix expression or a json can be used to define the filters
 				if($slogix = decode_slogix($filters))
 								$filters = $slogix;
 				else			
@@ -84,7 +86,7 @@ if(isset($_GET["filter"]))
 								$arr[$space] = $directory_array[$space];
 				}
 				
-				output_json($arr);
+				output_json(json_encode($arr));
 }
 
 // output the full directory
