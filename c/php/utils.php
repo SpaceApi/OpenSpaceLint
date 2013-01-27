@@ -9,7 +9,7 @@ require_once('create-keys.php');
  * then the FOLLOWLOCATION mode is done "manually".
  * Reused and modified zsalab's implementation.
  */
-function curl_exec_follow($ch, &$maxredirect = null, $timeout = 7) {
+function curl_exec_follow($ch, &$maxredirect = null, $timeout = 15) {
 				
 				//curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); // timeout in seconds
 				curl_setopt($ch, CURLOPT_TIMEOUT, $timeout); // timeout in seconds
@@ -184,7 +184,7 @@ function cache_file_name($space_name)
 }
 
 /**
- * Cache one JSON passes as an argument.
+ * Cache one JSON passed as an argument.
  */
 function cache_json_from_argument($space, $data)
 {				
