@@ -3,12 +3,41 @@ OpenSpaceLint
 
 OpenSpaceLint is a validator for the Space API. It also be used it to reformat any JSON.
 
+Checkout
+---------
+
+In your ```DocumentRoot``` get OpenSpaceLint via git
+
+```
+git clone git://github.com/slopjong/OpenSpaceLint.git
+mv OpenSpaceLint/* .
+mv OpenSpaceLint/.* .
+rm -rf OpenSpaceLint
+```
+
+or if git isn't installed via wget
+
+```
+wget https://github.com/slopjong/OpenSpaceLint/archive/master.zip
+unzip master.zip
+mv OpenSpaceLint-master/* .
+mv OpenSpaceLint-master/.* .
+rm -rf master.zip OpenSpaceLint-master
+```
+
+If you were root when executing the above commands you may need to change the file permissions, owner and group.
+
+```
+chown -R www-data:www-data .
+find . -type d -exec chmod g+s {} \;
+```
+
 Configuration
 -------------
 
 Copy config.sample.php to config.php and fill in the correct api keys.
 
-The ```site_url``` variable is set to the hostname or if virtual hosts are used then it's set to its ```ServerName```. Here is an example how the VirtualHost block looks like:
+By default the ```site_url``` variable is set to the hostname or if virtual hosts are used then it's set to its ```ServerName```. Here is an example how the VirtualHost block looks like:
 
 ```
 <VirtualHost *:80>
@@ -19,12 +48,19 @@ The ```site_url``` variable is set to the hostname or if virtual hosts are used 
 </VirtualHost>
 ```
 
+If you cannot become root where OpenSpaceLint is being deployed then change ```site_url``` to the domain where it will be accessible.
+
 One place where the ```site_url``` is used is the cache update script which only allows requests from the server itself and redirects all other clients to *site_url's* error page.
 
 Cache Cron Setup
 ----------------
 
-In the setup directory execute the setup script.
+In the setup directory execute the setup script. Replace ```www-data``` with the user under which your web server is running.
+
+```
+cd setup
+./setup www-data
+```
 
 Then run
 
