@@ -27,4 +27,10 @@ $recaptcha_key = array(
 $apikey = "09a8fsdfy89a7sdf8usad9f76asd89f7as9d8fgs09fa7";
 $second_stage_proxy = "http://jasonproxy.herokuapp.com/?api=". $apikey ."&url=";
 
+/*****************************
+ * Site information
+ *****************************/
+
+$site_url = $_SERVER["SERVER_NAME"];
+
 ?>

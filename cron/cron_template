@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# variable containing the space name from the directory.json
+space="SSS"
+
+# the cron jobs will be called from somewhere
+# so we need to find out in what directory the
+# cron job is located and change into it
+cd $(dirname $(readlink -f $0))
+
+# no update the cached json file for $space
+cd ../../c/php
+/usr/bin/env php -f update-cache.php $space

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ $# -ne 1 ];
+then
+    echo "Please tell me the web server user"
+    exit 1;
+fi    
+
+# switch the user under which the web server is running    
+su $1
+
+# create the cron directories
+mkdir -p ../cron/cron.{min.{02,05,10,15},h.{01,02,04,08,12},d.01}
+
+# create the actual cronjobs
+/usr/bin/env php -f create_cronjobs.php
+
+# no run the daily cronjobs once to populate the cache
+run-parts ../cron/cron.d.01
