@@ -76,18 +76,23 @@ to add the actual cronjobs. Replace ```www-data``` with the user under which you
 Now copy the following lines by replacing <docroot> with the proper ```DocumentRoot``` from your VirtualHost configuration.
 
 ```
-*/2   *     *    *    *    run-parts <docroot>/cron/cron.min.02
-*/5   *     *    *    *    run-parts <docroot>/cron/cron.min.05
-*/10  *     *    *    *    run-parts <docroot>/cron/cron.min.10
-*/15  *     *    *    *    run-parts <docroot>/cron/cron.min.15
-*/30  *     *    *    *    run-parts <docroot>/cron/cron.min.30
-*     */1   *    *    *    run-parts <docroot>/cron/cron.h.01
-*     */2   *    *    *    run-parts <docroot>/cron/cron.h.02
-*     */4   *    *    *    run-parts <docroot>/cron/cron.h.04
-*     */8   *    *    *    run-parts <docroot>/cron/cron.h.08
-*     */12  *    *    *    run-parts <docroot>/cron/cron.h.12
-*     *     */1  *    *    run-parts <docroot>/cron/cron.d.01
+*/2   *     *    *    *    run-parts <docroot>/cron/scron.m.02
+*/5   *     *    *    *    run-parts <docroot>/cron/scron.m.05
+*/10  *     *    *    *    run-parts <docroot>/cron/scron.m.10
+*/15  *     *    *    *    run-parts <docroot>/cron/scron.m.15
+*/30  *     *    *    *    run-parts <docroot>/cron/scron.m.30
+*     */1   *    *    *    run-parts <docroot>/cron/scron.h.01
+*     */2   *    *    *    run-parts <docroot>/cron/scron.h.02
+*     */4   *    *    *    run-parts <docroot>/cron/scron.h.04
+*     */8   *    *    *    run-parts <docroot>/cron/scron.h.08
+*     */12  *    *    *    run-parts <docroot>/cron/scron.h.12
+*     *     */1  *    *    run-parts <docroot>/cron/scron.d.01
+*     *     */1  *    *    run-parts <docroot>/cron/daily-tasks
 ```
+
+Every cron directory starting with scron only contains so-called space crons which only update the space JSON files. The daily-tasks directory contains system tasks such as recreating the key tables which list what of the space api a space has implemented or even new introduced fields. These tables are displayed on [openspace.slopjong.de](http://openspace.slopjong.de), just click on directory below the editor to see them.
+
+A space cron is located in all the space cron directories but only in one directory it is executable. If a space changes the schedule the execution bit will be removed in the old schedule directory and added in the new one. That's how scheduling works in OpenSpaceLint.
 
 Proxy
 -----

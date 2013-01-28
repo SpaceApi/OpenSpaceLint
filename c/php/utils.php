@@ -367,13 +367,67 @@ function list_space_array_keys()
 				return array($sorted_to_space, $sorted_to_member);
 }
 
+/**
+ * Removes the execution in all the scron directories and
+ * adds it according the passed cron schedule
+ */
+function change_scron_schedule($space, $cron_schedule)
+{
+				$cron_path = realpath(dirname(__FILE__) . "/../../cron/");
+				
+				// do nothing if the directory can't be read
+				if(! $cron_path_handle = opendir($cron_path))
+								return;
+				
+				$nice_file_name = preg_replace("/[^a-zA-Z0-9]/i", "_", $space);
+				$nice_file_name = strtolower($nice_file_name);
+				
+				while (false !== ($schedule_dir = readdir($cron_path_handle)))
+				{
+								if ( strpos($schedule_dir, "scron") === 0 )
+								{
+												$schedule_dir = $cron_path . "/" . $schedule_dir;
+												$cron = $schedule_dir . "/" . $nice_file_name;
+												chmod($cron, 0644);
+								}
+				}
+				
+				chmod($cron_path . "/scron." . $cron_schedule . "/" . $nice_file_name, 0755);
+}
+
 
 /**
- * 
+ * Creates a new cron for a space.
  */
-function resort_cron($space)
+function create_new_cron($space, $cron_schedule = "d.01")
 {
+				$cron_path = realpath(dirname(__FILE__) . "/../../cron/");
+				$cron_template_file = $cron_path . "/cron_template";
 				
+				// do nothing if the directory can't be read
+				if(! $cron_path_handle = opendir($cron_path))
+								return;
+				
+				if(file_exists($cron_template_file))
+				{
+								$cron_template = file_get_contents($cron_template_file);
+								$new_cron = str_replace("SSS", $space, $cron_template);
+        
+        $nice_file_name = preg_replace("/[^a-zA-Z0-9]/i", "_", $space);
+        $nice_file_name = strtolower($nice_file_name);
+        
+								while (false !== ($schedule_dir = readdir($cron_path_handle)))
+								{
+												if ( strpos($schedule_dir, "scron") === 0 )
+												{
+																$schedule_dir = $cron_path . "/" . $schedule_dir;
+																$cron = $schedule_dir . "/" . $nice_file_name;
+																file_put_contents($cron, $new_cron);			
+												}
+								}
+								
+								change_scron_schedule($space, $cron_schedule);    
+				}
 }
 
 ?>

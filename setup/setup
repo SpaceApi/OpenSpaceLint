@@ -7,10 +7,10 @@ then
 fi    
 
 # create the cron directories
-su $1 -c 'mkdir -p ../cron/cron.{min.{02,05,10,15},h.{01,02,04,08,12},d.01}'
+su $1 -c 'mkdir -p ../cron/scron.{m.{02,05,10,15},h.{01,02,04,08,12},d.01}'
 
 # create the actual cronjobs
 su $1 -c '/usr/bin/env php -f create_cronjobs.php'
 
 # no run the daily cronjobs once to populate the cache
-su $1 -c 'run-parts ../cron/cron.d.01'
+su $1 -c 'run-parts ../cron/scron.d.01'

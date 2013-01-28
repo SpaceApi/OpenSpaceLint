@@ -36,8 +36,12 @@ else
         
         $space = $argv[1];
         $directory = json_decode(file_get_contents("spacehandlers/directory.json"));
-        $url = $directory->$space;
-        cache_json_from_url($space, $url);
+        
+        if( property_exists($directory, $space) )
+        {
+            $url = $directory->$space;
+            cache_json_from_url($space, $url);            
+        }
     }
     else
     {
