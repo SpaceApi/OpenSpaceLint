@@ -48,7 +48,9 @@ By default the ```site_url``` variable is set to the hostname or if virtual host
 </VirtualHost>
 ```
 
-If you cannot become root where OpenSpaceLint is being deployed then change ```site_url``` to the domain where it will be accessible.
+It's highly recommended to change explicitly the ```site_url``` variable to the domain where it will be accessible. By default it's set to a server variable but php code run from the command line the ```$_SERVER["SERVER_NAME"]``` is undefined which might break cron jobs relying on the php API.
+
+Use an URL of the form openspace.slopjong.de and leave the protocol away.
 
 One place where the ```site_url``` is used is the cache update script which only allows requests from the server itself and redirects all other clients to *site_url's* error page.
 
