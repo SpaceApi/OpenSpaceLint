@@ -1,8 +1,26 @@
 <?php
 error_reporting(0);
 
-require_once('../../config.php');
-require_once('create-keys.php');
+// load the config
+//
+// Note: If the function get_data is used in a cronjob
+//       the path to the config file must be provided
+//       in order to use the second stage proxy.
+//       All other functions are not relying on the config
+//       file until now.
+
+if(file_exists('../../config.php'))
+{
+				require_once('../../config.php');
+}
+else
+{
+				if( isset($argv) && isset($argc) && $argc > 1)
+				{
+								if(file_exists($argv[1]))
+												require_once($argv[1]);
+				}
+}
 
 /**
  * cURLs a website and if open_basedir is set or safe_mode enabled
@@ -74,52 +92,53 @@ function curl_exec_follow($ch, &$maxredirect = null, $timeout = 15) {
 
 /**
  * Loads data from the given URL. If $limit is false data of more than 10 megs can be returned.
+ *
  */
-function get_data($url, $limit = true){
-				
+function get_data($url, $limit = true)
+{
 				global $second_stage_proxy;
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    
-    // for faster debugging just comment out the following line
-    // to use curl_exec instead of curl_exec_follow
-    $follow = true;
-    $data = (isset($follow) ) ? curl_exec_follow($ch) : curl_exec($ch);
-  
+				
+				$ch = curl_init($url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				
+				// for faster debugging just comment out the following line
+				// to use curl_exec instead of curl_exec_follow
+				$follow = true;
+				$data = (isset($follow) ) ? curl_exec_follow($ch) : curl_exec($ch);
+				
 				// if $data is NULL or empty then the host might use a non-standard port
 				// which is blocked by the shared host's firewall => proxy the proxy :-)
 				if(is_null($data) || empty($data)){
-								// http://evening-snow-4067.herokuapp.com/?url=
-								//curl_setopt($ch, CURLOPT_URL, $second_stage_proxy . $url);
-								curl_setopt($ch, CURLOPT_URL, $second_stage_proxy . $url);
-								$data = (isset($follow) ) ? curl_exec_follow($ch) : curl_exec($ch);
+							// http://evening-snow-4067.herokuapp.com/?url=
+							//curl_setopt($ch, CURLOPT_URL, $second_stage_proxy . $url);
+							curl_setopt($ch, CURLOPT_URL, $second_stage_proxy . $url);
+							$data = (isset($follow) ) ? curl_exec_follow($ch) : curl_exec($ch);
 				}
 				
-    $info = curl_getinfo($ch);
-    curl_close($ch);
-
-    $contentLength = intval($info['download_content_length']);
-    $status = intval($info['http_code']);
-    
-    if ($status >= 400) {
-	    echo '{ "result": "URL returned bad status code ' . $status . '.", "error": true }';
-	    return null;
-    }
-    
-    if ( $limit && $contentLength >= 52428800) {
-	    echo '{ "result": "URL content length greater than 10 megs (' . $contentLength . '). Validation not available for files this large.", "responseCode": "1" }';
-	    return null;
-    }
-    
-    $response = new StdClass();
-    $response->status = $status;
-    $response->length = $contentLength;
-    $response->url = $info['url'];
-    $response->content = $data;
-    
-    return $response;
+				$info = curl_getinfo($ch);
+				curl_close($ch);
+				
+				$contentLength = intval($info['download_content_length']);
+				$status = intval($info['http_code']);
+				
+				if ($status >= 400) {
+				echo '{ "result": "URL returned bad status code ' . $status . '.", "error": true }';
+				return null;
+				}
+				
+				if ( $limit && $contentLength >= 52428800) {
+				echo '{ "result": "URL content length greater than 10 megs (' . $contentLength . '). Validation not available for files this large.", "responseCode": "1" }';
+				return null;
+				}
+				
+				$response = new StdClass();
+				$response->status = $status;
+				$response->length = $contentLength;
+				$response->url = $info['url'];
+				$response->content = $data;
+				
+				return $response;
 }
 
 /**
@@ -275,6 +294,103 @@ function update_cache($full = false){
 				{
 								// TODO: implement the single json cache
 				}
+}
+
+
+/**
+ * Iterate over the passed associative array and find
+ * all array key combinations with the nested ones
+ * concatenated with a dot.
+ *
+ * E.g. $arr[a][b] would result in the found keys a and a.b
+ *
+ * a=contact
+ * b=phone
+ * -------------
+ * nested keys are: contact and contact.phone
+ *
+ * Numerical indices are skipped and don't appear in any concatenated key.
+ * 
+ */
+function space_array_keys($array, &$keys, $ancestor_key = "")
+{			
+				foreach($array as $key => $value){
+								
+								// skip the numerical indices
+								if(!is_numeric($key))
+												$new_key = $ancestor_key
+																				. ((!empty($ancestor_key)) ? "." : "")
+																				. $key;
+								else
+												$new_key = $ancestor_key;
+											
+								// don't push the key if it is already present
+								if(!in_array($new_key, $keys))									
+												array_push($keys, $new_key);
+												
+								if(is_array($value))
+												space_array_keys($value, $keys, $new_key);									
+				}				
+}
+
+
+/**
+ * Create an array with two lists listing what member a space uses.
+ * The first array element contains a list sorted to the spaces
+ * and the second is sorted to the members.
+ */
+function list_space_array_keys()
+{
+				$sorted_to_space = array();
+				$sorted_to_member = array();
+				
+				// create a list of what members a certain space supports
+				foreach (glob("cache/*.json") as $filename)
+				{
+								// be sure to not include the filters list itself
+								// TODO: move the filters list file to another place
+								if(! preg_match("~array_keys~", $filename))
+								{
+												$json = json_decode(file_get_contents($filename), true);				
+												$members = array();
+												space_array_keys($json, $members);
+												$sorted_to_space[$json["space"]] = $members;
+								}
+				}
+				
+				// Create a list of what space uses a certain member.
+				// Each element is an array containing spaces.
+				foreach ($sorted_to_space as $space => $members)
+				{
+								foreach($members as $member)
+								{
+												$val = $sorted_to_member[$member];
+												if(empty($val))
+																$val = array();
+																
+												array_push($val, $space);
+												$sorted_to_member[$member] = $val;
+								}
+				}
+				
+				/*
+				foreach($sorted_to_space as $space => $keys)
+								$sorted_to_member = array_merge($sorted_to_member, $keys);
+				
+				$sorted_to_member = array_unique($sorted_to_member);
+				sort($sorted_to_member);
+				*/
+				
+				return array($sorted_to_space, $sorted_to_member);
+}
+
+
+/**
+ * 
+ */
+function resort_cron($space)
+{
+				
 }
 
 ?>
