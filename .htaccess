@@ -1,5 +1,7 @@
 AddType  application/json  .json
 
+Options -Indexes
+
 <FilesMatch ^config.php$>
 deny from all
 </FilesMatch>

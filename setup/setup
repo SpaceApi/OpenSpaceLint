@@ -12,5 +12,7 @@ su $1 -c 'mkdir -p ../cron/scron.{m.{02,05,10,15},h.{01,02,04,08,12},d.01}'
 # create the actual cronjobs
 su $1 -c '/usr/bin/env php -f create_cronjobs.php'
 
+echo "Now creating/updating the cache. This can take some minutes."
+
 # no run the daily cronjobs once to populate the cache
 su $1 -c 'run-parts ../cron/scron.d.01'
