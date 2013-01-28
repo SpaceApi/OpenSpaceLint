@@ -2,25 +2,8 @@
 error_reporting(0);
 
 // load the config
-//
-// Note: If the function get_data is used in a cronjob
-//       the path to the config file must be provided
-//       in order to use the second stage proxy.
-//       All other functions are not relying on the config
-//       file until now.
-
-if(file_exists('../../config.php'))
-{
-				require_once('../../config.php');
-}
-else
-{
-				if( isset($argv) && isset($argc) && $argc > 1)
-				{
-								if(file_exists($argv[1]))
-												require_once($argv[1]);
-				}
-}
+$config = realpath(dirname(__FILE__) . "/../../config.php");
+require_once($config);
 
 /**
  * cURLs a website and if open_basedir is set or safe_mode enabled

@@ -10,7 +10,8 @@ error_reporting(0);
 //header("Connection: close");
 //flush();
     
-require_once("../../config.php");
+$config = realpath(dirname(__FILE__) . "/../../config.php");
+require_once($config);
 
 // REMOTE_ADDR might not always contain the actual client address.
 // this heavily depends on the server where OpenSpaceLint is deployed
