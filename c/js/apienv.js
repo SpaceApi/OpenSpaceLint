@@ -7,7 +7,7 @@ $(document).ready(function () {
             "api": {
                 "type": "string",
                 "required": true,
-                "enum": ["0.8", "0.9", "0.11", "0.12"]
+                "enum": ["0.8", "0.9", "0.11", "0.12", "0.13"]
             },
             "space": {
                 "type": "string",
@@ -196,9 +196,36 @@ $(document).ready(function () {
         }
     });
 
+    var specs13 = JSV.inherits(specs12, {
+        "properties": {
+            "cache": {
+                "required": false,
+                "type": "object",
+                "properties": {
+                    "schedule": {
+                        "type": "string",
+                        "required": false,
+                        "enum": ["m.02", "m.05", "m.10", "m.15", "h.01", "h.02", "h.04", "h.08", "h.12", "d.01"]
+                    }
+                }
+            },
+            "contact": {
+                "required": false,
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "required": true,
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    });
+        
     apienv = JSV.createEnvironment("json-schema-draft-03");
     apienv.createSchema(specs8, undefined, "http://openspace.slopjong.de/specs8");
     apienv.createSchema(specs9, undefined, "http://openspace.slopjong.de/specs9");
     apienv.createSchema(specs11, undefined, "http://openspace.slopjong.de/specs11");
     apienv.createSchema(specs12, undefined, "http://openspace.slopjong.de/specs12");
+    apienv.createSchema(specs13, undefined, "http://openspace.slopjong.de/specs13");
 });

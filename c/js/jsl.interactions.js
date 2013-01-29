@@ -122,7 +122,7 @@ jsl.interactions = (function () {
                 /********************************************************************************/
                 // check against the specs
                 
-		var versions = ["8", "9", "11", "12"];
+		var versions = ["8", "9", "11", "12", "13"];
                 var report, uri, version;
 		
                 for(index=0; index < versions.length; index++)
@@ -225,6 +225,7 @@ jsl.interactions = (function () {
             $('#results').removeClass('success').addClass('error');
             $('div.linedwrap').removeClass('greenBorder').addClass('redBorder');
             
+			$('#results-specs-container-0.13').hide();
             $('#results-specs-container-0.12').hide();
             $('#results-specs-container-0.11').hide();
             $('#results-specs-container-0.9').hide();
