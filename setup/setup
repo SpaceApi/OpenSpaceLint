@@ -6,8 +6,14 @@ then
     exit 1;
 fi    
 
-# create the cron directories
+# create the space cron directories
 su $1 -c 'mkdir -p ../cron/scron.{m.{02,05,10,15},h.{01,02,04,08,12},d.01}'
+
+# create the daily tasks directory
+su $1 -c 'mkdir -p ../cron/daily-tasks'
+
+# create the reports directory, where a report file is created or updated after a cache update
+su $1 -c 'mkdir -p ../cron/reports'
 
 # create the actual cronjobs
 su $1 -c '/usr/bin/env php -f create_cronjobs.php'

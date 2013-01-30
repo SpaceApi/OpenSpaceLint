@@ -40,7 +40,7 @@ else
         if( property_exists($directory, $space) )
         {
             $url = $directory->$space;
-            cache_json_from_url($space, $url);            
+            cache_json_from_url($space, $url, true);            
         }
     }
     else

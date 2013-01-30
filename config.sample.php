@@ -31,9 +31,20 @@ $second_stage_proxy = "http://jasonproxy.herokuapp.com/?api=". $apikey ."&url=";
  * Site information
  *****************************/
 
-# it's highly recommended to set an URL explicitly because php code run
-# from cli doesn't know the SERVER_NAME index.
-# Use an URL of the form openspace.slopjong.de and leave the protocol away.
+// it's highly recommended to set an URL explicitly because php code run
+// from cli doesn't know the SERVER_NAME index.
+// Use an URL of the form openspace.slopjong.de and leave the protocol away.
 $site_url = $_SERVER["SERVER_NAME"];
+
+/**
+ * Cache report emails
+ */
+// The from (to) and bcc emails where a copy of a cache report is sent from/to.
+// These should be OpenSpaceLint admins.
+$cache_report_from = "from@your-space.com";
+$cache_report_bcc = "bcc@your-space.com";
+
+// the flag that puts OpenSpaceLint into the debug mode
+$debug_mode = false;
 
 ?>

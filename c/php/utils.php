@@ -150,11 +150,20 @@ function rrmdir($dir) {
 }
 
 /**
- * Cache one JSON file from a URL.
+ * Cache one JSON file from a URL. It's considered as a fail if
+ * the JSON cannot be fetched from the space server. A report email
+ * is then sent.
+ *
+ * @param string $space The space name
+ * @param string $url   The URL to the space's JSON
+ * @param boolean $report Flag that tells this function to write a report or not at the end
  */
-function cache_json_from_url($space, $url)
+function cache_json_from_url($space, $url, $send_report_email = false)
 {				
-				$file_name = cache_file_name($space);
+				//require_once(dirname(__FILE__) . "/NiceFileName.class.php");
+				
+				//$file_name = NiceFileName::json($space);
+				
 				$response = get_data($url);
 
 				// if the response _and_ the data are not null, empty or false
@@ -168,29 +177,32 @@ function cache_json_from_url($space, $url)
 								&& (null !== json_decode($data))
 								)
 				{
-								file_put_contents("cache/". $file_name, $data);
+								//file_put_contents("cache/". $file_name, $data);
+								cache_json_from_argument($space, $data);
+								$success = true;
 				}
-}
-
-/**
- * Creates a 'good' file name for JSON that should be saved somewhere e.g. in the cache.
- */
-function cache_file_name($space_name)
-{
-				// filter some characters which could cause some trouble
-				// instead of preg_replace strtr() would be an alternative
-				$file_name = preg_replace("/[^a-zA-Z0-9]/i", "_", $space_name);
-				$file_name = strtolower($file_name) . ".json";
-				
-				return $file_name;
+				else
+								$success = false;
+								
+				// should we write a report?
+				if($send_report_email)
+				{
+								require_once("CacheReport.class.php");
+								$reportfile = new CacheReport();
+								$reportfile->report($space, $success);
+				}
 }
 
 /**
  * Cache one JSON passed as an argument.
  */
 function cache_json_from_argument($space, $data)
-{				
-				$file_name = cache_file_name($space);
+{
+				require_once(dirname(__FILE__) . "/NiceFileName.class.php");
+				
+				$cache_file_name = NiceFileName::json($space);
+				$cache_file_path = dirname(__FILE__) . "/cache";
+				$cache_file = $cache_file_path . "/". $cache_file_name;
 				
 				switch(gettype($data))
 				{
@@ -198,13 +210,13 @@ function cache_json_from_argument($space, $data)
 												
 												// check if the string is really a json
 												if( null !== json_decode($data) )
-																file_put_contents("cache/". $file_name, $data);												
+																file_put_contents($cache_file, $data);												
 												break;
 								
 								case "array":
 								case "object":
 												
-												file_put_contents("cache/". $file_name, json_encode($data));
+												file_put_contents($cache_file, json_encode($data));
 												break;
 								
 								default:
