@@ -50,4 +50,8 @@ $debug_mode = false;
 // what should the default cron schedule be if a space doesn't define one?
 $default_cron_schedule = "d.01";
 
+// user agent used when fetching the space json from the server. let it
+// believe we are a browser
+$curl_user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/20100101 Firefox/18.0";
+
 ?>

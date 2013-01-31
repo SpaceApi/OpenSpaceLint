@@ -84,6 +84,7 @@ function get_data($url, $limit = true)
 				$ch = curl_init($url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				curl_setopt($ch, CURLOPT_USERAGENT, $curl_user_agent);
 				
 				// for faster debugging just comment out the following line
 				// to use curl_exec instead of curl_exec_follow
