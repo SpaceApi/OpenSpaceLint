@@ -21,7 +21,7 @@ function get_data($url)
 $html = get_data($url);
 $open = (bool) preg_match("/green.png/", $html);
 
-$arr["api"] = "0.12";
+$arr["api"] = "0.13";
 $arr["space"] = "RaumZeitLabor";
 $arr["logo"] = "http://raumzeitlabor.de/w/images/8/85/RaumZeitLabor_-_Logo_-_Schwarz.png";
 $arr["icon"] = array(
@@ -30,6 +30,8 @@ $arr["icon"] = array(
 $arr["url"] = "http://raumzeitlabor.de";
 $arr["address"] = "Boveristrasse 22-24, 68309 Mannheim, Germany";
 $arr["open"] = $open;
+$arr["cache"] = array(
+	"schedule" => "m.02");
 
 header('Content-type: application/json');
 echo json_encode($arr);
