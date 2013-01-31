@@ -14,13 +14,14 @@ RewriteBase /
 
 RewriteRule ^filters\.json$ /c/php/cache/array_keys.json [L] # L doesn't stop but goes to a new subprocess
 
-RewriteCond %{REQUEST_URI} !=/c/php/cache/array_keys.json
+RewriteCond %{REQUEST_URI} !=/c/php/cache/.*.json
 RewriteRule ^(.*)\.json$ /c/php/spacehandlers/$1.php [L,NC]
 
 RewriteRule ^proxy\.php$ /c/php/proxy.php [NC]
 RewriteRule ^add-hackerspace$ /c/php/add-hackerspace.php [NC]
 
-RewriteRule ^update-cache /c/php/update-cache.php
+RewriteRule ^update-cache$ /c/php/update-cache.php
+RewriteRule ^cache/(.*)$ /c/php/cache.php?space=$1
 </IfModule>
 
 ErrorDocument 400 http://openspace.slopjong.de/error.html
