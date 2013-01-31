@@ -40,7 +40,9 @@ else
         if( property_exists($directory, $space) )
         {
             $url = $directory->$space;
-            cache_json_from_url($space, $url, true);            
+            cache_json_from_url($space, $url, true);
+            $schedule = get_space_cron_schedule($space);
+            change_scron_schedule($space, $schedule);
         }
     }
     else

@@ -6,6 +6,9 @@ error_reporting(0);
 $config = realpath(dirname(__FILE__) . "/../../config.php");
 require_once($config);
 
+/**
+ * Represents a report file in <docroot>/cron/reports
+ */
 class CacheReport
 {
     private $reports_path = "";

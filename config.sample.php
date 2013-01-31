@@ -47,4 +47,7 @@ $cache_report_bcc = "bcc@your-space.com";
 // the flag that puts OpenSpaceLint into the debug mode
 $debug_mode = false;
 
+// what should the default cron schedule be if a space doesn't define one?
+$default_cron_schedule = "d.01";
+
 ?>

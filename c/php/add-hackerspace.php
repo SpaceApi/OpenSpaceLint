@@ -50,6 +50,9 @@ if(isset($_GET["recaptcha_response_field"])) {
                 // cache the json
                 cache_json_from_argument($space_name, $space_json);                
                 
+																// create the cron(s)
+																create_new_cron($space_name);
+																
 																$response["message"] = "The space got added to the directory.";
 												}
 												else

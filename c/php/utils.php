@@ -160,9 +160,6 @@ function rrmdir($dir) {
  */
 function cache_json_from_url($space, $url, $send_report_email = false)
 {				
-				//require_once(dirname(__FILE__) . "/NiceFileName.class.php");
-				
-				//$file_name = NiceFileName::json($space);
 				
 				$response = get_data($url);
 
@@ -409,11 +406,22 @@ function change_scron_schedule($space, $cron_schedule)
 
 
 /**
- * Creates a new cron for a space.
+ * Creates a new cron for a space. This function should only be called if
+ * OpenSpaceLint is deployed on a new server or after a space got added to
+ * the directory.
+ *
+ * It sets the schedule according what's defined in the space json. If
+ * none is defined the default cron schedule from the config file will be
+ * used.
+ *
  */
+// TODO: fetch the schedule from the cached space api json
+// TODO: the $cron_schedule argument is obsolete. Check if it's
+//       used in a function call somewhere and remove it then
 function create_new_cron($space, $cron_schedule = "d.01")
 {
-				$cron_path = realpath(dirname(__FILE__) . "/../../cron/");
+				$current_dir = dirname(__FILE__);
+				$cron_path = realpath($current_dir . "/../../cron/");
 				$cron_template_file = $cron_path . "/cron_template";
 				
 				// do nothing if the directory can't be read
@@ -438,8 +446,36 @@ function create_new_cron($space, $cron_schedule = "d.01")
 												}
 								}
 								
+								$cron_schedule = get_space_cron_schedule($space);
+								
 								change_scron_schedule($space, $cron_schedule);    
 				}
+}
+
+/**
+ * Returns the schedule from the cached $space json.
+ * If none is defined 
+ */
+function get_space_cron_schedule($space)
+{
+				global $default_cron_schedule;
+				
+				$current_dir = dirname(__FILE__);
+				require_once(dirname(__FILE__) . "/NiceFileName.class.php");
+				$cached_json = NiceFileName::json($space);
+				$cached_json_file = $current_dir . "/cache/" . $cached_json;
+				
+				if(file_exists($cached_json_file))
+				{
+								$json = json_decode(file_get_contents($cached_json_file));
+								if( json_last_error() == JSON_ERROR_NONE && property_exists($json, "cache"))
+								{
+												if(property_exists($json->cache, "schedule"))
+																return $json->cache->schedule;
+								}
+				}
+				
+				return $default_cron_schedule;
 }
 
 ?>
