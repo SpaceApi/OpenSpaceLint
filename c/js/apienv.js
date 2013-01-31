@@ -204,7 +204,7 @@ $(document).ready(function () {
                 "properties": {
                     "schedule": {
                         "type": "string",
-                        "required": false,
+                        "required": true,
                         "enum": ["m.02", "m.05", "m.10", "m.15", "h.01", "h.02", "h.04", "h.08", "h.12", "d.01"]
                     }
                 }
