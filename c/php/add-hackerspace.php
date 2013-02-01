@@ -42,14 +42,23 @@ if(isset($_GET["recaptcha_response_field"])) {
 												//if(!in_array($url, $dirarr)){
 												if($dirarr[$space_name] === null)
             {
-                // add the space to the directory
+																// add the space to the main directory
 																$dirarr[$space_name] = $url;
 																$dirjson = json_encode($dirarr);
 																file_put_contents($file, $dirjson);
-                
+																
                 // cache the json
-                cache_json_from_argument($space_name, $space_json);                
-                
+                cache_json_from_argument($space_name, $space_json);
+																
+																// add the space to the public directory
+																// TODO: check if the URL must be replaced by the cache URL
+																//       in order to use the cache
+																$public_directory = file_get_contents($file . ".public");
+																$public_directory = json_decode($public_directory, true);
+																$public_directory[$space_name] = $url;
+																$public_directory_json = json_encode($public_directory);
+																file_put_contents($file . ".public", $public_directory_json);
+																
 																// create the cron(s)
 																create_new_cron($space_name);
 																

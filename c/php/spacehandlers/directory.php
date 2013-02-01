@@ -38,7 +38,7 @@ function output_json($data)
 				exit(0);			
 }
 
-$directory_json = file_get_contents('directory.json');
+$directory_json = file_get_contents('directory.json.public');
 $directory_array = json_decode($directory_json, true);
 
 // TODO: document, make it public to the world
