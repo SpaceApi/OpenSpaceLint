@@ -31,7 +31,7 @@ $arr["url"] = "http://raumzeitlabor.de";
 $arr["address"] = "Boveristrasse 22-24, 68309 Mannheim, Germany";
 $arr["open"] = $open;
 $arr["cache"] = array(
-	"schedule" => "m.02");
+	"schedule" => "d.01");
 
 header('Content-type: application/json');
 echo json_encode($arr);
