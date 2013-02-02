@@ -33,5 +33,3 @@ if($data === false || is_null($data)) {
 }
 
 echo json_encode($response);
-
-?>

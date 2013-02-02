@@ -2,27 +2,24 @@
 
 header('Content-type: application/json');
 
-require_once("externalinput.php");
-require_once("NiceFileName.class.php");
+$config = realpath(dirname(__FILE__) . "/../../config.php");
+require_once($config);
+error_reporting( ($debug_mode) ? E_ALL : 0 );
 
-$directory = json_decode(file_get_contents("spacehandlers/directory.json"));
-
-$input = popoon_classes_externalinput::basicClean($_GET["space"]);
-
-// the space name with underscores replacing weird characters, this is used
-// for 'good' filenames
-$nice_space_name = NiceFileName::get($input);
-
-$file = "cache/" . $nice_space_name . ".json";
-
-// return the cached json if it's present in the directory (whitelisting)
-if( isset($_GET["space"]) && file_exists($file) )
+// if somebody called this script from the full path and not from
+// the rewritten URL then the space variable might be missing
+if(! isset($_GET["space"]) )
 {
-    $json = file_get_contents($file);
-    echo $json;
+    echo '{ "no": "space"}';
     exit;
 }
+    
+require_once(dirname(__FILE__) . "/NiceFileName.class.php");
 
-echo '{ "no": "space"}';
+$file = "cache/" . NiceFileName::json($_GET["space"]);
 
-?>
+// return the cached json if it's present in the directory (whitelisting)
+if( file_exists($file) )
+    echo file_get_contents($file);
+else
+    echo '{ "no": "space"}';

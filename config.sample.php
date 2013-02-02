@@ -47,6 +47,20 @@ $cache_report_bcc = "bcc@your-space.com";
 // the flag that puts OpenSpaceLint into the debug mode
 $debug_mode = false;
 
+/*
+  the debugging message level, one of these values:
+  
+    EMERG  = 0;  // Emergency: system is unusable
+    ALERT  = 1;  // Alert: action must be taken immediately
+    CRIT   = 2;  // Critical: critical conditions
+    ERR    = 3;  // Error: error conditions
+    WARN   = 4;  // Warning: warning conditions
+    NOTICE = 5;  // Notice: normal but significant condition
+    INFO   = 6;  // Informational: informational messages
+    DEBUG  = 7;  // Debug: debug messages
+*/
+$debug_level = 7;
+
 // what should the default cron schedule be if a space doesn't define one?
 $default_cron_schedule = "d.01";
 

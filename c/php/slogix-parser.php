@@ -1,5 +1,9 @@
 <?php
 
+$config = realpath(dirname(__FILE__) . "/../../config.php");
+require_once($config);
+error_reporting( ($debug_mode) ? E_ALL : 0 );
+
 function decode_slogix($slogix, &$i=0, &$ast = array())
 {								
 				// remove all the whitespaces
@@ -168,4 +172,3 @@ function decode_expression(&$i, $slogix)
 }
 */
 
-?>

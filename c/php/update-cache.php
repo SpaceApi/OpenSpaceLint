@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 
 //ini_set('display_errors',0);
 //ini_set('log_errors',1);
@@ -12,6 +11,7 @@ error_reporting(0);
     
 $config = realpath(dirname(__FILE__) . "/../../config.php");
 require_once($config);
+error_reporting( ($debug_mode) ? E_ALL : 0 );
 
 // REMOTE_ADDR might not always contain the actual client address.
 // this heavily depends on the server where OpenSpaceLint is deployed
@@ -56,5 +56,3 @@ else
         file_put_contents("cache/array_keys.json", json_encode($lists));
     }
 }
-
-?>

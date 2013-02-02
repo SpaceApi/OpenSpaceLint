@@ -1,10 +1,8 @@
 <?php
 
-error_reporting(0);
-
-// load the config
 $config = realpath(dirname(__FILE__) . "/../../config.php");
 require_once($config);
+error_reporting( ($debug_mode) ? E_ALL : 0 );
 
 /**
  * Represents a report file in <docroot>/cron/reports

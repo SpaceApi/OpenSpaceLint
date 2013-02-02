@@ -1,9 +1,10 @@
 <?php
-error_reporting(0);
 
 // load the config
 $config = realpath(dirname(__FILE__) . "/../../config.php");
 require_once($config);
+
+error_reporting( ($debug_mode) ? E_ALL : 0 );
 
 /**
  * cURLs a website and if open_basedir is set or safe_mode enabled
@@ -478,5 +479,3 @@ function get_space_cron_schedule($space)
 				
 				return $default_cron_schedule;
 }
-
-?>
