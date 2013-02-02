@@ -159,6 +159,7 @@ function rrmdir($dir) {
  * @param string $space The space name
  * @param string $url   The URL to the space's JSON
  * @param boolean $report Flag that tells this function to write a report or not at the end
+ * @return string $data The json data fetched from the URL
  */
 function cache_json_from_url($space, $url, $send_report_email = false)
 {				
@@ -190,6 +191,8 @@ function cache_json_from_url($space, $url, $send_report_email = false)
 								$reportfile = new CacheReport();
 								$reportfile->report($space, $success);
 				}
+				
+				return $data;
 }
 
 /**
@@ -478,4 +481,30 @@ function get_space_cron_schedule($space)
 				}
 				
 				return $default_cron_schedule;
+}
+
+/**
+ * Based on the passed status data either the direct space status URL
+ * or the cache URL will be set in the public directory.
+ * 
+ * @param string $json The json data from a space
+ * @param string $space The space name
+ * @param string $url The space status URL
+ */
+function set_space_url_in_public_directory($json, $space, $url)
+{
+				$json = json_decode($json);
+				
+				if(property_exists($json, "cache"))
+				{
+								if(property_exists($json->cache, "schedule"))
+												$url = "http://" . $site_url . "/cache/" . urlencode($space);
+				}
+				
+				$private_directory = "spacehandlers/directory.json";
+				$public_directory = file_get_contents($private_directory . ".public");
+				$public_directory = json_decode($public_directory, true);
+				$public_directory[$space] = $url;
+				$public_directory_json = json_encode($public_directory);
+				file_put_contents($private_directory . ".public", $public_directory_json);
 }

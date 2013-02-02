@@ -9,8 +9,9 @@
 //header("Connection: close");
 //flush();
     
-$config = realpath(dirname(__FILE__) . "/../../config.php");
-require_once($config);
+require_once(realpath(dirname(__FILE__) . "/../../config.php"));
+require_once(realpath(dirname(__FILE__) . "/utils.php"));
+
 error_reporting( ($debug_mode) ? E_ALL : 0 );
 
 // REMOTE_ADDR might not always contain the actual client address.
@@ -40,7 +41,12 @@ else
         if( property_exists($directory, $space) )
         {
             $url = $directory->$space;
-            cache_json_from_url($space, $url, true);
+            $json = cache_json_from_url($space, $url, true);
+            
+            // save either the cache url or the direct space url
+            set_space_url_in_public_directory($json, $space, $url);
+            
+            // reschedule the cron according what's defined in the json
             $schedule = get_space_cron_schedule($space);
             change_scron_schedule($space, $schedule);
         }

@@ -1,5 +1,7 @@
 <?php
 
+// this script is intended to run from the apache handler only
+
 $config = realpath(dirname(__FILE__) . "/../../config.php");
 require_once($config);
 error_reporting( ($debug_mode) ? E_ALL : 0 );
@@ -38,6 +40,14 @@ if(isset($_GET["recaptcha_response_field"]))
 								$space_data = $data->content;
 								$space_json = json_decode($space_data);
 								$space_name = stripslashes(strip_tags($space_json->{'space'}));
+								
+								if(property_exists($space_json, "cache"))
+								{
+												if(property_exists($space_json->cache, "schedule"))
+																$use_cache = true;
+												else
+																$use_cache = false;
+								}
 
 								if(empty($url) || empty($space_name))
 								{
@@ -64,8 +74,10 @@ if(isset($_GET["recaptcha_response_field"]))
                 cache_json_from_argument($space_name, $space_json);
 																
 																// add the space to the public directory
-																// TODO: check if the URL must be replaced by the cache URL
-																//       in order to use the cache
+																
+																if($use_cache)
+																				$url = "http://" . $site_url . "/cache/" . urlencode($space_name);
+																				
 																$logger->logDebug("Adding the space to the public directory");
 																$public_directory = file_get_contents($private_directory . ".public");
 																$public_directory = json_decode($public_directory, true);
