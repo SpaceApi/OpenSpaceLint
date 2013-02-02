@@ -111,7 +111,7 @@ $(document).ready(function(){
 	
 		});
 
-    $.getJSON("http://openspace.slopjong.de/directory.json")
+    $.getJSON( site_url + "/directory.json")
         .success(function(directory){ 
             directory = sortObject(directory); 
             

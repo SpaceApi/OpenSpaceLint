@@ -22,6 +22,8 @@ RewriteRule ^add-hackerspace$ /c/php/add-hackerspace.php [NC]
 
 RewriteRule ^update-cache$ /c/php/update-cache.php
 RewriteRule ^cache/(.*)$ /c/php/cache.php?space=$1
+
+RewriteRule ^config.js$ config.js.php
 </IfModule>
 
 ErrorDocument 400 http://openspace.slopjong.de/error.html

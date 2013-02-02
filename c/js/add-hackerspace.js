@@ -11,7 +11,6 @@ function poll(url){
       var invalid = $('h1:contains("Your JSON is not compliant ")').size();
     
       if(valid) {
-                              
           // set the space name and url in the form
           // to be sent to the add-hacker-space php script                 
           var json;
@@ -33,7 +32,6 @@ function poll(url){
           if(json.hasOwnProperty("space"))
             $("#add-hackerspace-space").val(json.space);
           
-        
           // reload the captcha and focus the text field
           Recaptcha.reload();
           Recaptcha.focus_response_field();
@@ -60,7 +58,7 @@ function poll(url){
 // TODO: some duplicate with openspace.js
 function reload_space_list(){
   var $ = jQuery;
-  $.getJSON("http://openspace.slopjong.de/directory.json", function(directory){
+  $.getJSON( site_url + "/directory.json", function(directory){
     
     // the select box
     var list = $("#spacedirectory");
@@ -107,7 +105,7 @@ function refresh_filters_list()
 {
   var $ = jQuery;
   
-  $.getJSON("http://openspace.slopjong.de/filters.json", function(data){
+  $.getJSON( site_url + "/filters.json", function(data){
 
     // remove all the list items from the overview
     // the makeacolumnlists plugin creates columns which are themselves ordered lists
@@ -184,7 +182,7 @@ $(document).ready(function(){
     );
     
     Recaptcha.create(
-        "6LcoCtwSAAAAAGGHyF1gt7on2AZ3j-kBdi6A7kHD",
+        recaptcha_public_key, // from config.js
         "recaptcha_div",
         {
             lang: "en",
@@ -197,7 +195,7 @@ $(document).ready(function(){
     // not to confuse with the add space link with its input field
     $('#add-space-form').submit(function() {
         $.getJSON(
-            "http://openspace.slopjong.de/add-hackerspace",
+            site_url + "/add-hackerspace",
             $(this).serialize(),
             function(response){
 
@@ -274,7 +272,7 @@ $(document).ready(function(){
         $("#space-url").text(url);
         
         //window.location = "http://openspace.slopjong.de/?#add=" + $("#add-space-input").val();
-        window.location.href = "http://openspace.slopjong.de/?#add=" + $("#add-space-input").val();
+        window.location.href = site_url + "/?#add=" + $("#add-space-input").val();
         $("#add-space-input-box").hide();
         $("#add-space-link").show();
       }

@@ -129,6 +129,7 @@ jsl.interactions = (function () {
                 {
 			version = versions[index];
 			
+			// do not edit the url, it's just a namespace!
 			var schema = apienv.findSchema("http://openspace.slopjong.de/specs"+ version);
 			report = apienv.validate( JSON.parse(jsonVal), schema);
 			uri = report.instance._uri;
