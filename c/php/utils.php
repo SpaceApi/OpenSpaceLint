@@ -493,6 +493,8 @@ function get_space_cron_schedule($space)
  */
 function set_space_url_in_public_directory($json, $space, $url)
 {
+				global $site_url;
+				
 				$json = json_decode($json);
 				
 				if(property_exists($json, "cache"))
