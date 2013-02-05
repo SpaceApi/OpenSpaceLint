@@ -94,6 +94,11 @@ Every cron directory starting with scron only contains so-called space crons whi
 
 A space cron is located in all the space cron directories but only in one directory it is executable. If a space changes the schedule the execution bit will be removed in the old schedule directory and added in the new one. That's how scheduling works in OpenSpaceLint.
 
+Recaptcha
+---------
+
+Don't forget to enable the domain in your [recaptcha](http://recaptcha.com/) account.
+
 Proxy
 -----
 

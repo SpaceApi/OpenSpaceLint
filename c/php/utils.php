@@ -189,7 +189,7 @@ function cache_json_from_url($space, $url, $send_report_email = false)
 				if($send_report_email)
 				{
 								require_once("CacheReport.class.php");
-								$reportfile = new CacheReport();
+								$reportfile = new CacheReport($space);
 								$reportfile->report($space, $success);
 				}
 				
@@ -343,12 +343,13 @@ function list_space_array_keys()
 				$sorted_to_member = array();
 				
 				// create a list of what members a certain space supports
-				foreach (glob("cache/*.json") as $filename)
+				foreach (glob( __DIR__ ."/cache/*.json") as $filename)
 				{
 								// be sure to not include the filters list itself
 								// TODO: move the filters list file to another place
 								if(! preg_match("~array_keys~", $filename))
 								{
+												return;
 												$json = json_decode(file_get_contents($filename), true);				
 												$members = array();
 												space_array_keys($json, $members);
@@ -356,6 +357,8 @@ function list_space_array_keys()
 								}
 				}
 				
+				return;
+
 				// Create a list of what space uses a certain member.
 				// Each element is an array containing spaces.
 				foreach ($sorted_to_space as $space => $members)

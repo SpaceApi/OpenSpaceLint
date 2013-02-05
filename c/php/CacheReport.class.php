@@ -1,7 +1,12 @@
 <?php
 
-$config = realpath(dirname(__FILE__) . "/../../config.php");
+$config = realpath( __DIR__ . "/../../config.php");
 require_once($config);
+
+// TODO: this is considered as a workaround, find out why the require_once doesn't work here
+if(!isset($debug_mode))
+	require($config);
+	
 error_reporting( ($debug_mode) ? E_ALL : 0 );
 
 /**
@@ -118,13 +123,13 @@ class CacheReport
 		$cached = file_get_contents(dirname(__FILE__) . "/cache/" . $nice_file_name);
 		$cached = json_decode($cached);
 		
-		if(property_exists($cached->contact, "email" ))
-		{
-			echo "email: " . $cached->contact->email;
-			return $cached->contact->email;
-		}
-		else
-			return "";
+		$email = "";
+		
+		if(property_exists($cached, "contact"))
+			if(property_exists($cached->contact, "email" ))
+				$email = $cached->contact->email;
+
+		return $email;
 	}
 	
 	
