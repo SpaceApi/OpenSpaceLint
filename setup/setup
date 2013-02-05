@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# This script creates all the (s)cron directories, the space crons themselves
+# and populates the cache while updating the schedules according what the spaces
+# have defined in their json. This script can also be run to update the cache
+# all at once.
+
 if [ $# -ne 1 ];
 then
     echo "Please tell me the web server user"
@@ -7,7 +12,7 @@ then
 fi    
 
 # create the space cron directories
-su $1 -c 'mkdir -p ../cron/scron.{m.{02,05,10,15},h.{01,02,04,08,12},d.01}'
+su $1 -c 'mkdir -p ../cron/scron.{m.{02,05,10,15,30},h.{01,02,04,08,12},d.01}'
 
 # create the daily tasks directory
 su $1 -c 'mkdir -p ../cron/daily-tasks'
@@ -20,5 +25,5 @@ su $1 -c '/usr/bin/env php -f create_cronjobs.php'
 
 echo "Now creating/updating the cache. This can take some minutes."
 
-# no run the daily cronjobs once to populate the cache
+# now run the daily cronjobs once to populate the cache
 su $1 -c 'run-parts ../cron/scron.d.01'

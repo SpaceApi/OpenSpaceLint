@@ -81,6 +81,7 @@ function curl_exec_follow($ch, &$maxredirect = null, $timeout = 15) {
 function get_data($url, $limit = true)
 {
 				global $second_stage_proxy;
+				global $curl_user_agent;
 				
 				$ch = curl_init($url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -205,7 +205,7 @@ $(document).ready(function () {
                     "schedule": {
                         "type": "string",
                         "required": true,
-                        "enum": ["m.02", "m.05", "m.10", "m.15", "h.01", "h.02", "h.04", "h.08", "h.12", "d.01"]
+                        "enum": ["m.02", "m.05", "m.10", "m.15", "m.30", "h.01", "h.02", "h.04", "h.08", "h.12", "d.01"]
                     }
                 }
             },
