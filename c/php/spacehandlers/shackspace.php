@@ -30,7 +30,7 @@ $arr["url"] = "http://shackspace.de";
 $arr["address"] = "Ulmer Strasse 255, 70327 Stuttgart, Germany";
 $arr["open"] = $open;
 $arr["cache"] = array(
-        "schedule" => "d.01");
+		"schedule" => "m.02");
 
 header('Content-type: application/json');
 echo json_encode($arr);
