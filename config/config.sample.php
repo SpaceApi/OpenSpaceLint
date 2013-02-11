@@ -74,3 +74,6 @@ define('CRON_DEFAULT_SCHEDULE', "d.01");
 // user agent used when fetching the space json from the server. let it
 // believe we are a browser
 define('CURL_USER_AGENT', "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/20100101 Firefox/18.0");
+
+// After how many seconds should the curl timeout appear?
+define('CURL_TIMEOUT', "15");

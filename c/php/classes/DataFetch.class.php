@@ -7,7 +7,7 @@ class DataFetch
      * then the FOLLOWLOCATION mode is done "manually".
      * Reused and modified zsalab's implementation.
      */
-    private static function curl_exec_follow($ch, &$maxredirect = null, $timeout = 15)
+    private static function curl_exec_follow($ch, &$maxredirect = null, $timeout = CURL_TIMEOUT)
     {
         //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); // timeout in seconds
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeout); // timeout in seconds
