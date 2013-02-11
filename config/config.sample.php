@@ -15,17 +15,15 @@
 //            theme: "clean",
 //            callback: Recaptcha.focus_response_field
 //        });
-    
-$recaptcha_key = array(
-				"public" => "6Lcsss8SAAAAAD4080SvtHcts5CBHyMhLU9q3eGS",
-				"private" => "6Lcsss8SAAAAAJ7Izqs_sQIgj91UyuY1AMsRisWy"				
-				);
+
+define('RECAPTCHA_KEY_PUBLIC', "6Lcsss8SAAAAAD4080SvtHcts5CBHyMhLU9q3eGS");
+define('RECAPTCHA_KEY_PRIVATE', "6Lcsss8SAAAAAJ7Izqs_sQIgj91UyuY1AMsRisWy");
 
 /*****************************
  * Second-stage proxy
  *****************************/
-$apikey = "09a8fsdfy89a7sdf8usad9f76asd89f7as9d8fgs09fa7";
-$second_stage_proxy = "http://jasonproxy.herokuapp.com/?api=". $apikey ."&url=";
+define('APIKEY', "09a8fsdfy89a7sdf8usad9f76asd89f7as9d8fgs09fa7");
+define('SECOND_STAGE_PROXY_URL', "http://jasonproxy.herokuapp.com/?api=". APIKEY ."&url=");
 
 /*****************************
  * Site information
@@ -34,18 +32,25 @@ $second_stage_proxy = "http://jasonproxy.herokuapp.com/?api=". $apikey ."&url=";
 // it's highly recommended to set an URL explicitly because php code run
 // from cli doesn't know the SERVER_NAME index.
 // Use an URL of the form openspace.slopjong.de and leave the protocol away.
-$site_url = $_SERVER["SERVER_NAME"];
+define('SITE_URL', $_SERVER["SERVER_NAME"]);
 
 /**
  * Cache report emails
  */
-// The from (to) and bcc emails where a copy of a cache report is sent from/to.
-// These should be OpenSpaceLint admins.
-$cache_report_from = "from@your-space.com";
-$cache_report_bcc = "bcc@your-space.com";
+// The from email which is used as the sender for the cache report emails.
+// Ideally people should be able to reply to this address
+define('CACHE_REPORT_FROM', "from@your-space.com");
+
+// A array of emails where blind copies are sent to, these should
+// be OpenSpaceLint operators (admins), his list must be a valid json!
+// When you wish to receive no emails, just leave the brackets empty '[]'.
+define('CACHE_REPORT_BCC', '["bcc1@your-space.com", "bcc2@your-space.com"]');
+
+// A flag which disables sending an email to a space.
+define('CACHE_REPORT_SENDEXTERNAL', true);
 
 // the flag that puts OpenSpaceLint into the debug mode
-$debug_mode = false;
+define('DEBUG_MODE', false);
 
 /*
   the debugging message level, one of these values:
@@ -59,13 +64,13 @@ $debug_mode = false;
     INFO   = 6;  // Informational: informational messages
     DEBUG  = 7;  // Debug: debug messages
 */
-$debug_level = 7;
+define('DEBUG_LEVEL', 7);
 
+// what schedules should this installation support?
+define('CRON_AVAILABLE_SCHEDULES', '["m.02","m.05","m.10","m.15","m.30","h.01","h.02","h.04","h.08","h.12","d.01"]');
 // what should the default cron schedule be if a space doesn't define one?
-$default_cron_schedule = "d.01";
+define('CRON_DEFAULT_SCHEDULE', "d.01");
 
 // user agent used when fetching the space json from the server. let it
 // believe we are a browser
-$curl_user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/20100101 Firefox/18.0";
-
-?>
+define('CURL_USER_AGENT', "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/20100101 Firefox/18.0");

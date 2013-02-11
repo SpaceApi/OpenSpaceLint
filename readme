@@ -1,0 +1,41 @@
+Requirements:
+
+    * Code must run with php version 5.2 and later (see [1, 2])
+    * No usage of namespaces (not available in 5.2)
+    * Code must be compatible with the cli and apache handler
+    * For autoloading classes don't use __autoload (not available in cli, see the note in [0]) but spl_autoload_register. 
+    * Do not use the __DIR__ constant to locate a file (not available in 5.2). Use realpath(dirname(__FILE__)) instead.
+    * Never use closing php tags ?> to avoid "Cannot modify header information - headers already sent by ..." messages
+      and of course to set the header actually.
+
+Design:
+
+    Controller routes:
+
+    * /directory.json     => delegator=directory, action=get
+    * /status/space       => delegator=status, action=get, resource=space (0)
+    * /cache/space        => delegator=cache, action=get, resource=space (0)
+    * /cache/update/space => delegator=cache, action=update, resource=space (1)
+    * /js/config.js       => delegator=jsconfig (2)
+
+Notes:
+
+(0) 'space' is a placeholder for any space name which is urlencoded.
+(1) 'space' is a placeholder for any space name in lower case with all non-alphanum characters replaced with an underscore.
+(2) if a variable is not passed to the controller it will be set by the controller itself (with an empty string)
+
+Todo:
+
+    * The route /directory.json is incomplete. The filters are not yet considered.
+
+Common implementation or deployment errors:
+
+    * Using $this in static methods. This leads to undefined and sometimes hard to track issues.
+    * Recaptcha keys are not valid for the deployed domain where OpenSpaceLint has been deployed.
+    * Sometimes the recaptcha challenge is not loaded for some reason in firefox but in chromium it is while using two different IPs. Maybe google has some spam detection? Firefox is the main test browser.
+
+References:
+    
+[0] http://php.net/manual/en/language.oop5.autoload.php
+[1] https://wordpress.org/about/stats/
+[2] http://w3techs.com/technologies/details/pl-php/5/all

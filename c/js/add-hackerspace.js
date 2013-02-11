@@ -195,7 +195,7 @@ $(document).ready(function(){
     // not to confuse with the add space link with its input field
     $('#add-space-form').submit(function() {
         $.getJSON(
-            site_url + "/add-hackerspace",
+            site_url + "/directory.json",
             $(this).serialize(),
             function(response){
 

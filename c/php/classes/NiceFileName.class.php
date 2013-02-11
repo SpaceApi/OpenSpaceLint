@@ -1,18 +1,7 @@
 <?php
 
 class NiceFileName
-{
-    /**
-     * PHP5 style constructor
-     *
-     * @since 1.0
-     *
-     * @return void
-     */
-    function __construct()
-    {
-    }
-    
+{  
     /**
      * Creates a 'good' file name by replacing any non alphanumerical characters
      * with whitespaces.

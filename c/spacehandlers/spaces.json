@@ -1,0 +1,17 @@
+{
+    "Chaos inKL." : {
+        "url" : "http://chaos-inkl.de/raumstatus.php",
+        "pattern" : "offen",
+        "inverse" : false
+    },
+    "RaumZeitLabor" : {
+        "url" : "http://status.raumzeitlabor.de/",
+        "pattern" : "green.png",
+        "inverse" : false
+    },
+    "Shackspace" : {
+        "url" : "http://shackspace.de/sopen/text/en",
+        "pattern" : "open",
+        "inverse" : false
+    }
+}

@@ -1,0 +1,3 @@
+<FilesMatch ^directory.json(.public)?$>
+deny from all
+</FilesMatch>

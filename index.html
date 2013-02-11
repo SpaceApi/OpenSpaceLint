@@ -110,7 +110,12 @@
         <div class="modal" id="valid">
             <h2>Confirm that you are not a bot</h2>
             
-            <form id="add-space-form" action="add-hackerspace" method="POST">
+			<!--
+				The action URL and the method in this form are not relevant. The data are
+				transmitted to the URL defined in the submit event handler in add-hackerspace.js
+				by using the GET method. @see $('#add-space-form').submit(function(){...})
+			-->
+            <form id="add-space-form">
                 <p>
                     <div id="add-space-form-error" class="error" style="display: none"></div>
                 </p>
@@ -188,7 +193,7 @@
 			<script type="text/javascript">
 			$(document).ready(function(){
 				
-				$.getJSON("http://openspace.slopjong.de/filters.json",function(data){
+				$.getJSON( site_url + "/filterkeys.json" , function(data){
 				
 				
 				// populate the two tables in the tabs

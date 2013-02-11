@@ -103,3 +103,9 @@ Proxy
 -----
 
 If OpenSpaceLint is deployed on a shared host or on a machine where curl is not allowed to use non-standard ports an external proxy is used (available at [jasonproxy.herokuapp.com](http://jasonproxy.herokuapp.com)) to bypass the firewall. The source code of the proxy is available in the [JSONProxy](https://github.com/slopjong/JSONProxy) repository.
+
+
+Troubleshooting
+---------------
+
+In cli you can check some filepaths with ```php -f c/php/controller.php delegator=environment```.

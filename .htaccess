@@ -2,28 +2,37 @@ AddType  application/json  .json
 
 Options -Indexes
 
-<FilesMatch ^config.php$>
-deny from all
-</FilesMatch>
-
 <IfModule mod_rewrite.c>
 
 Options +FollowSymlinks
 RewriteEngine on
 RewriteBase /
 
-RewriteRule ^filters\.json$ /c/php/cache/array_keys.json [L] # L doesn't stop but goes to a new subprocess
+RewriteRule ^config.js$          /c/php/controller.php?delegator=jsconfig [L]
+RewriteRule ^status/(.*)$        /c/php/controller.php?delegator=status&action=get&resource=$1 [L]
+RewriteRule ^cache/update/(.*)$  /c/php/controller.php?delegator=cache&action=update&resource=$1 [L]
+RewriteRule ^cache/(.*)$         /c/php/controller.php?delegator=cache&action=get&resource=$1 [L]
 
-RewriteCond %{REQUEST_URI} !=/c/php/cache/.*.json
-RewriteRule ^(.*)\.json$ /c/php/spacehandlers/$1.php [L,NC]
+# get the directory or a subset of it
+RewriteCond %{QUERY_STRING} ^$ [OR]
+RewriteCond %{QUERY_STRING} ^space [OR]
+RewriteCond %{QUERY_STRING} ^filter [OR]
+RewriteCond %{QUERY_STRING} ^fmt
+RewriteRule ^directory.json$     /c/php/controller.php?delegator=directory&action=get [QSA,NE,L]
 
-RewriteRule ^proxy\.php$ /c/php/proxy.php [NC]
-RewriteRule ^add-hackerspace$ /c/php/add-hackerspace.php [NC]
+# add a space to the directory
+RewriteCond %{QUERY_STRING} ^recaptcha_challenge_field [OR]
+RewriteCond %{QUERY_STRING} ^recaptcha_response_field [OR]
+RewriteCond %{QUERY_STRING} ^url
+RewriteRule ^directory.json$ /c/php/controller.php?delegator=directory&action=add&resource= [QSA,NE,L]
 
-RewriteRule ^update-cache$ /c/php/update-cache.php
-RewriteRule ^cache/(.*)$ /c/php/cache.php?space=$1
+RewriteRule ^proxy\.php?(.*)$    /c/php/controller.php?delegator=proxy&$1 [QSA,L]
 
-RewriteRule ^config.js$ config.js.php
+# TODO: fix the javascript which fetches filters.json one time and filterkeys.json the other time
+RewriteRule ^filters.json$       /c/php/controller.php?delegator=filterkeys&action=get [L]
+RewriteRule ^filterkeys.json$    /c/php/controller.php?delegator=filterkeys&action=get [L]
+#RewriteRule ^filterkeys.json$   /cache/filter-keys/filter_keys.json [L] # L doesn't stop but goes to a new subprocess
+
 </IfModule>
 
 # http://serverfault.com/a/50043
@@ -33,3 +42,38 @@ ErrorDocument 403 /error.html
 ErrorDocument 404 /error.html
 ErrorDocument 500 /error.html
 ErrorDocument 503 /error.html
+
+
+##################################################################################
+# REFERENCE
+##################################################################################
+#
+#  Flags that alter metadata associated with the request (T=, H=, E=) have no affect
+#  in per-directory and htaccess context, when a substitution (other than '-') is
+#  performed during the same round of rewrite processing. 
+# 
+#
+#   B - escape backreference
+#   C|chain
+#   CO|cookie
+#   DPI|discardpath
+#   E|env
+#   END - Terminates the current round of rewrite processing and any subsequent rewrite processing from occurring in per-directory context.
+#   F|forbidden - Causes the server to return a 403 Forbidden status code to the client.
+#   G|gone
+#   H|handler
+#   L|last - Stop processing further rule sets. With the new URL mapping the rules are considered again though.
+#   N|next
+#   NC|nocase
+#   NE|noescape - Using the [NE] flag prevents special characters, such as & and ?, to be converted to their hexcode equivalent.
+#   NS|nosubreq
+#   P|proxy
+#   PT|passthrough
+#   QSA|qsappend - An existing query string is discarded by default. Using the [QSA] flag causes the query strings to be combined. 
+#   QSD|qsdiscard
+#   R|redirect 
+#   S|skip - The [S=N] flag is used to skip next N rules that you don't want to run.
+#   T|type - Sets the MIME type with which the resulting response will be sent.
+#
+#
+#  See https://httpd.apache.org/docs/current/rewrite/flags.html#flag_l

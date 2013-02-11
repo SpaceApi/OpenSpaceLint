@@ -10,4 +10,4 @@ cd $(dirname $(readlink -f $0))
 
 # now update the cached json file for $space
 cd ../../c/php
-/usr/bin/env php -f update-cache.php "$space"
+/usr/bin/env php -f controller.php delegator=cache action=update resource="$space"
