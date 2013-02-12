@@ -17,6 +17,7 @@ su $1 -c 'mkdir -p ../cron/daily-tasks'
 
 # create the cache directories
 su $1 -c 'mkdir -p ../cache/{status,filter-keys,reports}'
+su $1 -c 'echo "*.json" > ../cache/.gitignore'
 
 # create the log directory for the php logger
 su $1 -c 'mkdir -p ../log'

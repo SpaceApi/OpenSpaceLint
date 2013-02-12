@@ -121,6 +121,10 @@ switch(ROUTE_DELEGATOR)
             
             case "add":
 
+                // this is executed when somebody adds a space on the website,
+                // when deploying OpenSpaceLint the setup scripts are expected
+                // to have a copy of an existent (and complete) directoy in
+                // the setup directory
                 header('Content-type: application/json');
                 require_once( __DIR__ . '/recaptchalib.php');
                 
