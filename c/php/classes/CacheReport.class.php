@@ -34,21 +34,22 @@ class CacheReport
         
         if($new_space_api_file === null)
         {
-            //$logger->logWarn("The passed space api file is null");
+            $logger->logWarn("The passed space api file is null");
             return;
         }
         
-		$this->space = $new_space_api_file->name;
+        $space_name = $new_space_api_file->name();
         
-        // TODO: define REPORTSDIR in the controller
-        //       or where the other DIR constants are defined
-        $this->reports_path = CACHEDIR . "reports";
+		$this->space = $space_name;
+        $this->reports_path = CACHEREPORTSDIR;
 		
 		// if the reports directory exists, try to load the space report
-		if(!empty($this->reports_path))
+		if(is_dir($this->reports_path))
 		{
-			$nice_file_name = NiceFileName::json($space);
-			$this->filename = $this->reports_path . "/" . $nice_file_name;
+            $logger->logDebug("Initializing the report");
+            
+			$nice_file_name = NiceFileName::json($space_name);
+			$this->filename = $this->reports_path . $nice_file_name;
 			
 			if(file_exists($this->filename))
 			{
@@ -80,7 +81,7 @@ class CacheReport
             if(
                  $old_space_api_file !== null &&
                ! $old_space_api_file->has_error() &&
-               ! $old_space_api_file->email() == "" &&
+                 $old_space_api_file->email() != "" &&
                  $old_space_api_file->email() != $this->email
                )
             {
@@ -143,6 +144,8 @@ class CacheReport
 	 */
 	private function write_to_file()
 	{
+        global $logger;
+        
         $report = new stdClass;
         $report->last_update = $this->last_update;
         $report->last_update_ts = $this->last_update_ts;
@@ -152,6 +155,10 @@ class CacheReport
         $report->email = $this->email;
 
 		$json = json_encode($report);
+        $json = Utils::json_pretty_print($json);
+        
+        $logger->logDebug("Writing to ". $this->filename .":\n$json");
+        
 		return file_put_contents($this->filename, $json);
 	}
 	

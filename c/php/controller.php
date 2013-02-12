@@ -303,15 +303,16 @@ switch(ROUTE_DELEGATOR)
         
         if( SAPI == "cli" )
         {
+            echo "__DIR__: ". __DIR__ . "\n";
             echo "CACHEDIR: ". CACHEDIR . "\n";
+            echo "CACHEREPORTSDIR: ". CACHEREPORTSDIR . "\n";
             echo "CLASSDIR: ". CLASSDIR . "\n";
             echo "CONFIGDIR: ". CONFIGDIR . "\n";
             echo "CONFIGFILE: ". CONFIGFILE . "\n";
             echo "CRONDIR: ". CRONDIR . "\n";
-            echo "__DIR__: ". __DIR__ . "\n";
+            echo "DIRECTORYDIR: ". DIRECTORYDIR . "\n";            
             echo "LOGDIR: ". LOGDIR . "\n";
             echo "STATUSCACHEDIR: ". STATUSCACHEDIR . "\n";
-            echo "DIRECTORYDIR: ". DIRECTORYDIR . "\n";
         }
         
         break;        
@@ -364,7 +365,8 @@ function configure_environment()
     
     // if you add new constants, don't forget to let the
     // environment delegator print them too
-    define("CACHEDIR", real_path(__DIR__ . "/../../cache"));    
+    define("CACHEDIR", real_path(__DIR__ . "/../../cache"));
+    define("CACHEREPORTSDIR", real_path(CACHEDIR . "reports"));
     define("CLASSDIR", real_path(__DIR__ . "/classes"));
     define("CONFIGDIR", real_path(__DIR__ . "/../../config"));
     //define("CONFIGFILE", CONFIGDIR . "config-user.php");    
