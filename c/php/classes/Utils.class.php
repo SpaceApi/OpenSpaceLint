@@ -85,4 +85,33 @@ class Utils
     
         return $result;
     }
+    
+    
+    /**
+     * Prints the defined constants of a config file.
+     *
+     * @param string $config_file The full path to a config file
+     */
+    public static function print_config($config_file)
+    {
+        global $logger;
+        
+        if(!file_exists($config_file))
+        {
+            $logger->logDebug("The config file $config_file doesn't exist.");
+            return;
+        }
+        
+        $config_content = file_get_contents($config_file);
+        preg_match_all("/define\('([^']+)/", $config_content, $matches);
+        preg_match_all('/define\("([^"]+)/', $config_content, $matches2);
+        
+        // the subpattern is in $mathces[1]
+        $constants = array_merge($matches[1], $matches2[1]);
+        
+        sort($constants);
+        
+        foreach($constants as $index => $constant)
+            echo "$constant: ". constant($constant) ."\n";
+    }
 }

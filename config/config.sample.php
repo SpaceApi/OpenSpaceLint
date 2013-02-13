@@ -77,3 +77,16 @@ define('CURL_USER_AGENT', "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/201001
 
 // After how many seconds should the curl timeout appear?
 define('CURL_TIMEOUT', "15");
+
+
+// just don't change this
+define('ROOTDIR', realpath(dirname(__FILE__)."/..")."/");
+define('CACHEDIR', ROOTDIR . "cache/");
+define('CACHEREPORTSDIR', CACHEDIR . "reports/");
+define('CLASSDIR', ROOTDIR . "c/php/classes/");
+define('CONFIGDIR', ROOTDIR . "config/");
+define('CONFIGFILE', __FILE__);
+define('CRONDIR', ROOTDIR . "cron/");
+define('DIRECTORYDIR', ROOTDIR . "C/directory/");
+define('LOGDIR', ROOTDIR . "log/");
+define('STATUSCACHEDIR', CACHEDIR . "status/");
