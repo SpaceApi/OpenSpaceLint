@@ -8,7 +8,7 @@ Options +FollowSymlinks
 RewriteEngine on
 RewriteBase /
 
-RewriteRule ^config.js$          /c/php/controller.php?delegator=jsconfig [L]
+RewriteRule ^config.js$          /c/php/controller.php?delegator=jsconfig&action=get [L]
 RewriteRule ^status/(.*)$        /c/php/controller.php?delegator=status&action=get&resource=$1 [L]
 RewriteRule ^cache/update/(.*)$  /c/php/controller.php?delegator=cache&action=update&resource=$1 [L]
 RewriteRule ^cache/(.*)$         /c/php/controller.php?delegator=cache&action=get&resource=$1 [L]
@@ -26,7 +26,7 @@ RewriteCond %{QUERY_STRING} ^recaptcha_response_field [OR]
 RewriteCond %{QUERY_STRING} ^url
 RewriteRule ^directory.json$ /c/php/controller.php?delegator=directory&action=add&resource= [QSA,NE,L]
 
-RewriteRule ^proxy\.php?(.*)$    /c/php/controller.php?delegator=proxy&$1 [QSA,L]
+RewriteRule ^proxy\.php?(.*)$    /c/php/controller.php?delegator=proxy&action=get&$1 [QSA,L]
 
 # TODO: fix the javascript which fetches filters.json one time and filterkeys.json the other time
 RewriteRule ^filters.json$       /c/php/controller.php?delegator=filterkeys&action=get [L]

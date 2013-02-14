@@ -79,14 +79,15 @@ define('CURL_USER_AGENT', "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/201001
 define('CURL_TIMEOUT', "15");
 
 
+/**************************************************************/
 // just don't change this
 define('ROOTDIR', realpath(dirname(__FILE__)."/..")."/");
 define('CACHEDIR', ROOTDIR . "cache/");
 define('CACHEREPORTSDIR', CACHEDIR . "reports/");
-define('CLASSDIR', ROOTDIR . "c/php/classes/");
+define('CLASSDIR', ROOTDIR . "c/php/classes/"); // if you change this, change the path in the controller too
 define('CONFIGDIR', ROOTDIR . "config/");
-define('CONFIGFILE', __FILE__);
+define('CONFIGFILE', __FILE__); // if you change this, change the path in the Config class too
 define('CRONDIR', ROOTDIR . "cron/");
-define('DIRECTORYDIR', ROOTDIR . "C/directory/");
+define('DIRECTORYDIR', ROOTDIR . "c/directory/");
 define('LOGDIR', ROOTDIR . "log/");
 define('STATUSCACHEDIR', CACHEDIR . "status/");

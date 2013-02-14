@@ -7,6 +7,8 @@ Requirements:
     * Do not use the __DIR__ constant to locate a file (not available in 5.2). Use realpath(dirname(__FILE__)) instead.
     * Never use closing php tags ?> to avoid "Cannot modify header information - headers already sent by ..." messages
       and of course to set the header actually.
+    * Any settings from config.php must be loaded through a php module which other modules rely on. The path to the
+      config file is then hard-coded in one place only.
 
 Design:
 

@@ -4,6 +4,8 @@ class Email
 {
     public static function send($subject, $receiver = "", $message)
     {
+        global $logger;
+        
         $emails = json_decode(CACHE_REPORT_BCC, true);
     
         if($receiver != "")
@@ -20,6 +22,8 @@ class Email
                 "X-Mailer: OpenSpaceLint\r\n",
                 "-f". CACHE_REPORT_FROM
             );
+            
+            $logger->logDebug("Report mail sent to $email");
         }
     }
 }

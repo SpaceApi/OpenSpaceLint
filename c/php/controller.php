@@ -1,30 +1,25 @@
 <?php
 
-require(dirname(__FILE__) . "/../../config/config.php");
-
-// after the config has been loaded we know
-// how much verbose php should be
-error_reporting( (DEBUG_MODE) ? E_ALL : 0 );
-
 init_class_loader();
-prepare_route();
-    
+
+Config::load();
+
+error_reporting( (DEBUG_MODE) ? E_ALL : 0 );
 $logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
 
-Route::execute();
-
-//////////////////////////////////////////////////////////
+prepare_route();
+process_route();
 
 /**
  * Initializes the auto class loader. This function needs
  * the environment configured before the first use.
  */
 function init_class_loader()
-{ 
+{   
     // define the auto class loader
-    function class_loader($classname, $path='')
+    function class_loader($classname)
     {
-        $classfile = CLASSDIR . $classname .'.class.php';
+        $classfile = dirname(__FILE__) . "/classes/$classname.class.php";
         
         if (file_exists($classfile))
         {
@@ -32,6 +27,8 @@ function init_class_loader()
             return true;
         }
         
+        // this is not so ideal, when the config cannot be loaded this fails
+        // so just be sure the Config class is always included!
         $logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
         $logger->logEmerg("The class '$classname' cannot be loaded!");
         
@@ -197,4 +194,13 @@ function prepare_route()
     // basically we whitelist the values and take no action on bad values made by the user
     if($unsupported)
         exit();
+}
+
+
+/**
+ * Calls the static execute method of the Route class.
+ */
+function process_route()
+{
+    Route::execute(ROUTE_DELEGATOR, ROUTE_ACTION, ROUTE_RESOURCE);
 }

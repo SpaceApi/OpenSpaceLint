@@ -2,199 +2,307 @@
 
 class Route
 {
-    public static function execute()
-    {
-        /*******************************************************************
-         * BEGIN MAIN
-         *******************************************************************/
+    public static function execute($delegator, $action, $resource)
+    {        
+        global $logger;
         
-        switch(ROUTE_DELEGATOR)
+        $action_supported = false;
+        
+        switch($delegator)
         {
-            case "jsconfig": // (partly) external use expected
+            case "jsconfig": // (partly) external use expected     
                 
                 // this delegator provides the javascript config file config.js
-                
-                // in some javascript files we need certain settings from the
-                // config.php so this script here generates the content for
-                // config.js to be included before all other javascript files
-                // which require these settings.
-                
-                header('Content-type: application/x-javascript');
-                
-                echo "site_url = 'http://". SITE_URL ."';";
-                echo "recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
-                
-                exit();
+                $action_supported = self::route_jsconfig($delegator, $action, $resource);
+                break;
             
             case "cache": // (partly) external use expected
                 
-                switch(ROUTE_ACTION)
-                {
-                    case "update":
-                        
-                        // we only allow cache updates triggered from cli scripts such as cronjobs
-                        if(SAPI == "cli")
-                            // ROUTE_RESOURCE is the sanitized space name
-                            Cache::update(ROUTE_RESOURCE);
-                        else
-                            header("Location: http://". SITE_URL . "/error.html");
-                        
-                        break;
-                    
-                    case "get":
-                        
-                        header('Content-type: application/json');
-                        header('Access-Control-Allow-Origin: *');
-                        
-                        $cached = Cache::get(ROUTE_RESOURCE);
-                        
-                        if(!empty($cached))
-                            echo $cached;
-                        else
-                            echo '{ "no": "space"}';
-                        
-                        break;
-                    
-                    default:
-                        $action_not_supported = true;
-                }
-                
+                $action_supported = self::route_cache($delegator, $action, $resource);
                 break;
             
             case "cron": // internal use only
                 
-                switch(ROUTE_ACTION)
-                {
-                    case "add":
-                        
-                        // only allow the creation of a new cron in the cli handler
-                        if(SAPI == "cli")
-                        {
-                            // if the resource is 'all' this script was most probably
-                            // called from the setup script while we assume that no
-                            // space will never ever call itself 'all'.
-                            if(ROUTE_RESOURCE == "all")
-                            {
-                                $logger->logNotice("Populating all the cron files");
-                                
-                                $directory = new PrivateDirectory;
-                                
-                                foreach($directory->get_stdClass() as $space => $url)
-                                {
-                                    Cron::create($space);
-                                    $space_api_file = Cache::get_from_cache($space);
-                                    if(!$space_api_file->has_error())
-                                        Cron::set_schedule($space, $space_api_file->cron_schedule());
-                                    else
-                                        $logger->logWarn("Could not schedule the cron.");
-                                }
-                            }
-                            else
-                                // in fact this should never be executed because
-                                // the single cron creation is done while a new
-                                // hackerspace is added within another delegator
-                                // (directory:add)
-                                Cron::create(ROUTE_RESOURCE);
-                        }
-                        
-                        break;
-                    
-                    default:
-                        $action_not_supported = true;
-                }
-        
+                $action_supported = self::route_cron($delegator, $action, $resource);
                 break;
             
             case "directory": // (partly) external use expected
                 
-                switch(ROUTE_ACTION)
+                $action_supported = self::route_directory($delegator, $action, $resource);
+                break;
+            
+            case "proxy": // (partly) external use expected
+                
+                $action_supported = self::route_proxy($delegator, $action, $resource);
+                break;
+            
+            case "status": // (partly) external use expected
+            
+                $action_supported = self::route_status($delegator, $action, $resource);
+                break;
+            
+            case "filterkeys": // (partly) external use expected
+            
+                $action_supported = self::route_filterkeys($delegator, $action, $resource);
+                break;
+            
+            // print the constants defined in this script, not the ones from the config
+            // we don't accapt the apache handler to not expose too much information
+            case "environment": // internal use only
+                
+                $action_supported = self::route_environment($delegator, $action, $resource);
+                break;        
+            
+            default:
+                $logger->logError("No delegator has been set.");
+        }
+        
+        if(!$action_supported)
+            $logger->logError("The action ". $action ." is not supported by the ". $delegator ." delegator.");      
+    }
+    
+    private static function route_jsconfig($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        // in some javascript files we need certain settings from the
+        // config.php so this script here generates the content for
+        // config.js to be included before all other javascript files
+        // which require these settings.
+        
+        header('Content-type: application/x-javascript');
+        
+        echo "site_url = 'http://". SITE_URL ."';";
+        echo "recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
+    }
+    
+    private static function route_cache($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "update":
+                
+                // we only allow cache updates triggered from cli scripts such as cronjobs
+                if(SAPI == "cli")
+                    // $resource is the sanitized space name
+                    Cache::update($resource);
+                else
+                    header("Location: http://". SITE_URL . "/error.html");
+                
+                break;
+            
+            case "get":
+                
+                header('Content-type: application/json');
+                header('Access-Control-Allow-Origin: *');
+                
+                $cached = Cache::get($resource);
+                
+                if(!empty($cached))
+                    echo $cached;
+                else
+                    echo '{ "no": "space"}';
+                
+                break;
+            
+            default:
+                return false;
+        }
+        
+        return true;
+    }
+    
+    private static function route_cron($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "add":
+                
+                // only allow the creation of a new cron in the cli handler
+                if(SAPI == "cli")
                 {
-                    case "get":
+                    // if the resource is 'all' this script was most probably
+                    // called from the setup script while we assume that no
+                    // space will never ever call itself 'all'.
+                    if($resource == "all")
+                    {
+                        $logger->logNotice("Populating all the cron files");
                         
-                        header('Content-type: application/json');
-                        header('Access-Control-Allow-Origin: *');
+                        $directory = new PrivateDirectory;
                         
-                        $directory = new PublicDirectory;
-                        echo $directory->get();
-                        
-                        break;
-                    
-                    case "add":
-        
-                        // this is executed when somebody adds a space on the website,
-                        // when deploying OpenSpaceLint the setup scripts are expected
-                        // to have a copy of an existent (and complete) directoy in
-                        // the setup directory
-                        header('Content-type: application/json');
-                        require_once( __DIR__ . '/recaptchalib.php');
-                        
-                        if(isset($_GET["recaptcha_response_field"]))
+                        foreach($directory->get_stdClass() as $space => $url)
                         {
-                            $resp = recaptcha_check_answer (
-                                RECAPTCHA_KEY_PRIVATE,
-                                $_SERVER["REMOTE_ADDR"],
-                                stripslashes(strip_tags($_GET["recaptcha_challenge_field"])),
-                                stripslashes(strip_tags($_GET["recaptcha_response_field"]))
-                            );
-                            
-                            $response = array("ok" => false, "message" => "");
-                            
-                            if ($resp->is_valid)
-                            {
-                                // this might be changed to false later
-                                $response["ok"] = true;
-                                
-                                $url = filter_var($_GET['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
-                                $space_api_file = new SpaceApiFile($url);
-                                
-                                if($space_api_file->has_error())
-                                {
-                                    $response["ok"] = false;
-                                    $response["message"] = $space_api_file->error();
-                                }
-                                else                        
-                                {
-                                    $private_directory = new PrivateDirectory;
-                                    $public_directory = new PublicDirectory;
-                                    
-                                    if(! $private_directory->has_space($space_api_file->name()))
-                                    {
-                                        $private_directory->add_space($space_api_file);
-                                        $public_directory->add_space($space_api_file);
-        
-                                        Cron::create($space_api_file->name());
-                                        Cache::cache($space_api_file);
-                                        
-                                        $response["message"] = "The space got added to the directory.";
-                                        
-                                        // send an email to the admins
-                                        Email::send("New Space Entry: ". $space_api_file->name(), "",
-                                            "The space '" . $space_api_file->name() . "' has been added to the directory.");
-                                    }
-                                    else
-                                        $response["message"] = "The space is already in the directory.";                            
-                                }
-                            }
+                            Cron::create($space);
+                            $space_api_file = Cache::get_from_cache($space);
+                            if(!$space_api_file->has_error())
+                                Cron::set_schedule($space, $space_api_file->cron_schedule());
                             else
-                                $response["message"] = $resp->error;
-                            
-                            $logger->logInfo(
-                                "Sending this reponse back to the client:\n",
-                                print_r($response, true)
-                            );
-                            
-                            echo json_encode($response);        
+                                $logger->logWarn("Could not schedule the cron.");
                         }
-                    
-                        break;
-                    
-                    default:
-                        $action_not_supported = true;
+                    }
+                    else
+                        // in fact this should never be executed because
+                        // the single cron creation is done while a new
+                        // hackerspace is added within another delegator
+                        // (directory:add)
+                        Cron::create($resource);
                 }
                 
                 break;
             
-            case "proxy": // (partly) external use expected
+            default:
+                return false;
+        }
+        
+        return true;
+    }
+    
+    private static function route_directory($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
+                
+                header('Content-type: application/json');
+                header('Access-Control-Allow-Origin: *');
+                
+                $directory = new PublicDirectory;                        
+                echo $directory->get();
+                
+                break;
+            
+            case "add":
+
+                // this is executed when somebody adds a space on the website,
+                // when deploying OpenSpaceLint the setup scripts are expected
+                // to have a copy of an existent (and complete) directoy in
+                // the setup directory
+                header('Content-type: application/json');
+                require_once( ROOTDIR . 'c/php/recaptchalib.php');
+                
+                if(isset($_GET["recaptcha_response_field"]))
+                {
+                    $resp = recaptcha_check_answer (
+                        RECAPTCHA_KEY_PRIVATE,
+                        $_SERVER["REMOTE_ADDR"],
+                        stripslashes(strip_tags($_GET["recaptcha_challenge_field"])),
+                        stripslashes(strip_tags($_GET["recaptcha_response_field"]))
+                    );
+                    
+                    $response = array("ok" => false, "message" => "");
+                    
+                    if ($resp->is_valid)
+                    {
+                        // this might be changed to false later
+                        $response["ok"] = true;
+                        
+                        $url = filter_var($_GET['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
+                        $space_api_file = new SpaceApiFile($url);
+                        
+                        if($space_api_file->has_error())
+                        {
+                            $response["ok"] = false;
+                            $response["message"] = $space_api_file->error();
+                        }
+                        else                        
+                        {
+                            $private_directory = new PrivateDirectory;
+                            $public_directory = new PublicDirectory;
+                            
+                            if(! $private_directory->has_space($space_api_file->name()))
+                            {
+                                $private_directory->add_space($space_api_file);
+                                $public_directory->add_space($space_api_file);
+
+                                Cron::create($space_api_file->name());
+                                Cache::cache($space_api_file);
+                                
+                                $response["message"] = "The space got added to the directory.";
+                                
+                                // send an email to the admins
+                                Email::send("New Space Entry: ". $space_api_file->name(), "",
+                                    "The space '" . $space_api_file->name() . "' has been added to the directory.");
+                            }
+                            else
+                                $response["message"] = "The space is already in the directory.";                            
+                        }
+                    }
+                    else
+                        $response["message"] = $resp->error;
+                    
+                    $logger->logInfo(
+                        "Sending this reponse back to the client:\n",
+                        print_r($response, true)
+                    );
+                    
+                    echo json_encode($response);        
+                }
+            
+                break;
+            
+            default:
+                return false;
+        }
+        
+        return true;
+    }
+     
+    private static function route_filterkeys($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
+                
+                header('Content-type: application/json');
+                header('Access-Control-Allow-Origin: *');
+                
+                echo json_encode(FilterKeys::get());       
+                break;
+            
+            default:
+                
+                return false;
+        }
+        
+        return true;
+    }
+   
+    private static function route_environment($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
+                
+                if( SAPI == "cli" )                    
+                    Utils::print_config(CONFIGDIR . "config.php");
+                    
+                break;
+            
+            default:
+                
+                return false;
+        }
+            
+        return true;
+    }
+    
+    private static function route_proxy($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
                 
                 // the code here is from the former proxy.php (and modified from the original proxy.php from jsonlint.com)
                 
@@ -231,13 +339,27 @@ class Route
                        exit();
                     }
                     
-                    echo json_encode($response);   
+                    echo json_encode($response);
                 }
                 
                 break;
-            
-            case "status": // (partly) external use expected
-            
+                
+            default:
+                    
+                return false;
+        }
+        
+        return true;
+    }
+    
+    private static function route_status($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
+                
                 // We go through the list in spaces.json and evaluate the pattern on the given url.
                 // A space entry in that file looks like
                 //
@@ -255,14 +377,14 @@ class Route
                 header('Content-type: application/json');
                 header('Access-Control-Allow-Origin: *');
                 
-                $spaces = file_get_contents(__DIR__ . "/../spacehandlers/spaces.json");
+                $spaces = file_get_contents(ROOTDIR . "c/spacehandlers/spaces.json");
                 $spaces = json_decode($spaces);
                 
                 foreach($spaces as $space => $val)
                 {
-                    if($space == ROUTE_RESOURCE)
+                    if($space == $resource)
                     {
-                        $file = __DIR__ . "/../spacehandlers/". NiceFileName::json($space);
+                        $file = ROOTDIR . "c/spacehandlers/". NiceFileName::json($space);
                         $url = $val->url;
                         $pattern = $val->pattern;
                         $inverse = (bool) $val->inverse;
@@ -288,38 +410,15 @@ class Route
                         
                     $spacejson->open = $status;
                     echo json_encode($spacejson);
-                }   
+                }
                 
                 break;
-            
-            case "filterkeys": // (partly) external use expected
-            
-                header('Content-type: application/json');
-                header('Access-Control-Allow-Origin: *');
-                
-                echo json_encode(FilterKeys::get());
-                
-                break;
-            
-            // print the constants defined in this script, not the ones from the config
-            // we don't accapt the apache handler to not expose too much information
-            case "environment": // internal use only
-                
-                if( SAPI == "cli" )                    
-                    Utils::print_config(CONFIGDIR . "config.php");
-                
-                break;        
             
             default:
-                $logger->logError("No delegator has been set.");
+                
+                return false;
         }
         
-        
-        if(isset($action_not_supported))
-            $logger->logError("The action ". ROUTE_ACTION ." is not supported by the ". ROUTE_DELEGATOR ." delegator.");
-        
-        /*******************************************************************
-         * END MAIN
-         *******************************************************************/        
+        return true;
     }
 }
