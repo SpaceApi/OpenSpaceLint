@@ -382,7 +382,7 @@ abstract class SpaceDirectory
         }
         
         $json_str = json_encode($mixed);
-        $logger->logInfo("Writing the following string back to the file:\n". $json_str);
+        //$logger->logInfo("Writing the following string back to the file:\n". $json_str);
         
         // reformat the json string
         $json_str = Utils::json_pretty_print($json_str);
