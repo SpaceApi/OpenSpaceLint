@@ -156,7 +156,7 @@ class Cache
             
             $public_directory = new PublicDirectory;
             if(self::is_cached($space_name))
-                $public_directory->update($space_name, "http://" . SITE_URL . "/cache/$space_name");
+                $public_directory->update($space_name, "http://" . SITE_URL . "/cache/" . urlencode($space_name));
             else
                 $public_directory->remove($space_name);
             

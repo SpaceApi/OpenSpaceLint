@@ -30,7 +30,7 @@ class PublicDirectory extends SpaceDirectory
         if( (! parent::has_space($space_name)) || $force_update)
         {
             if($json !== null && property_exists($json, "cache"))
-                $url = "http://". SITE_URL . "/cache/" . $space_name;
+                $url = "http://". SITE_URL . "/cache/" . urlencode($space_name);
             else
                 $url = $space_api_file->status_url();
             

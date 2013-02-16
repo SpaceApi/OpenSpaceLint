@@ -40,7 +40,7 @@ class SpaceApiFile
             if($json === null)
             {
                 $this->set_error("Could not decode the passed (json) data");
-                $this->error_code = COULD_NOT_DECODE;
+                $this->error_code = self::COULD_NOT_DECODE;
                 return;
             }
              

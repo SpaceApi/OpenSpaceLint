@@ -63,17 +63,29 @@ class Route
     
     private static function route_jsconfig($delegator, $action, $resource)
     {
-        global $logger;
+        switch($action)
+        {
+            case "get":
+                
+                global $logger;
         
-        // in some javascript files we need certain settings from the
-        // config.php so this script here generates the content for
-        // config.js to be included before all other javascript files
-        // which require these settings.
+                // in some javascript files we need certain settings from the
+                // config.php so this script here generates the content for
+                // config.js to be included before all other javascript files
+                // which require these settings.
+                
+                header('Content-type: application/x-javascript');
+                
+                echo "site_url = 'http://". SITE_URL ."';";
+                echo "recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
+                
+                break;
+            
+            default:
+                return false;
+        }
         
-        header('Content-type: application/x-javascript');
-        
-        echo "site_url = 'http://". SITE_URL ."';";
-        echo "recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
+        return true;
     }
     
     private static function route_cache($delegator, $action, $resource)
@@ -178,70 +190,111 @@ class Route
                 break;
             
             case "add":
-
-                // this is executed when somebody adds a space on the website,
-                // when deploying OpenSpaceLint the setup scripts are expected
-                // to have a copy of an existent (and complete) directoy in
-                // the setup directory
-                header('Content-type: application/json');
-                require_once( ROOTDIR . 'c/php/recaptchalib.php');
                 
-                if(isset($_GET["recaptcha_response_field"]))
+                if(SAPI == 'cli')
                 {
-                    $resp = recaptcha_check_answer (
-                        RECAPTCHA_KEY_PRIVATE,
-                        $_SERVER["REMOTE_ADDR"],
-                        stripslashes(strip_tags($_GET["recaptcha_challenge_field"])),
-                        stripslashes(strip_tags($_GET["recaptcha_response_field"]))
-                    );
-                    
-                    $response = array("ok" => false, "message" => "");
-                    
-                    if ($resp->is_valid)
-                    {
-                        // this might be changed to false later
-                        $response["ok"] = true;
-                        
-                        $url = filter_var($_GET['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
-                        $space_api_file = new SpaceApiFile($url);
-                        
-                        if($space_api_file->has_error())
-                        {
-                            $response["ok"] = false;
-                            $response["message"] = $space_api_file->error();
-                        }
-                        else                        
-                        {
-                            $private_directory = new PrivateDirectory;
-                            $public_directory = new PublicDirectory;
-                            
-                            if(! $private_directory->has_space($space_api_file->name()))
-                            {
-                                $private_directory->add_space($space_api_file);
-                                $public_directory->add_space($space_api_file);
+                    $url = filter_var($resource, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
 
-                                Cron::create($space_api_file->name());
-                                Cache::cache($space_api_file);
-                                
-                                $response["message"] = "The space got added to the directory.";
-                                
-                                // send an email to the admins
-                                Email::send("New Space Entry: ". $space_api_file->name(), "",
-                                    "The space '" . $space_api_file->name() . "' has been added to the directory.");
-                            }
-                            else
-                                $response["message"] = "The space is already in the directory.";                            
-                        }
+                    if($url == "")
+                    {
+                        $logger->logDebug("You provided an empty URL");
+                        break;
                     }
-                    else
-                        $response["message"] = $resp->error;
+                                    
+                    $space_api_file = new SpaceApiFile($url);
+                    $space_name = $space_api_file->name();
                     
-                    $logger->logInfo(
-                        "Sending this reponse back to the client:\n",
-                        print_r($response, true)
-                    );
+                    if($space_api_file->has_error())
+                    {
+                        echo "Could not add the space \n";
+                        $logger->logDebug($space_api_file->error());
+                    }
+                    else                        
+                    {
+                        $private_directory = new PrivateDirectory;
+                        $public_directory = new PublicDirectory;
+                        
+                        if(! $private_directory->has_space($space_name))
+                        {
+                            $private_directory->add_space($space_api_file);
+                            $public_directory->add_space($space_api_file);
+
+                            Cron::create($space_api_file->name());
+                            Cache::cache($space_api_file);
+                            
+                            $logger->logDebug("The space got added to the directory.");
+                        }
+                        else
+                            $logger->logDebug("The space is already in the directory.");
+                    }
+                }
+                else
+                {
+                    // this is executed when somebody adds a space on the website,
+                    // when deploying OpenSpaceLint the setup scripts are expected
+                    // to have a copy of an existent (and complete) directoy in
+                    // the setup directory
+                    header('Content-type: application/json');
+                    require_once( ROOTDIR . 'c/php/recaptchalib.php');
                     
-                    echo json_encode($response);        
+                    if(isset($_GET["recaptcha_response_field"]))
+                    {
+                        $resp = recaptcha_check_answer (
+                            RECAPTCHA_KEY_PRIVATE,
+                            $_SERVER["REMOTE_ADDR"],
+                            stripslashes(strip_tags($_GET["recaptcha_challenge_field"])),
+                            stripslashes(strip_tags($_GET["recaptcha_response_field"]))
+                        );
+                        
+                        $response = array("ok" => false, "message" => "");
+                        
+                        if ($resp->is_valid)
+                        {
+                            // this might be changed to false later
+                            $response["ok"] = true;
+                            
+                            $url = filter_var($_GET['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
+                            $space_api_file = new SpaceApiFile($url);
+                            $space_name = $space_api_file->name();
+                            
+                            if($space_api_file->has_error())
+                            {
+                                $response["ok"] = false;
+                                $response["message"] = $space_api_file->error();
+                            }
+                            else                        
+                            {
+                                $private_directory = new PrivateDirectory;
+                                $public_directory = new PublicDirectory;
+                                
+                                if(! $private_directory->has_space($space_name))
+                                {
+                                    $private_directory->add_space($space_api_file);
+                                    $public_directory->add_space($space_api_file);
+    
+                                    Cron::create($space_name);
+                                    Cache::cache($space_api_file);
+                                    
+                                    $response["message"] = "The space got added to the directory.";
+                                    
+                                    // send an email to the admins
+                                    Email::send("New Space Entry: ". $space_name, "",
+                                        "The space '" . $space_name . "' has been added to the directory.");
+                                }
+                                else
+                                    $response["message"] = "The space is already in the directory.";                            
+                            }
+                        }
+                        else
+                            $response["message"] = $resp->error;
+                        
+                        $logger->logInfo(
+                            "Sending this reponse back to the client:\n",
+                            print_r($response, true)
+                        );
+                        
+                        echo json_encode($response);        
+                    }
                 }
             
                 break;

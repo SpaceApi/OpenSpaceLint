@@ -25,25 +25,25 @@ su $1 -c 'mkdir -p ../log'
 # create the space cron directories and the space cronjobs
 echo "Creating the cron directories"
 su $1 -c '/usr/bin/env php -f create_crondirs.php'
-echo "Creating the cron jobs"
-su $1 -c '/usr/bin/env php -f create_cronjobs.php'
+echo "Populating the directory, get some coffee because this can take several minutes ..."
+su $1 -c '/usr/bin/env php -f populate_directory.php'
 
 # now run the daily cronjobs once to populate the cache
-echo "Do you want to populate the whole cache? Please press the key 1 or 2."
+# echo "Do you want to populate the whole cache? Please press the key 1 or 2."
 
-OPTIONS="yes no" 
-select opt in $OPTIONS; do
-    case $opt in
-        yes)
-            echo "Now creating/updating the cache. This can take some minutes."
-            su $1 -c 'run-parts ../cron/scron.d.01'           
-            break;
-            ;;
-        no)
-            echo "Skipping it ..."
-            break
-            ;;
-        *)
-            echo "Bad option" 
-    esac
-done
+# OPTIONS="yes no" 
+# select opt in $OPTIONS; do
+#    case $opt in
+#        yes)
+#            echo "Now creating/updating the cache. This can take some minutes."
+#            su $1 -c 'run-parts ../cron/scron.d.01'           
+#            break;
+#            ;;
+#        no)
+#            echo "Skipping it ..."
+#            break
+#            ;;
+#        *)
+#            echo "Bad option" 
+#    esac
+# done

@@ -131,8 +131,8 @@ class CacheReport
 		// 82800 seconds are 23 hours.
 		if(
             $write_success &&
-			$this->report->fail_counter > 0 &&
-			(time() - $this->report->last_update_ts) > 82800
+			$this->fail_counter > 0 &&
+			(time() - $this->last_update_ts) > 82800
 		)
 		{
 			$this->send_mail();
