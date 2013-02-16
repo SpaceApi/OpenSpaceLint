@@ -6,6 +6,17 @@ class Route
     {        
         global $logger;
         
+        $logger->logInfo("The controller is run from the ". SAPI ." handler with the route:");
+        $logger->logInfo("    delegator => ". $delegator);
+        $logger->logInfo("    action    => ". $action);
+        $logger->logInfo("    resource  => ". $resource);
+    
+        if(!empty($_GET))
+        $logger->logInfo(
+            "Other GET parameters sent to the controller are: ".
+            str_replace("Array", "", print_r($_GET,true))
+        );
+        
         $action_supported = false;
         
         switch($delegator)
@@ -381,8 +392,9 @@ class Route
                        
                     if (!$url || !preg_match("/^https?:/i", $url))
                     {
-                       echo '{ "result": "Invalid URL. Please check your URL and try again.", "error": true }';
-                       exit();
+                        $logger->logNotice("Invalid URL provided");
+                        echo '{ "result": "Invalid URL. Please check your URL and try again.", "error": true }';
+                        exit();
                     }
                     
                     $data_fetch_result = DataFetch::get_data($url);
@@ -409,7 +421,13 @@ class Route
                     {
                        echo '{ "result": "Unable to fetch your JSON file. Please check your server.", "error": true }';
                        exit();
-                    }
+                    }                    
+                    
+                    $response = new StdClass();
+                    $response->status = $data_fetch_result->http_code();
+                    $response->length = $data_fetch_result->content_length();
+                    $response->url = $data_fetch_result->url();
+                    $response->content = $data_fetch_result->content();
                     
                     echo json_encode($response);
                 }

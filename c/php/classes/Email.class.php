@@ -23,7 +23,7 @@ class Email
                 "-f". CACHE_REPORT_FROM
             );
             
-            $logger->logDebug("Report mail sent to $email");
+            $logger->logNotice("Report mail sent to $email");
         }
     }
 }

@@ -100,11 +100,13 @@ class Cron
      */
     private static function get_current_schedule($space_name)
     {
-        $space_name = NiceFileName::get($space_name);
+        global $logger;
+        
+        $file_name = NiceFileName::get($space_name);
         $available_schedules = json_decode(CRON_AVAILABLE_SCHEDULES, true);
         foreach($available_schedules as $index => $schedule)
         {
-            $file = CRONDIR . "scron.$schedule.$space_name";
+            $file = CRONDIR . "scron.$schedule/$file_name";
             if(file_exists($file))
             {
                 $fileperms = fileperms($file);
@@ -112,6 +114,8 @@ class Cron
                 if($fileperms == "0755")
                     return $schedule;
             }
+            else
+                $logger->logDebug("$file doesn't exist");
         }
         
         return "";
@@ -131,17 +135,19 @@ class Cron
         $available_schedules = json_decode(CRON_AVAILABLE_SCHEDULES, true);
         $current_schedule = self::get_current_schedule($space_name);
         
+        $logger->logDebug("The current schedule is '$current_schedule'");
+        
         $index = array_search($current_schedule, $available_schedules);
         
         if($index === false)
         {
-            $logger->logError("The current schedule could not be determined");
+            $logger->logError("The current schedule is not allowed");
             // we set the index to max
             $next_index = count($available_schedules) - 1;
         }
         else
         {
-            $next_index = $index++;
+            $next_index = $index + 1;
             if($next_index >= count($available_schedules))
                 $next_index = count($available_schedules) - 1;
         }

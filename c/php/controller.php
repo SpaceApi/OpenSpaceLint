@@ -161,20 +161,9 @@ function prepare_route()
     
     $unsupported = false;
     
-    $logger->logInfo("The controller is run from the $sapi handler with the route:");
-    $logger->logInfo("    delegator => ". ROUTE_DELEGATOR);
-    $logger->logInfo("    action    => ". ROUTE_ACTION);
-    $logger->logInfo("    resource  => ". ROUTE_RESOURCE);
-    
     unset($_GET["delegator"]);
     unset($_GET["action"]);
     unset($_GET["resource"]);
-    
-    if(!empty($_GET))
-        $logger->logInfo(
-            "Other GET parameters sent to the controller are: ".
-            str_replace("Array", "", print_r($_GET,true))
-        );
 
     // whitelist the delegator
     if( ! in_array(ROUTE_DELEGATOR, $allowed_delegators) )

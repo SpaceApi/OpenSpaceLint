@@ -162,9 +162,8 @@ class Cache
             if(self::is_cached($space_name))
                 $public_directory->update($space_name, "http://" . SITE_URL . "/cache/" . urlencode($space_name));
             else
+                // if there is no cached version remove the space from the directory
                 $public_directory->remove($space_name);
-            
-            
         }
     }
     

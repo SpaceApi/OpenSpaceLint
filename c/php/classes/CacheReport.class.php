@@ -53,16 +53,27 @@ class CacheReport
 			
 			if(file_exists($this->filename))
 			{
-				$last_report = file_get_contents($this->filename);
-				$last_report = json_decode($report);
+                $logger->logDebug("Loading the last report file: ". $this->filename );
                 
-                // load the data from the report file
-                $this->last_update = $last_report->last_update;
-                $this->last_update_ts = $last_report->last_update_ts;
-                $this->last_email_sent = $last_report->last_email_sent;
-                $this->last_email_sent_ts = $last_report->last_email_sent_ts;
-                $this->fail_counter = $last_report->fail_counter;
-                $this->email = $last_report->email;
+				$last_report = file_get_contents($this->filename);
+                
+                if($last_report === false)
+                    $logger->logDebug("The last report file could not be loaded");
+                
+				$last_report = json_decode($last_report);
+                
+                if($last_report === null)
+                    $logger->logDebug("The report file could not be decoded");
+                else
+                {
+                    // load the data from the report file
+                    $this->last_update = $last_report->last_update;
+                    $this->last_update_ts = $last_report->last_update_ts;
+                    $this->last_email_sent = $last_report->last_email_sent;
+                    $this->last_email_sent_ts = $last_report->last_email_sent_ts;
+                    $this->fail_counter = $last_report->fail_counter;
+                    $this->email = $last_report->email;   
+                }
 			}
             
             // set the new email if one is available
@@ -114,9 +125,17 @@ class CacheReport
         global $logger;
         
 		if($success)
+        {
+            $logger->logDebug("The cache fail counter is reset to 0");
 			$this->fail_counter = 0;
+        }
 		else
+        {
+            $logger->logDebug("The cache fail counter is incremented by 1");
 			$this->fail_counter++;
+        }
+        
+        $update_diff = time() - $this->last_update_ts;
         
     	// today's date and timestamp where the report got updated
 		$this->last_update = date("Y l jS");
@@ -132,7 +151,7 @@ class CacheReport
 		if(
             $write_success &&
 			$this->fail_counter > 0 &&
-			(time() - $this->last_update_ts) > 82800
+			$update_diff > 82800
 		)
 		{
 			$this->send_mail();
@@ -162,7 +181,6 @@ class CacheReport
 		return file_put_contents($this->filename, $json);
 	}
 	
-
 	
 	/**
 	 * Sends an email if an error got reported on the next schedule.
@@ -171,6 +189,8 @@ class CacheReport
 	// https://code.google.com/a/apache-extras.org/p/phpmailer/
 	public function send_mail()
 	{
+        global $logger;
+        
         $receiver = "";
         
         if(CACHE_REPORT_SENDEXTERNAL && $this->email != "")
@@ -188,7 +208,6 @@ Cheers,
 slopjong
 EOF
 		);
-        
         
         // today's date and timestamp where the report email got sent
 		$this->last_email_sent = date("Y l jS");
