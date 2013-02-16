@@ -1,7 +1,7 @@
 <?php
 
 class DataFetch
-{
+{    
     /**
      * cURLs a website and if open_basedir is set or safe_mode enabled
      * then the FOLLOWLOCATION mode is done "manually".
@@ -118,33 +118,20 @@ class DataFetch
         $contentLength = intval($info['download_content_length']);
         $status = intval($info['http_code']);
         
-        // TODO: json is output here, this is not a problem for the proxy delegator
-        //       but where else is this method used?
-        //       => SpaceApiFile, wherever this class is instantiated the output
-        //          could break things
+        $data_fetch_result = new DataFetchResult(
+            $info['url'],
+            $status,
+            $contentLength,
+            $data,
+            $limit
+        );
+        
         if ($status >= 400)
-        {
-            echo '{ "result": "URL returned bad status code ' . $status . '.", "error": true }';
-            return null;
-        }
+            $data_fetch_result->set_error_code(DataFetchResult::BAD_STATUS);
         
-        // TODO: json is output here, this is not a problem for the proxy delegator
-        //       but where else is this method used?
-        //       => SpaceApiFile, wherever this class is instantiated the output
-        //          could break things
         if ( $limit && $contentLength >= 52428800)
-        {
-            echo '{ "result": "URL content length greater than 10 megs (' . $contentLength .
-            '). Validation not available for files this large.", "responseCode": "1" }';
-            return null;
-        }
+            $data_fetch_result->set_error_code(DataFetchResult::CONTANT_GREATER_10_MEGS);
         
-        $response = new StdClass();
-        $response->status = $status;
-        $response->length = $contentLength;
-        $response->url = $info['url'];
-        $response->content = $data;
-        
-        return $response;
+        return $data_fetch_result;
     }
 }

@@ -376,15 +376,25 @@ class Route
                        exit();
                     }
                     
-                    $response = DataFetch::get_data($url);
+                    $data_fetch_result = DataFetch::get_data($url);
                     
-                    // if status >= 400 and contentLength >= 52428800
-                    // then null is returned and error messages written
-                    // to the output
-                    if($response === null)
-                       exit();
-                       
-                    $data = $response->content;
+                    
+                    if($data_fetch_result->error_code() == DataFetchResult::BAD_STATUS)
+                    {
+                        echo '{ "result": "URL returned bad status code ' . $data_fetch_result->http_code() . '.", "error": true }';
+                        exit();
+                    }
+                    
+                    
+                    if($data_fetch_result->error_code() == DataFetchResult::CONTANT_GREATER_10_MEGS)
+                    {
+                        echo '{ "result": "URL content length greater than 10 megs (' . $data_fetch_result->content_length() .
+                            '). Validation not available for files this large.", "responseCode": "1" }';
+                        
+                        exit();
+                    }
+        
+                    $data = $data_fetch_result->content();
                     
                     if($data === false || is_null($data))
                     {
@@ -452,10 +462,11 @@ class Route
                     // we do no checks on the json, we assume it's validated with openspacelint
                     $spacejson = json_decode(file_get_contents($file));
                     
-                    $data = DataFetch::get_data($url);
+                    $data_fetch_result = DataFetch::get_data($url);
+                    $data = $data_fetch_result->content();
                     
                     // the status in this place might still be open or close
-                    $status = (bool) preg_match("/$pattern/", $data->content);
+                    $status = (bool) preg_match("/$pattern/", $data);
                     
                     // with the inverse flag we know if we were checking the open or closed status
                     if($inverse)

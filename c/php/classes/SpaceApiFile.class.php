@@ -52,25 +52,45 @@ class SpaceApiFile
             
             $this->status_url = $url;
             
-            $data = DataFetch::get_data($url);
+            $data_fetch_result = DataFetch::get_data($url);
+            
+            if($data_fetch_result->error_code() == DataFetchResult::BAD_STATUS)
+            {
+                $msg = "The server returned " . $data_fetch_result->http_code();
+                $logger->logNotice($msg);
+                $this->set_error($msg);
+                return;
+            }
+
+            if($data_fetch_result->error_code() == DataFetchResult::CONTANT_GREATER_10_MEGS)
+            {
+                $msg = "The json data are greater than 10 megs";
+                $logger->logNotice($msg);
+                $this->set_error($msg);
+                return;
+            }   
+                
+            $data = $data_fetch_result->content();
             
             if($data === null)
             {
+                $msg = "No data could be loaded from the server.";
+                $logger->logNotice($msg);
                 $this->set_error("No data could be loaded from the server.");
                 return;
             }
             
             $json = json_decode($data->content);
             
-            // 
             if($json === null)
             {
-                $this->set_error("The json could not be processed.");
+                $msg = "The json could not be processed.";
+                $logger->logNotice($msg);
+                $this->set_error($msg);
                 return;
             }
              
             $this->set_members($json);
-            
         }
     }
     
