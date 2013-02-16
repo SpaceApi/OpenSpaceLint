@@ -61,7 +61,11 @@ class Cache
             
             $url = $directory->get_url($sanitized_space_name, true);
             
-            $space_api_file = new SpaceApiFile($url);
+            $space_name = $directory->get_original_space_name($sanitized_space_name);
+            
+            // when the json cannot be loaded from the URL we need to set
+            // a proper space name in order to let the cron rotator work properly
+            $space_api_file = new SpaceApiFile($url, $space_name);
             self::cache($space_api_file);
         }
     }

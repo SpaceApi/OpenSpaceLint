@@ -25,10 +25,15 @@ class SpaceApiFile
      * Cache, PrivateDirectory and PublicDirectory.
      *
      * @param string $mixed Can be a URL or a json string.
+     * @param string $space_name A space name that can be additionally passed. It must not be sanitized.
+     *                           If $mixed is a URL the space name cannot be determined
+     *                           from the json.
      */
-    public function __construct($mixed)
+    public function __construct($mixed, $space_name = "")
     {
         global $logger;
+        
+        $this->space_name = $space_name;
         
         // check if $mixed is a URL
         $url = filter_var($mixed, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);

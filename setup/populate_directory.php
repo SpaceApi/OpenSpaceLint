@@ -1,5 +1,10 @@
 <?php
     
+    // in the Route class we check for this variable
+    // in order to guarantee that some code is only
+    // run during the installation time
+    define("RUNNING_SETUP","");
+    
     if(!file_exists("directory.json"))
         die("No spaces to populate");
     $directory = json_decode(file_get_contents("directory.json"), true);
@@ -59,7 +64,7 @@
 40    4     */1  *    *    run-parts ${crondir}scron.d.01
 EOF;
     
-        echo "\nAdd this to your crontab: \n";
+        echo "\nAdd this to the crontab of the user under which the web server is running: \n";
         echo "# ------------------------------------------------\n";
         echo $crontab;
         echo "\n# ------------------------------------------------\n";

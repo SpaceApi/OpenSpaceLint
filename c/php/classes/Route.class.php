@@ -191,8 +191,12 @@ class Route
             
             case "add":
                 
-                if(SAPI == 'cli')
+                if(SAPI == 'cli' && defined("RUNNING_SETUP"))
                 {
+                    // this should be executed on installation time only
+                    // the datatype of $resource may not a string but an
+                    // array or an object, see the setup script to be sure
+                    
                     $url = filter_var($resource, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
 
                     if($url == "")
@@ -200,7 +204,7 @@ class Route
                         $logger->logDebug("You provided an empty URL");
                         break;
                     }
-                                    
+                    
                     $space_api_file = new SpaceApiFile($url);
                     $space_name = $space_api_file->name();
                     
@@ -254,6 +258,11 @@ class Route
                             $response["ok"] = true;
                             
                             $url = filter_var($_GET['url'], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
+                            
+                            // in this place we cannot pass a space name since we have only a URL
+                            // but this should not be a problem because OpenSpaceLint will only
+                            // give the user the possibility to add a space when it's been previosly
+                            // validated
                             $space_api_file = new SpaceApiFile($url);
                             $space_name = $space_api_file->name();
                             
