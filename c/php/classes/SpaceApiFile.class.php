@@ -80,7 +80,7 @@ class SpaceApiFile
                 return;
             }
             
-            $json = json_decode($data->content);
+            $json = json_decode($data);
             
             if($json === null)
             {
