@@ -149,10 +149,16 @@ class Cache
             $logger->logWarn("The space api file has an error. '$space_name' could not be cached.");
             $cache_report->report(false);
             
-            // if a space is scheduled with a small interval we increase the performance of run-parts by
-            // rescheduling a cron on a failure. If this is not done and if there are many space crons
-            // with a small interval new triggers could overlap.
-            Cron::rotate_schedule($space_api_file->name());
+            $allowed_schedules = json_decode(CRON_AVAILABLE_SCHEDULES);
+            
+            // on a failure we schedule
+            if($allowed_schedules !== null && $cache_report->fail_counter() == 0)
+                Cron::set_schedule($space_api_file->name(), $allowed_schedules[0]);
+            else
+                // if a space is scheduled with a small interval we increase the performance of run-parts by
+                // rescheduling a cron on a failure. If this is not done and if there are many space crons
+                // with a small interval new triggers could overlap.
+                Cron::rotate_schedule($space_api_file->name());
          
             // When a space api file has an error, we must check if there's a cached version
             // in order to replace the url in the public directory with the cache url.

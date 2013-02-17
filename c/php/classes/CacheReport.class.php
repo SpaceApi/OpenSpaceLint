@@ -215,4 +215,13 @@ EOF
         
         $this->write_to_file();
 	}
+    
+    
+    /**
+     * Returns the number of cache fails.
+     */
+    public function fail_counter()
+    {
+        return $this->fail_counter;
+    }
 }
