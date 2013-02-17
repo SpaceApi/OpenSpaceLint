@@ -1,8 +1,15 @@
-0.13:
+Draft: 0.13
+Stable: 0.12
+Author: slopjong
+=============================================
+
+0.13: (last update: 17.2.2013)
 
   * Added cache/schedule
   * Made contact/email a required field to be able to send a report
     email on a revalidation failure.
+  * Moved lat and lon to location/{lat,lon}
+  * Made location and location/{lat,lon} required fields
 
 0.12:
 

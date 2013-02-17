@@ -14,6 +14,8 @@ RewriteRule ^status/(.*)$        /c/php/controller.php?delegator=status&action=g
 RewriteRule ^cache/update/(.*)$  /c/php/controller.php?delegator=cache&action=update&resource=$1 [L]
 RewriteRule ^cache/(.*)$         /c/php/controller.php?delegator=cache&action=get&resource=$1 [L]
 RewriteRule ^specs/0.(.*)$       /c/php/controller.php?delegator=specs&action=get&resource=$1 [L]
+RewriteRule ^specs/changelog$    /c/specs/changelog [L]
+RewriteRule ^validator$          /c/php/controller.php?delegator=validator&action=get [L]
 
 # get the directory or a subset of it
 RewriteCond %{QUERY_STRING} ^$ [OR]

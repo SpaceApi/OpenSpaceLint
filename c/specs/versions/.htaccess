@@ -1,0 +1,4 @@
+# these jsons might be post-processed in php where certain data
+# might be altered such as available cron jobs taken from the
+# config file
+deny from all

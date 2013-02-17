@@ -122,56 +122,56 @@ jsl.interactions = (function () {
                 /********************************************************************************/
                 // check against the specs
                 
-		var versions = ["8", "9", "11", "12", "13"];
+				var versions = ["8", "9", "11", "12", "13"];
                 var report, uri, version;
 		
                 for(index=0; index < versions.length; index++)
                 {
-			version = versions[index];
-			
-			// do not edit the url, it's just a namespace!
-			var schema = apienv.findSchema("http://openspace.slopjong.de/specs"+ version);
-			report = apienv.validate( JSON.parse(jsonVal), schema);
-			uri = report.instance._uri;
-
-			// reset the old messages
-			$("#results-specs-"+ version).text("");
-                    
-			$("#results-specs-container-"+ version).show();
-
-			if(report.errors.length > 0)
-			{
-                        
-				$("#results-specs-header-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h1>");
-				$("#results-specs-container-"+ version).removeClass('success').addClass('error');
-				
-				// remove the old results    
-				$("#results-specs-"+ version).text(""); 
-				
-				var err, msg;
-				for(i=0; i<report.errors.length; i++){
-
-					err = report.errors[i];
-					msg = err.message;
-
-					if(err.message === "Instance is not one of the possible values")
-						msg = "Property '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
-
-					if(err.message === "Property is required")
-						msg = "Property '" + err.uri + "' is missing.";
-
-					if(err.message === "Instance is not a required type")
-						msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";
-
-					msg = msg.replace(uri+"/", "");
-					$("#results-specs-"+ version).append(msg + "\n");           
-				}
-			}
-			else
-			{
-				$("#results-specs-header-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h1>");
-				$("#results-specs-container-"+ version).removeClass('error').addClass('success');
-			}
+					version = versions[index];
+					
+					// do not edit the url, it's just a namespace!
+					var schema = apienv.findSchema("http://openspace.slopjong.de/specs"+ version);
+					report = apienv.validate( JSON.parse(jsonVal), schema);
+					uri = report.instance._uri;
+		
+					// reset the old messages
+					$("#results-specs-"+ version).text("");
+							
+					$("#results-specs-container-"+ version).show();
+		
+					if(report.errors.length > 0)
+					{
+						$("#results-specs-header-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h1>");
+						$("#results-specs-container-"+ version).removeClass('success').addClass('error');
+						$("#results-specs-container-"+ version +" .specs-link").show();
+						
+						// remove the old results    
+						$("#results-specs-"+ version).text(""); 
+						
+						var err, msg;
+						for(i=0; i<report.errors.length; i++){
+		
+							err = report.errors[i];
+							msg = err.message;
+		
+							if(err.message === "Instance is not one of the possible values")
+								msg = "Property '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
+		
+							if(err.message === "Property is required")
+								msg = "Property '" + err.uri + "' is missing.";
+		
+							if(err.message === "Instance is not a required type")
+								msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";
+		
+							msg = msg.replace(uri+"/", "");
+							$("#results-specs-"+ version).append(msg + "\n");           
+						}
+					}
+					else
+					{
+						$("#results-specs-header-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h1>");
+						$("#results-specs-container-"+ version).removeClass('error').addClass('success');
+					}
                 }
 
                 /********************************************************************************/

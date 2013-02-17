@@ -1,3 +1,7 @@
+<?php
+	require_once("config/config.php");
+?>
+
 <!doctype html> 
 <html lang="en"> 
     <head>
@@ -239,7 +243,7 @@
                     <h2>Directory</h2>
                 
                     <p>
-                        The OpenSpace directory is a JSON containing a list of hackerspaces that have implemented the <a href="https://hackerspaces.nl/spaceapi/" target="_blank">Space API</a>. This directory can be loaded by any web and mobile application by requesting the resource <a href="http://openspace.slopjong.de/directory.json" target="_blank"><code>http://openspace.slopjong.de/directory.json</code></a>
+                        The OpenSpace directory is a JSON containing a list of hackerspaces that have implemented the <a href="https://hackerspaces.nl/spaceapi/" target="_blank">Space API</a>. This directory can be loaded by any web and mobile application by requesting the resource <a href="http://<?= SITE_URL ?>/directory.json" target="_blank"><code>http://<?= SITE_URL ?>/directory.json</code></a>
                     </p>
                     <p>
                         If your space is missing go back to the validator page and click on <em>New Space</em>. Your JSON will be checked against the specification. If there are no errors it'll be added after you confirmed that you're not a bot.
@@ -257,7 +261,7 @@
     ]									
   ]
 }</code></pre>
-                    If you wrote an app for monitoring the temperature you would be interested in all the spaces' JSON providing temperature sensor data. You'd get the preselection with <a href="http://openspace.slopjong.de/directory.json?filter=sensors.barometer.value" target="_blank"><code>http://openspace.slopjong.de/directory.json?filter=sensors.barometer.value</code></a>
+                    If you wrote an app for monitoring the temperature you would be interested in all the spaces' JSON providing temperature sensor data. You'd get the preselection with <a href="http://<?= SITE_URL ?>/directory.json?filter=sensors.barometer.value" target="_blank"><code>http://<?= SITE_URL ?>/directory.json?filter=sensors.barometer.value</code></a>
                     </p>
                     <p>
                         The filters can also be combined as shown below.
@@ -310,7 +314,7 @@
                         
                         <pre><code>or( contact , feeds )</code></pre>
                         
-                        Try <a href="http://openspace.slopjong.de/directory.json?filter=or(contact,feeds)" target="_blank">directory.json?filter=or(contact,feeds)</a>
+                        Try <a href="http://<?= SITE_URL ?>/directory.json?filter=or(contact,feeds)" target="_blank">directory.json?filter=or(contact,feeds)</a>
                     </p>
                 
                     <p>
@@ -320,7 +324,7 @@
                         
                         <pre><code>and( contact.irc , contact.phone )</code></pre>
                         
-                        Try <a href="http://openspace.slopjong.de/directory.json?filter=and(contact.irc,contact.phone)" target="_blank">directory.json?filter=and(contact.irc,contact.phone)</a>
+                        Try <a href="http://<?= SITE_URL ?>/directory.json?filter=and(contact.irc,contact.phone)" target="_blank">directory.json?filter=and(contact.irc,contact.phone)</a>
                     </p>
                 
                     <p>
@@ -339,7 +343,7 @@
                     
                         <pre><code>and( contact , feeds , or( sensors , stream ) )</code></pre>
                         
-                        Try <a href="http://openspace.slopjong.de/directory.json?filter=and(contact,feeds,or(sensors,stream))" target="_blank">directory.json?filter=and(contact,feeds,or(sensors,stream))</a>
+                        Try <a href="http://<?= SITE_URL ?>/directory.json?filter=and(contact,feeds,or(sensors,stream))" target="_blank">directory.json?filter=and(contact,feeds,or(sensors,stream))</a>
                     </p>
                     
                 </p>
@@ -391,11 +395,11 @@
                 
                 <div id="results-container">
                     <pre id="results"></pre>
-					<div id="results-specs-container-13" class=".spec-result"><div id="results-specs-header-13"></div><pre id="results-specs-13"></pre></div>
-                    <div id="results-specs-container-12" class=".spec-result"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre></div>
-                    <div id="results-specs-container-11" class=".spec-result"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre></div>
-                    <div id="results-specs-container-9" class=".spec-result"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre></div>
-                    <div id="results-specs-container-8" class=".spec-result"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre></div>
+					<div id="results-specs-container-13" class=".spec-result"><div id="results-specs-header-13"></div><pre id="results-specs-13"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.13" target="_blank">specs 0.13</a>. This is still a draft, see the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/changelog" target="_blank">changelog</a>.</div></div>
+                    <div id="results-specs-container-12" class=".spec-result"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.12" target="_blank">specs 0.12</a>.</div></div>
+                    <div id="results-specs-container-11" class=".spec-result"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.11" target="_blank">specs 0.11</a>.</div></div>
+                    <div id="results-specs-container-9" class=".spec-result"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.9" target="_blank">specs 0.9</a>.</div></div>
+                    <div id="results-specs-container-8" class=".spec-result"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.8" target="_blank">specs 0.8</a>.</div></div>
                 </div>
                         
                 <div id="props" class="hide">
