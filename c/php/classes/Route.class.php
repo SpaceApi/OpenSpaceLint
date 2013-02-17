@@ -59,7 +59,7 @@ class Route
             
             case "specs": // (partly) external use expected
                 
-                $action_supported = self::route_specs_apienv($delegator, $action, $resource);                    
+                $action_supported = self::route_specs($delegator, $action, $resource);                    
                 break;
             
             case "filterkeys": // (partly) external use expected
