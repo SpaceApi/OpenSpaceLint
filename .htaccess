@@ -8,10 +8,12 @@ Options +FollowSymlinks
 RewriteEngine on
 RewriteBase /
 
+RewriteRule ^c/js/apienv.js$     /c/php/controller.php?delegator=apienv&action=get [L]
 RewriteRule ^config.js$          /c/php/controller.php?delegator=jsconfig&action=get [L]
 RewriteRule ^status/(.*)$        /c/php/controller.php?delegator=status&action=get&resource=$1 [L]
 RewriteRule ^cache/update/(.*)$  /c/php/controller.php?delegator=cache&action=update&resource=$1 [L]
 RewriteRule ^cache/(.*)$         /c/php/controller.php?delegator=cache&action=get&resource=$1 [L]
+RewriteRule ^specs/0.(.*)$       /c/php/controller.php?delegator=specs&action=get&resource=$1 [L]
 
 # get the directory or a subset of it
 RewriteCond %{QUERY_STRING} ^$ [OR]

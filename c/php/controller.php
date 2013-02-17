@@ -58,6 +58,8 @@ function prepare_route()
         'filterkeys',
         'proxy',
         'status',
+        'specs',
+        'apienv',
         ''
     );
     $allowed_actions = array('get', 'update', 'add', '');

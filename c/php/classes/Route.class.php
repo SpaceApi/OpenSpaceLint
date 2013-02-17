@@ -52,6 +52,16 @@ class Route
                 $action_supported = self::route_status($delegator, $action, $resource);
                 break;
             
+            case "apienv": // (partly) external use expected
+                
+                $action_supported = self::route_apienv($delegator, $action, $resource);                    
+                break;
+            
+            case "specs": // (partly) external use expected
+                
+                $action_supported = self::route_specs_apienv($delegator, $action, $resource);                    
+                break;
+            
             case "filterkeys": // (partly) external use expected
             
                 $action_supported = self::route_filterkeys($delegator, $action, $resource);
@@ -325,7 +335,98 @@ class Route
         
         return true;
     }
-     
+    
+    private static function route_specs($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
+                
+                header('Content-type: application/json');
+                header('Access-Control-Allow-Origin: *');
+                
+                $specs_file = SPECSDIR . "$resource.json";
+                
+                if(file_exists($specs_file))
+                {
+                    $specs = file_get_contents($specs_file);
+                    $specs_obj = json_decode($specs);
+                    
+                    if($specs_obj === null)
+                    {
+                        $logger->logDebug("Could not decode the specs json.");
+                        echo '{"An error occured,":"please file a ticket here: https://github.com/slopjong/openspacelint/issues"}';
+                        return;
+                    }
+                    
+                    if(
+                        property_exists($specs_obj, "properties") &&
+                        property_exists($specs_obj->properties, "cache") &&
+                        property_exists($specs_obj->properties->cache, "properties") &&
+                        property_exists($specs_obj->properties->cache->properties, "schedule") &&
+                        property_exists($specs_obj->properties->cache->properties->schedule, "enum")
+                    )
+                    {
+                        $available_schedules = json_decode(CRON_AVAILABLE_SCHEDULES);
+                        
+                        if($available_schedules === null)
+                        {
+                            $logger->logDebug("Could not decode the json with the available schedules from the config");
+                            echo '{"An error occured,":"please file a ticket here: https://github.com/slopjong/openspacelint/issues"}';
+                            return;
+                        }
+                        
+                        $specs_obj->properties->cache->properties->schedule->enum = $available_schedules;
+                    }
+                    
+                    echo Utils::json_pretty_print(json_encode($specs_obj));
+                }
+                else
+                    echo '{ "You chose a" : "bad specs version." }';
+                
+                break;
+            
+            default:
+                return false;
+        }
+        
+        return true;
+    }
+    
+    private static function route_apienv($delegator, $action, $resource)
+    {
+        switch($action)
+        {
+            case "get":
+                
+                header('Content-type: application/x-javascript');
+                
+                $javascript = 'var apienv; $(document).ready(function () { apienv = JSV.createEnvironment("json-schema-draft-03");';
+                
+                foreach(glob( SPECSDIR ."*.json") as $filename)
+                {
+                    $json = file_get_contents($filename);
+                    $filename = basename($filename);
+                    $version = str_replace(".json", "", $filename);
+                    $javascript .= 'var specs'. $version .'='. $json .';';
+                    $javascript .= 'apienv.createSchema(specs'. $version .', undefined, "http://openspace.slopjong.de/specs'. $version .'");';
+                }
+                
+                $javascript .= '});';
+                
+                echo $javascript;
+                
+                break;
+            
+            default:
+                return false;
+        }
+        
+        return true;
+    }
+    
     private static function route_filterkeys($delegator, $action, $resource)
     {
         global $logger;

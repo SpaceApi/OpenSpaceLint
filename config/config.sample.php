@@ -91,3 +91,4 @@ define('CRONDIR', ROOTDIR . "cron/");
 define('DIRECTORYDIR', ROOTDIR . "c/directory/");
 define('LOGDIR', ROOTDIR . "log/");
 define('STATUSCACHEDIR', CACHEDIR . "status/");
+define('SPECSDIR', ROOTDIR . "c/specs/versions/");
