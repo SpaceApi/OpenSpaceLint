@@ -1,4 +1,6 @@
 {
+    "description": "Space API 0.12",
+    "type": "object",
     "properties": {
         "api": {
             "type": "string",

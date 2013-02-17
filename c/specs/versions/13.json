@@ -1,4 +1,6 @@
 {
+    "description": "Space API 0.13",
+    "type": "object",
     "properties": {
         "api": {
             "type": "string",
@@ -25,13 +27,19 @@
             "required": false,
             "type": "string"
         },
-        "lat": {
-            "required": false,
-            "type": "number"
-        },
-        "lon": {
-            "required": false,
-            "type": "number"
+        "location": {
+            "required": true,
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "required": true,
+                    "type": "number"
+                },
+                "lon": {
+                    "required": true,
+                    "type": "number"
+                }
+            }
         },
         "cam": {
             "required": false,
