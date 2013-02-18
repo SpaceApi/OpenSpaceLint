@@ -2,13 +2,26 @@
     "api": "0.13",
     "space": "RaumZeitLabor",
     "logo": "http://raumzeitlabor.de/w/images/8/85/RaumZeitLabor_-_Logo_-_Schwarz.png",
-    "icon": {
-        "open": "http://status.raumzeitlabor.de/images/green.png",
-        "closed": "http://status.raumzeitlabor.de/images/red.png"
-    },
     "url": "http://raumzeitlabor.de",
-    "address": "Boveristrasse 22-24, 68309 Mannheim, Germany",
+	"location": {
+        "address": "Boveristrasse 22-24, 68309 Mannheim, Germany",
+        "lon": 8.4994033,
+        "lat": 49.5079481
+	},
+    "contact": {
+        "email": "info@raumzeitlabor.de",
+        "irc": "irc://irc.hackint.eu/raumzeitlabor",
+        "ml": "raumzeitlabor@raumzeitlabor.de",
+        "twitter": "@RaumZeitLabor",
+        "phone": "+4962176231370"
+    },
     "cache": {
         "schedule": "m.02"
+    },
+    "status": {
+        "icon": {
+            "open": "http://status.raumzeitlabor.de/images/green.png",
+            "closed": "http://status.raumzeitlabor.de/images/red.png"
+        }
     }
 }

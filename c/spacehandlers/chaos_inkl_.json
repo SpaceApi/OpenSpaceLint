@@ -2,14 +2,12 @@
     "api": "0.13",
     "space": "Chaos inKL.",
     "logo": "http://chaos-inkl.de/logo.png",
-    "icon": {
-        "open": "http://chaos-inkl.de/logo.png",
-        "closed": "http://chaos-inkl.de/logo.png"
-    },
     "url": "http://chaos-inkl.de",
-    "address": "Rudolf-Breitscheid-Straße 65, 70327 Kaiserslautern, Germany",
-    "lon": 7.76339,
-    "lat": 49.44088,
+	"location": {
+	  "address": "Rudolf-Breitscheid-Straße 65, 70327 Kaiserslautern, Germany",
+	  "lon": 7.76339,
+	  "lat": 49.44088
+	},
     "contact": {
         "email": "info@chaos-inkl.de",
         "irc": "irc://irc.hackint.eu/c3kl",

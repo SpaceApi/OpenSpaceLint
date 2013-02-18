@@ -31,7 +31,7 @@ Author: slopjong
 0.9:
 
   * Removed phone
-  * Added contact/{phone,skip,keymaster,irc,twitter,email,ml,jabber}
+  * Added contact/{phone,sip,keymaster,irc,twitter,email,ml,jabber}
     
 0.8:
 

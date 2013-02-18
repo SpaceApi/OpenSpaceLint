@@ -1,14 +1,27 @@
 {
-    "api": "0.12",
+    "api": "0.13",
     "space": "Shackspace",
     "logo": "http://rescue.shackspace.de/images/logo_shack_brightbg_highres.png",
-    "icon": {
-        "open": "http://shackspace.de/sopen.gif",
-        "closed": "http://shackspace.de/sopen.gif"
-    },
     "url": "http://shackspace.de",
-    "address": "Ulmer Strasse 255, 70327 Stuttgart, Germany",
+	"location": {
+        "address": "Ulmer Strasse 255, 70327 Stuttgart, Germany",
+        "lon": 9.236,
+        "lat": 48.7770
+	},
+    "contact": {
+        "email": "info@shackspace.de",
+        "irc": "irc://irc.freenode.net/shackspace",
+        "ml": "public@lists.shackspace.de",
+        "twitter": "@shackspace",
+        "phone": "+4971121729823"
+    },
     "cache": {
         "schedule": "m.02"
+    },
+    "status": {
+        "icon": {
+            "open": "http://shackspace.de/sopen.gif",
+            "closed": "http://shackspace.de/sopen.gif"
+        }
     }
 }
