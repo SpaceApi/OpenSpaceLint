@@ -23,10 +23,6 @@
             "required": false,
             "type": "string"
         },
-        "phone": {
-            "required": false,
-            "type": "string"
-        },
         "lat": {
             "required": false,
             "type": "number"

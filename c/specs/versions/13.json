@@ -3,39 +3,42 @@
     "type": "object",
     "properties": {
         "api": {
+            "description": "the space api version you use",
             "type": "string",
             "required": true,
             "enum": ["0.13"]
         },
         "space": {
+            "description": "the space name",
             "type": "string",
             "required": true
         },
         "logo": {
+            "description": "your space logo",
             "type": "string",
             "required": true
         },
         "url": {
+            "description": "your main website",
             "required": true,
-            "type": "string"
-        },
-        "address": {
-            "required": false,
-            "type": "string"
-        },
-        "phone": {
-            "required": false,
             "type": "string"
         },
         "location": {
             "required": true,
             "type": "object",
             "properties": {
+                "address": {
+                    "description": "the space address",
+                    "required": false,
+                    "type": "string"
+                },
                 "lat": {
+                    "description": "latitude of your space location",
                     "required": true,
                     "type": "number"
                 },
                 "lon": {
+                    "description": "longitude of your space location",
                     "required": true,
                     "type": "number"
                 }
@@ -53,17 +56,43 @@
             "required": false,
             "type": "object"
         },
-        "open": {
-            "required": true,
-            "type": "boolean"
-        },
         "status": {
-            "required": false,
-            "type": "string"
-        },
-        "lastchange": {
-            "required": false,
-            "type": "number"
+            "description": "a collection of status-related data",
+            "required": true,
+            "type": "object",
+            "properties": {
+                "open": {
+                    "required": true,
+                    "type": "boolean"
+                },
+                "lastchange": {
+                    "description": "at what (unix) timestamp has your space status lastly changed?",
+                    "required": false,
+                    "type": "number"
+                },
+                "message": {
+                    "description": "a free-form string something like 'open for public', 'members only' or whatever you want it to be)",
+                    "required": false,
+                    "type": "string"
+                },
+                "icon": {
+                    "description": "icons that show the status graphically",
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                        "open": {
+                            "description": "this could be your customized space logo showing an open space",
+                            "type": "string",
+                            "required": true
+                        },
+                        "closed": {
+                            "description": "this could be your customized space logo showing a closed space",
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            }
         },
         "events": {
             "required": false,
@@ -132,20 +161,6 @@
                 }
             }
         },
-        "icon": {
-            "type": "object",
-            "required": true,
-            "properties": {
-                "open": {
-                    "type": "string",
-                    "required": true
-                },
-                "closed": {
-                    "type": "string",
-                    "required": true
-                }
-            }
-        },
         "sensors": {
             "required": false,
             "type": "array",
@@ -181,6 +196,7 @@
             }
         },
         "cache": {
+            "description": "use the cache if you want avoid hundreds/thousands of app instances crawling your space status. Just choose a cache update cycle (m = minutes, h = hours, d = days)",
             "required": false,
             "type": "object",
             "properties": {
