@@ -60,6 +60,7 @@ function prepare_route()
         'status',
         'specs',
         'apienv',
+        'validator',
         ''
     );
     $allowed_actions = array('get', 'update', 'add', '');

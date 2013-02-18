@@ -74,6 +74,11 @@ class Route
                 $action_supported = self::route_environment($delegator, $action, $resource);
                 break;        
             
+            case "validator":
+                
+                $action_supported = self::route_validator($delegator, $action, $resource);
+                break;
+            
             default:
                 $logger->logError("No delegator has been set.");
         }
@@ -608,6 +613,60 @@ class Route
             
             default:
                 
+                return false;
+        }
+        
+        return true;
+    }
+    
+    private static function route_validator($delegator, $action, $resource)
+    {
+        global $logger;
+        
+        switch($action)
+        {
+            case "get":
+            
+                header('Content-type: application/json');
+                header('Access-Control-Allow-Origin: *');
+        
+                $url = "";
+                
+                if(isset($_GET["url"]))
+                    $url = filter_var($_GET["url"], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
+                    
+                if($url == "")
+                {
+                    $space_file = NiceFileName::json($resource);
+                    $mixed = file_get_contents(STATUSCACHEDIR . $space_file);
+                    
+                    if($mixed === false)
+                    {
+                        echo '{"error" : "'. $resource .' is not cached"}';
+                        exit;
+                    }
+                }
+                else
+                    $mixed = $url;
+                
+                $space_api_file = new SpaceApiFile($mixed);
+                
+                if(!$space_api_file->has_error())
+                {
+                    $space_validator = new SpaceApiValidator;
+                    $space_validator->validate($space_api_file);
+                    
+                    echo $space_validator->get_errors();
+                }
+                else
+                {
+                    echo '{"error" : "URL doesn\'t provide a space api implementation."}';
+                    exit;
+                }
+                
+                break;
+            
+            default:
                 return false;
         }
         
