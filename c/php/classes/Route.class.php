@@ -637,13 +637,29 @@ class Route
                     
                 if($url == "")
                 {
-                    $space_file = NiceFileName::json($resource);
-                    $mixed = file_get_contents(STATUSCACHEDIR . $space_file);
+                    $sanitized_space_name = NiceFileName::get($resource);
                     
-                    if($mixed === false)
+                    // when no url is passed the .htaccess then $resource should contain a string
+                    // which is hopefully a space name. the cache GET parameter tells us if we should
+                    // validate the cached version
+                    if(isset($_GET["cache"]))
                     {
-                        echo '{"error" : "'. $resource .' is not cached"}';
-                        exit;
+                        $space_file = "$sanitized_space_name.json";
+                        $mixed = file_get_contents(STATUSCACHEDIR . $space_file);
+                        
+                        if($mixed === false)
+                        {
+                            echo '{"error" : "'. $resource .' is not cached"}';
+                            exit;
+                        }                        
+                    }
+                    // if the cache GET parameter is missing, the url from the private directory
+                    // is taken and validated
+                    else
+                    {
+                        $private_directory = new PrivateDirectory;
+                        $mixed = $private_directory->get_url($sanitized_space_name, true);
+                        $logger->logDebug("Validating $resource:$mixed");
                     }
                 }
                 else
@@ -656,10 +672,16 @@ class Route
                     $space_validator = new SpaceApiValidator;
                     $space_validator->validate($space_api_file);
                     
-                    echo $space_validator->get_errors();
+                    $ret = new stdClass;
+                    $ret->valid = $space_validator->get_valid_versions();
+                    $ret->invalid = $space_validator->get_invalid_versions();
+                    $ret->errors = $space_validator->get_errors();
+                    
+                    echo Utils::json_pretty_print(json_encode($ret));
                 }
                 else
                 {
+                    $logger->logDebug("Space could not be validated: ". $space_api_file->error());
                     echo '{"error" : "URL doesn\'t provide a space api implementation."}';
                     exit;
                 }

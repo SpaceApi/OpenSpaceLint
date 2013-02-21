@@ -2,21 +2,25 @@
 
 class SpaceApiValidator
 {
-    private $errors_json = "";
+    private $errors = null;
+    private $valid_versions = array();
+    private $invalid_versions = array();
     
     /**
      * Validates the a space api implementation against
      * all the specs versions. If one is valid true is returned
-     * else false. The value of the api field does not
-     * strictly lead to a validation failure towards different
-     * versions. In other words, a space api implementation
-     * could be compliant to a version other than the specified
-     * version.
+     * else false. If only the api version number doesn't match
+     * the allowed value for a specification being checked, the
+     * space api implementation is considered correct and appears
+     * in the valid array in the test results.
      * 
      * @param string $space_json A space api implementation
+     * @return bool True if the space api file is valid against at least one specs version
      */
     public function validate($space_api_file)
     {
+        global $logger;
+        
         //$space_json = $space_api_file->
         $validator = null;
         
@@ -38,69 +42,105 @@ class SpaceApiValidator
         // when using a sdtClass the top level element is always
         // an object no matter it's filled with error messages
         // or not
-        $ret = new stdClass;
+        $results = new stdClass;
         
         // sort so that the latest version is checked first
         rsort($versions);
         
-        $passed_specs_test = false;
-        
-        //foreach(glob( SPECSDIR ."*.json") as $filename)
-        // iterate over the specs version
         foreach($versions as $index => $version)
         {            
             $filename = SPECSDIR . $version . ".json";
+            
+            $extended_version = "0.$version";
             
             try
             {
                 $validator = new JsonSchemaValidator($filename);
                 //$json_obj = json_decode($space_json);
-                $passed_specs_test = $validator->validate($space_api_file->json());
+                //$passed_specs_test =
+                $validator->validate($space_api_file->json());
+                $this->valid_versions[] = $extended_version;
             }
-            catch(Exception $e)
+            catch(ValidationException $e)
             {
                 $errors = $validator->getErrors();
                 
-                // if the first element is the 'wrong version number
-                // error, we check if the value is one of the specs
-                // versions, if so we delete that error to reduce the
-                // noise wherever the error messages are emailed/output
-                if(false !== strpos($errors[0], "root.api"))
+                // if the error is the 'wrong api version number'
+                // error then remove it. to check this we need to
+                // iterate over all errors and all specs versions
+                foreach($errors as $error_index => $error)
                 {
-                    // this iteration is not reduntant, here we look
-                    // if the space as specified one valid version
-                    foreach($versions as $index => $v)
+                    // $errors 
+                    /*                    
+                        "0.13":[
+                          {
+                            "msg":"Invalid value(s) for [api], allowed values are [0.13]",
+                            "description":"The space api version you use"
+                          }
+                        }
+                    */
+                    
+                    // we mustn't use $version here because we would
+                    // the loop has not it's own scope and thus
+                    // the previous $version would be overridden
+                    foreach($versions as $version_index => $v)
                     {
-                        if(false !== strpos($errors[0], "0.".$v))
+                        if(false !== strpos($error->msg, "0.$v"))
                         {
-                            array_shift($errors);
+                            // * unset() is not appropriate because it leaves a whole in the array
+                            //   which leads to an array->object conversion when json-encoding the array
+                            // * array_shift is not good because we assume then that the
+                            //   'wrong api version' error message is always on top
+                            array_splice($errors, $error_index, 1);
                         }
                     }
+                    
                 }
                 
-                // we need to prepend 0. because the leading 0
-                // is not part of the filename
                 if(count($errors)>0)
                 {
-                    $v = "0.$version";
-                    $ret->$v = (array) $errors;
+                    $results->$extended_version = (array) $errors;
+                    $this->invalid_versions[] = $extended_version;
                 }
+                else
+                    $this->valid_versions[] = $extended_version;
+            }
+            catch(SchemaException $e)
+            {
+                $logger->logError($e->getMessage());
             }
         }
        
         // it's ok to encode an empty array
-        $error_messages = json_encode($ret);
+        $error_messages = json_encode($results);
         $error_messages = str_replace("root.", "", $error_messages);
-        $this->errors_json = $error_messages;
+        $this->errors = json_decode($error_messages);
         
-        return $passed_specs_test;
+        return (count($this->valid_versions) > 0);
     }
     
     /**
-     * Returns a json with the error messages.
+     * Returns the error messages.
      */
     public function get_errors()
     {
-        return $this->errors_json;
+        return $this->errors;
     }
+
+    /**
+     * Returns the valid versions
+     */    
+    public function get_valid_versions()
+    {
+        return $this->valid_versions;
+    }
+    
+    /**
+     * Returns the invalid versions
+     */
+    public function get_invalid_versions()
+    {
+        return $this->invalid_versions;
+    }
+    
 }

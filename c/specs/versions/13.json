@@ -3,48 +3,50 @@
     "type": "object",
     "properties": {
         "api": {
-            "description": "the space api version you use",
+            "description": "The space api version you use",
             "type": "string",
             "required": true,
             "enum": ["0.13"]
         },
         "space": {
-            "description": "the space name",
+            "description": "The space name",
             "type": "string",
             "required": true
         },
         "logo": {
-            "description": "your space logo",
+            "description": "The space logo",
             "type": "string",
             "required": true
         },
         "url": {
-            "description": "your main website",
+            "description": "The main website",
             "required": true,
             "type": "string"
         },
         "location": {
+            "description": "Position data such as a postal address or geographic coordinates",
             "required": true,
             "type": "object",
             "properties": {
                 "address": {
-                    "description": "the space address",
+                    "description": "The space address",
                     "required": false,
                     "type": "string"
                 },
                 "lat": {
-                    "description": "latitude of your space location",
+                    "description": "Latitude of your space location",
                     "required": true,
                     "type": "number"
                 },
                 "lon": {
-                    "description": "longitude of your space location",
+                    "description": "Longitude of your space location",
                     "required": true,
                     "type": "number"
                 }
             }
         },
         "cam": {
+            "description": "",
             "required": false,
             "type": "array",
             "items": {
@@ -53,40 +55,42 @@
             "minItems": 1
         },
         "stream": {
+            "description": "",
             "required": false,
             "type": "object"
         },
         "status": {
-            "description": "a collection of status-related data",
+            "description": "A collection of status-related data. Actual open/closed status, icons, last change timestamp etc.",
             "required": true,
             "type": "object",
             "properties": {
                 "open": {
+                    "description": "",
                     "required": true,
                     "type": "boolean"
                 },
                 "lastchange": {
-                    "description": "at what (unix) timestamp has your space status lastly changed?",
+                    "description": "At what (unix) timestamp has your space status lastly changed?",
                     "required": false,
                     "type": "number"
                 },
                 "message": {
-                    "description": "a free-form string something like 'open for public', 'members only' or whatever you want it to be)",
+                    "description": "A free-form string something like 'open for public', 'members only' or whatever you want it to be)",
                     "required": false,
                     "type": "string"
                 },
                 "icon": {
-                    "description": "icons that show the status graphically",
+                    "description": "Icons that show the status graphically",
                     "type": "object",
                     "required": false,
                     "properties": {
                         "open": {
-                            "description": "this could be your customized space logo showing an open space",
+                            "description": "This could be your customized space logo showing an open space",
                             "type": "string",
                             "required": true
                         },
                         "closed": {
-                            "description": "this could be your customized space logo showing a closed space",
+                            "description": "This could be your customized space logo showing a closed space",
                             "type": "string",
                             "required": true
                         }
@@ -95,6 +99,7 @@
             }
         },
         "events": {
+            "description": "",
             "required": false,
             "type": "array",
             "items": {
@@ -102,18 +107,22 @@
                 "type": "object",
                 "properties": {
                     "name": {
+                        "description": "",
                         "required": true,
                         "type": "string"
                     },
                     "type": {
+                        "description": "",
                         "required": true,
                         "type": "string"
                     },
                     "t": {
+                        "description": "",
                         "required": true,
                         "type": "number"
                     },
                     "extra": {
+                        "description": "",
                         "required": false,
                         "type": "string"
                     }
@@ -121,18 +130,22 @@
             }
         },
         "contact": {
+            "description": "",
             "required": false,
             "type": "object",
             "properties": {
                 "phone": {
+                    "description": "",
                     "required": false,
                     "type": "string"
                 },
                 "sip": {
+                    "description": "",
                     "required": false,
                     "type": "string"
                 },
                 "keymaster": {
+                    "description": "",
                     "required": false,
                     "type": "array",
                     "items": {
@@ -140,34 +153,41 @@
                     }
                 },
                 "irc": {
+                    "description": "",
                     "required": false,
                     "type": "string"
                 },
                 "twitter": {
+                    "description": "",
                     "required": false,
                     "type": "string"
                 },
                 "email": {
+                    "description": "Email address to which other people can contact your space",
                     "required": true,
                     "type": "string"
                 },
                 "ml": {
+                    "description": "",
                     "required": false,
                     "type": "string"
                 },
                 "jabber": {
+                    "description": "",
                     "required": false,
                     "type": "string"
                 }
             }
         },
         "sensors": {
+            "description": "",
             "required": false,
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
                     "temp": {
+                        "description": "",
                         "required": false,
                         "type": "object"
                     }
@@ -175,20 +195,24 @@
             }
         },
         "feeds": {
+            "description": "",
             "required": false,
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
                     "name": {
+                        "description": "",
                         "required": true,
                         "type": "string"
                     },
                     "type": {
+                        "description": "",
                         "required": false,
                         "type": "string"
                     },
                     "url": {
+                        "description": "",
                         "required": true,
                         "type": "string"
                     }
@@ -201,6 +225,7 @@
             "type": "object",
             "properties": {
                 "schedule": {
+                    "description": "",
                     "type": "string",
                     "required": true,
                     "enum": ["m.02", "m.05", "m.10"]

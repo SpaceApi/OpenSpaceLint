@@ -56,7 +56,7 @@ class JsonSchemaValidator
      */
     protected $schema;
     
-    protected $validationErrors = array();
+    protected $validationErrorReports = array();
 
     /**
      * Initialize validation object
@@ -92,8 +92,8 @@ class JsonSchemaValidator
 
         // Validate root type
         $this->validateType($entity, $this->schema, $entityName);
-
-        if(count($this->validationErrors)>0)
+        
+        if(count($this->validationErrorReports)>0)
             throw new ValidationException("The validation failed.");
         
         return true;
@@ -104,7 +104,7 @@ class JsonSchemaValidator
      */
     public function getErrors()
     {
-        return $this->validationErrors;
+        return $this->validationErrorReports;
     }
     
     /**
@@ -172,7 +172,7 @@ class JsonSchemaValidator
 
         if (!$valid) {
             //throw new ValidationException(sprintf('Value for [%s] must match format [%s]', $entityName, $schema->format));
-            $this->validationErrors[] = sprintf('Value for [%s] must match format [%s]', $entityName, $schema->format);
+            $this->addValidationError($entityName, sprintf('Value for [%s] must match format [%s]', $entityName, $schema->format));
         }
 
         return $this;
@@ -206,7 +206,7 @@ class JsonSchemaValidator
                 // Check required
                 if (isset($property->required) && $property->required) {
                     //throw new ValidationException(sprintf('Missing required property [%s] for [%s]', $propertyName, $entityName));
-                    $this->validationErrors[] = sprintf("Property '%s.%s' is missing.", $entityName, $propertyName);
+                    $this->addValidationError("$entityName.$propertyName", sprintf("Property '%s.%s' is missing.", $entityName, $propertyName));
                 }
             }
         }
@@ -216,7 +216,11 @@ class JsonSchemaValidator
             $extra = array_diff(array_keys((array)$entity), array_keys((array)$schema->properties));
             if (count($extra)) {
                 //throw new ValidationException(sprintf('Additional properties [%s] not allowed for property [%s]', implode(',', $extra), $entityName));
-                $this->validationErrors[] = sprintf('Additional properties [%s] not allowed for property [%s]', implode(',', $extra), $entityName);
+                $this->addValidationError($entityName,
+                        sprintf(
+                            'Additional properties [%s] not allowed for property [%s]',
+                            implode(',', $extra), $entityName)
+                );
             }
         }
 
@@ -304,7 +308,7 @@ class JsonSchemaValidator
 
         if (!$valid) {
             //throw new ValidationException(sprintf('Property [%s] must be one of the following types: [%s]', $entityName, implode(', ', $types)));
-            $this->validationErrors[] = sprintf("Property '%s' must be one of these types: %s.", $entityName, implode(', ', $types));
+            $this->addValidationError($entityName, sprintf("Property '%s' must be one of these types: %s.", $entityName, implode(', ', $types)));
         }
 
         return $this;
@@ -473,7 +477,7 @@ class JsonSchemaValidator
         if (isset($schema->minimum) && $schema->minimum) {
             if ($entity < $schema->minimum) {
                 //throw new ValidationException(sprintf('Invalid value for [%s], minimum is [%s]', $entityName, $schema->minimum));
-                $this->validationErrors[] = sprintf('Invalid value for [%s], minimum is [%s]', $entityName, $schema->minimum);
+                $this->addValidationError($entityName, sprintf('Invalid value for [%s], minimum is [%s]', $entityName, $schema->minimum));
             }
         }
 
@@ -494,7 +498,7 @@ class JsonSchemaValidator
         if (isset($schema->maximum) && $schema->maximum) {
             if ($entity > $schema->maximum) {
                 //throw new ValidationException(sprintf('Invalid value for [%s], maximum is [%s]', $entityName, $schema->maximum));
-                $this->validationErrors[] = sprintf("Invalid value for '%s', maximum is '%s'", $entityName, $schema->maximum);
+                $this->addValidationError($entityName, sprintf("Invalid value for '%s', maximum is '%s'", $entityName, $schema->maximum));
             }
         }
 
@@ -515,7 +519,7 @@ class JsonSchemaValidator
         if (isset($schema->minimum) && isset($schema->exclusiveMinimum) && $schema->exclusiveMinimum) {
             if ($entity == $schema->minimum) {
                 //throw new ValidationException(sprintf('Invalid value for [%s], must be greater than [%s]', $entityName, $schema->minimum));
-                $this->validationErrors[] = sprintf("Invalid value for '%s', must be greater than '%s'", $entityName, $schema->minimum);
+                $this->addValidationError($entityName, sprintf("Invalid value for '%s', must be greater than '%s'", $entityName, $schema->minimum));
             }
         }
 
@@ -536,7 +540,7 @@ class JsonSchemaValidator
         if (isset($schema->maximum) && isset($schema->exclusiveMaximum) && $schema->exclusiveMaximum) {
             if ($entity == $schema->maximum) {
                 //throw new ValidationException(sprintf('Invalid value for [%s], must be less than [%s]', $entityName, $schema->maximum));
-                $this->validationErrors[] = sprintf("Invalid value for '%s', must be less than '%s'", $entityName, $schema->maximum);
+                $this->addValidationError($entityName, sprintf("Invalid value for '%s', must be less than '%s'", $entityName, $schema->maximum));
             }
         }
 
@@ -557,7 +561,7 @@ class JsonSchemaValidator
         if (isset($schema->pattern) && $schema->pattern) {
             if (!preg_match($schema->pattern, $entity)) {
                 //throw new ValidationException(sprintf('String does not match pattern for [%s]', $entityName));
-                $this->validationErrors[] = sprintf("String does not match pattern for '%s'", $entityName);
+                $this->addValidationError($entityName, sprintf("String does not match pattern for '%s'", $entityName));
             }
         }
 
@@ -578,7 +582,7 @@ class JsonSchemaValidator
         if (isset($schema->minLength) && $schema->minLength) {
             if (strlen($entity) < $schema->minLength) {
                 //throw new ValidationException(sprintf('String too short for [%s], minimum length is [%s]', $entityName, $schema->minLength));
-                $this->validationErrors[] = sprintf('String too short for [%s], minimum length is [%s]', $entityName, $schema->minLength);
+                $this->addValidationError($entityName, sprintf('String too short for [%s], minimum length is [%s]', $entityName, $schema->minLength));
             }
         }
 
@@ -599,7 +603,7 @@ class JsonSchemaValidator
         if (isset($schema->maxLength) && $schema->maxLength) {
             if (strlen($entity) > $schema->maxLength) {
                 //throw new ValidationException(sprintf('String too long for [%s], maximum length is [%s]', $entityName, $schema->maxLength));
-                $this->validationErrors[] = sprintf('String too long for [%s], maximum length is [%s]', $entityName, $schema->maxLength);
+                $this->addValidationError($entityName, sprintf('String too long for [%s], maximum length is [%s]', $entityName, $schema->maxLength));
             }
         }
 
@@ -620,7 +624,7 @@ class JsonSchemaValidator
         if (isset($schema->minItems) && $schema->minItems) {
             if (count($entity) < $schema->minItems) {
                 //throw new ValidationException(sprintf('Not enough array items for [%s], minimum is [%s]', $entityName, $schema->minItems));
-                $this->validationErrors[] = sprintf('Not enough array items for [%s], minimum is [%s]', $entityName, $schema->minItems);
+                $this->addValidationError($entityName, sprintf('Not enough array items for [%s], minimum is [%s]', $entityName, $schema->minItems));
             }
         }
 
@@ -641,7 +645,7 @@ class JsonSchemaValidator
         if (isset($schema->maxItems) && $schema->maxItems) {
             if (count($entity) > $schema->maxItems) {
                 //throw new ValidationException(sprintf('Too many array items for [%s], maximum is [%s]', $entityName, $schema->maxItems));
-                $this->validationErrors[] = sprintf('Too many array items for [%s], maximum is [%s]', $entityName, $schema->maxItems);
+                $this->addValidationError($entityName, sprintf('Too many array items for [%s], maximum is [%s]', $entityName, $schema->maxItems));
             }
         }
 
@@ -662,7 +666,7 @@ class JsonSchemaValidator
         if (isset($schema->uniqueItems) && $schema->uniqueItems) {
             if (count(array_unique($entity)) != count($entity)) {
                 //throw new ValidationException(sprintf('All items in array [%s] must be unique', $entityName));
-                $this->validationErrors[] = sprintf('All items in array [%s] must be unique', $entityName);
+                $this->addValidationError($entityName, sprintf('All items in array [%s] must be unique', $entityName));
             }
         }
 
@@ -700,7 +704,8 @@ class JsonSchemaValidator
 
         if (!$valid) {
             //throw new ValidationException(sprintf('Invalid value(s) for [%s], allowed values are [%s]', $entityName, implode(',', $schema->enum)));
-            $this->validationErrors[] = sprintf('Invalid value(s) for [%s], allowed values are [%s]', $entityName, implode(',', $schema->enum));
+            $this->addValidationError($entityName, sprintf('Invalid value(s) for [%s], allowed values are [%s]', $entityName, implode(',', $schema->enum)));
+            
         }
 
         return $this;
@@ -742,8 +747,8 @@ class JsonSchemaValidator
                         }, $schema->items);
                         //throw new ValidationException(sprintf('Invalid value for [%s], must be one of the following types: [%s]',
                         //    $nodeEntityName, implode(', ' , $allowedTypes)));
-                        $this->validationErrors[] = sprintf('Invalid value for [%s], must be one of the following types: [%s]',
-                            $nodeEntityName, implode(', ' , $allowedTypes));
+                        $this->addValidationError($entityName, sprintf('Invalid value for [%s], must be one of the following types: [%s]',
+                            $nodeEntityName, implode(', ' , $allowedTypes)));
                     }
                 }
             // Item restriction is a single schema
@@ -791,8 +796,8 @@ class JsonSchemaValidator
                 }, is_array($schema->disallow) ? $schema->disallow : array($schema->disallow));
                 //throw new ValidationException(sprintf('Invalid value for [%s], disallowed types are [%s]',
                 //    $entityName, implode(', ', $disallowedTypes)));
-                $this->validationErrors[] = sprintf('Invalid value for [%s], disallowed types are [%s]',
-                    $entityName, implode(', ', $disallowedTypes));
+                $this->addValidationError($entityName, sprintf('Invalid value for [%s], disallowed types are [%s]',
+                    $entityName, implode(', ', $disallowedTypes)));
             }
         }
 
@@ -817,10 +822,47 @@ class JsonSchemaValidator
 
             if ($entity % $schema->divisibleBy != 0) {
                 //throw new ValidationException(sprintf('Invalid value for [%s], must be divisible by [%d]', $entityName, $schema->divisibleBy));
-                $this->validationErrors[] = sprintf('Invalid value for [%s], must be divisible by [%d]', $entityName, $schema->divisibleBy);
+                $this->addValidationError($entityName, sprintf('Invalid value for [%s], must be divisible by [%d]', $entityName, $schema->divisibleBy));
             }
         }
 
         return $this;
+    }
+    
+    
+    protected function addValidationError($path, $msg)
+    {        
+        $report = new stdClass;
+        $report->msg = $msg;
+        $report->description = $this->getDescriptionFromElement($path);
+        $this->validationErrorReports[] = $report;
+    }
+    
+    
+    protected function getDescriptionFromElement($path)
+    {
+        $description = "";
+        
+        $els = explode(".", $path);
+        array_shift($els);
+        
+        $jel = $this->schema;
+        foreach($els as $index => $el)
+        {
+            if(is_object($jel))
+            {
+                $jel = $jel->properties->$el;
+            }
+            else
+            {
+                // TODO: this here could be quite incorrect
+                $jel = $jel[$el];
+            }
+            
+            if(isset($jel->description))
+                $description = $jel->description;
+        }
+        
+        return $description;
     }
 }
