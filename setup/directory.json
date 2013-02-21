@@ -1,5 +1,6 @@
 {
   "091 Labs": "http://scruffy.091labs.com/lolo/json/status.json",
+  "091 Labs": "http://galileo.fedorapeople.org/status.json",
   "Ace Monster Toys": "http://acemonstertoys.org/status.json",
   "ACKspace": "https://ackspace.nl/status.php",
   "Beta-Space": "http://status.kreativitaet-trifft-technik.de/status.json",
@@ -27,9 +28,9 @@
   "NURDSpace": "http://nurdspace.tk/spaceapi/status.json",
   "Pumping Station: One": "http://spacemon.pumpingstationone.org:8000/spaceapi/ps1",
   "Randomdata": "http://randomdata.nl/hsapi.php",
-  "RaumZeitLabor": "http://openspace.slopjong.de/raumzeitlabor.json",
+  "RaumZeitLabor": "http://openspace.slopjong.de/status/RaumZeitLabor",
   "RevSpace": "http://revspace.nl/status/status.php",
-  "Shackspace": "http://openspace.slopjong.de/shackspace.json",
+  "Shackspace": "http://openspace.slopjong.de/status/Shackspace",
   "Stratum 0": "http://status.stratum0.org/status.json",
   "syn2cat": "http://www.hackerspace.lu/od/",
   "Technologia Incognita": "http://techinc.nl/space/spacestate.json",
@@ -57,7 +58,7 @@
   "HacDC": "http://api.hacdc.org/status.php",
   "IT-Syndikat": "http://it-syndikat.org/status.php",
   "Trollhöhle/Chaos Darmstadt": "http://api.chaos-darmstadt.de/json",
-  "Chaos inKL.": "http://openspace.slopjong.de/chaosinkl.json",
+  "Chaos inKL.": "http://openspace.slopjong.de/status/Chaos+inKL.",
   "CCCFr":"http://cccfr.de/status/spaceapi.py",
   "Hackerspace Monterrey":"http://hsmty.org/status.json"
 }
