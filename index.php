@@ -203,7 +203,7 @@
 				// populate the two tables in the tabs
 				//   "My space offers ..."
 				//   "Filters supported by ..."
-				for(i=0; i<2; i++)
+				for(var i=0; i<2; i++)
 				{
 					$.each(data[i], function(index, value){
 					var l = "<ol>";
