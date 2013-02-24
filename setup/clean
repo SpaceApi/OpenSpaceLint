@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf ../cron/{daily-tasks,reports,scron*}
+rm -rf ../cron/{reports,scron*}
 rm -rf ../log
 rm -rf ../cache
 echo "{}" > ../c/directory/directory.json.private
