@@ -16,7 +16,7 @@ RewriteRule ^cache/(.*)$         /c/php/controller.php?delegator=cache&action=ge
 RewriteRule ^specs/0.(.*)$       /c/php/controller.php?delegator=specs&action=get&resource=$1 [L]
 RewriteRule ^specs/changelog$    /c/specs/changelog [L]
 
-# validate a cached space api file from a given space name
+# validate a cached space api file from a given space name or raw json data
 RewriteCond %{QUERY_STRING} ^$
 RewriteRule ^validate/(.*)$      /c/php/controller.php?delegator=validator&action=get&resource=$1 [L]
 
