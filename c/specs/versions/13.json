@@ -99,7 +99,7 @@
             }
         },
         "events": {
-            "description": "",
+            "description": "These are events something like 'X has entered at timestamp Y'",
             "required": false,
             "type": "array",
             "items": {
@@ -107,22 +107,22 @@
                 "type": "object",
                 "properties": {
                     "name": {
-                        "description": "",
+                        "description": "Person/Computer/Item X or whatever name",
                         "required": true,
                         "type": "string"
                     },
                     "type": {
-                        "description": "",
+                        "description": "Type name (e.g. check-in, check-out, ...)",
                         "required": true,
                         "type": "string"
                     },
                     "t": {
-                        "description": "",
+                        "description": "Unix timestamp",
                         "required": true,
                         "type": "number"
                     },
                     "extra": {
-                        "description": "",
+                        "description": "An custom text field",
                         "required": false,
                         "type": "string"
                     }
