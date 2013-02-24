@@ -85,9 +85,9 @@ class SpaceApiFile
                 return;
             }
             
-            $json = json_decode($data);
+            $obj = json_decode($data);
             
-            if($json === null)
+            if($obj === null)
             {
                 $msg = "The json could not be processed.";
                 $logger->logNotice($msg);
@@ -95,7 +95,7 @@ class SpaceApiFile
                 return;
             }
              
-            $this->set_members($json);
+            $this->set_members($obj);
         }
     }
     
@@ -105,27 +105,30 @@ class SpaceApiFile
      * 
      * @param stdClass object $json A space api json
      */
-    private function set_members($json)
+    private function set_members($obj)
     {
-        $this->json = $json;
-        $this->version = $json->api;
-        $this->space_name = $json->space;
+        $this->json = $obj;
+        $this->version = $obj->api;
+        $this->space_name = $obj->space;
         
-        if(property_exists($json, "contact") && property_exists($json->contact, "email"))
-            $this->contact_email = $json->contact->email;
+        if(property_exists($obj, "contact") && property_exists($obj->contact, "email"))
+            $this->contact_email = $obj->contact->email;
         
         
         // set the cron schedule if one is set and allowed to be used
-        if(property_exists($json, "cache") && property_exists($json->cache, "schedule"))
+        if(property_exists($obj, "cache") && property_exists($obj->cache, "schedule"))
         {
             $allowed_schedules = json_decode(CRON_AVAILABLE_SCHEDULES);
-            if(in_array($json->cache->schedule, $allowed_schedules))
-                $this->cron_schedule = $json->cache->schedule;
+            if(in_array($obj->cache->schedule, $allowed_schedules))
+                $this->cron_schedule = $obj->cache->schedule;
         }
         
         // an empty space name is not permitted
         if(empty($this->space_name))
+        {
             $this->set_error("The space name must not be empty!");
+            $this->error_code = SpaceApiFile::OTHER;
+        }
     }
     
     
