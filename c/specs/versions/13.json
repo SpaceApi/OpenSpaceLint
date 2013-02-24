@@ -99,7 +99,7 @@
             }
         },
         "events": {
-            "description": "These are events something like 'X has entered at timestamp Y'",
+            "description": "These are events something like 'X has entered/triggered/did Y at timestamp Z'",
             "required": false,
             "type": "array",
             "items": {
@@ -116,8 +116,8 @@
                         "required": true,
                         "type": "string"
                     },
-                    "t": {
-                        "description": "Unix timestamp",
+                    "timestamp": {
+                        "description": "Unix timestamp when the event occured",
                         "required": true,
                         "type": "number"
                     },

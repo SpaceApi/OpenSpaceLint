@@ -3,7 +3,7 @@ Stable: 0.12
 Author: slopjong
 =============================================
 
-0.13: (last update: 18.2.2013)
+0.13: (last update: 24.2.2013)
 
   * Added cache/schedule
   * Made contact/email a required field to be able to send a report
@@ -18,6 +18,7 @@ Author: slopjong
     is really using them and furthermore some spaces use them incorrectly
     because they (haven't|don't want) such icons.
   * Moved address to location/address
+  * Changed events/t to events/timestamp to make that field more clear
 
 0.12:
 
