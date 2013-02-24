@@ -41,11 +41,6 @@ function reset_results(){
 	  .removeClass("success")
 	  .removeClass("error")
 	  .hide();
-	$("#results").text("")
-	  .removeClass("success")
-	  .removeClass("error");          
-	$("#results-container h1").text("");
-	
 }
 
 // for testing

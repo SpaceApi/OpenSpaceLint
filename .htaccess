@@ -20,9 +20,9 @@ RewriteRule ^specs/changelog$    /c/specs/changelog [L]
 RewriteCond %{QUERY_STRING} ^$
 RewriteRule ^validate/(.*)$      /c/php/controller.php?delegator=validator&action=get&resource=$1 [L]
 
-# validate a space api implementation from a URL
+# validate a space api implementation from a URL (the trailing slash is optional)
 RewriteCond %{QUERY_STRING} ^url
-RewriteRule ^validate/$          /c/php/controller.php?delegator=validator&action=get&resource= [QSA,NE,L]
+RewriteRule ^validate            /c/php/controller.php?delegator=validator&action=get&resource= [QSA,NE,L]
 
 # get the directory or a subset of it
 RewriteCond %{QUERY_STRING} ^$ [OR]

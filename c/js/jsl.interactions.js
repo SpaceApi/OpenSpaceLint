@@ -120,60 +120,97 @@ jsl.interactions = (function () {
 
 
                 /********************************************************************************/
-                // check against the specs
-                
-				var versions = ["8", "9", "11", "12", "13"];
-                var report, uri, version;
-		
-                for(index=0; index < versions.length; index++)
-                {
-					version = versions[index];
+                // check against the specs				
+				
+				// remove any previous spaceapi validation results
+				$("#results-specs-container .error").remove();
+				$("#results-specs-container .success").remove();
+				
+				var spaceapi = JSON.parse(jsonVal);
+				var api = 0;
+				
+				if(spaceapi.hasOwnProperty("api"))
+				{
+					api = parseFloat(spaceapi.api);
+				}
+				
+				// we need to unset some values because if some special characters are used
+				// they won't be urlencoded correctly with escape, maybe not all variables
+				// are covered so some space api implementation still might fail
+				// See http://github.com/slopjong/openspacelint/issues/50
+				if(api != 0)
+				{
+					if(spaceapi.hasOwnProperty("space"))
+						spaceapi.space = "";
 					
-					// do not edit the url, it's just a namespace!
-					var schema = apienv.findSchema("http://openspace.slopjong.de/specs"+ version);
-					report = apienv.validate( JSON.parse(jsonVal), schema);
-					uri = report.instance._uri;
-		
-					// reset the old messages
-					$("#results-specs-"+ version).text("");
-							
-					$("#results-specs-container-"+ version).show();
-		
-					if(report.errors.length > 0)
+					if(api<0.13)
 					{
-						$("#results-specs-header-"+ version).text("Your JSON is not compliant to the specs 0."+ version +" .").wrapInner("<h1>");
-						$("#results-specs-container-"+ version).removeClass('success').addClass('error');
-						$("#results-specs-container-"+ version +" .specs-link").show();
-						
-						// remove the old results    
-						$("#results-specs-"+ version).text(""); 
-						
-						var err, msg;
-						for(i=0; i<report.errors.length; i++){
-		
-							err = report.errors[i];
-							msg = err.message;
-		
-							if(err.message === "Instance is not one of the possible values")
-								msg = "Property '" + err.uri + "' must be one of the these values: " + err.details.join(", ") + ".";
-		
-							if(err.message === "Property is required")
-								msg = "Property '" + err.uri + "' is missing.";
-		
-							if(err.message === "Instance is not a required type")
-								msg = "Property '" + err.uri + "' must be one of these types: " + err.details.join(", ") + ".";
-		
-							msg = msg.replace(uri+"/", "");
-							$("#results-specs-"+ version).append(msg + "\n");           
-						}
+						if(spaceapi.hasOwnProperty("address"))
+							spaceapi.address = "";
+						if(spaceapi.hasOwnProperty("status"))
+							spaceapi.status = "";
 					}
 					else
 					{
-						$("#results-specs-header-"+ version).text("Your JSON is compliant to the specs version 0."+ version +" .").wrapInner("<h1>");
-						$("#results-specs-container-"+ version).removeClass('error').addClass('success');
+						if(spaceapi.hasOwnProperty("location"))
+							if(spaceapi.location.hasOwnProperty("address"))
+								spaceapi.location.address = "";
+						if(spaceapi.hasOwnProperty("status"))
+							if(spaceapi.status.hasOwnProperty("message"))
+								spaceapi.status.message = "";
 					}
-                }
+				}
+				
+				// uglify the json to remove unwanted whitespaces
+				var uglifiedJSON = JSON.stringify(spaceapi);
+				
 
+				$.getJSON( site_url + "/validate/" + escape(uglifiedJSON))
+				// see issue #50
+				//$.getJSON( site_url + "/validate/?json=" + encodeURIComponent(uglifiedJSON))
+				.success(function(results){ 
+					
+					if(results.hasOwnProperty("error"))
+					{
+						alert(results.error + ' If you think that you provided a valid json it could be that you use special characters that are not correctly escaped by javascript. See issue https://github.com/slopjong/OpenSpaceLint/issues/50.');
+					}
+					else
+					{
+						if(results.valid.length>0)
+						{
+							var success_div = $('<div>'+
+							'<div><h1>Your JSON is compliant to the specs '+ results.valid.join(", ") +'</h1></div>' +
+							'</div>').addClass("success");
+							
+							$("#results-specs-container").append(success_div).show();
+						}
+						
+			            $.each(results.errors, function(version, item) {
+							var error_msg = "";
+							for(var i=0; i < item.length; i++)
+							{
+								error_msg += item[i].msg + "\n";
+							}
+							
+							var error_div = $('<div class=".spec-result">'+
+							'<div><h1>Your JSON is not compliant to the specs '+ version +'</h1></div>' +
+							'<br><pre>'+ error_msg +'</pre><br>' +
+							'Please check the <a style="text-decoration: underline;" href="'+ site_url +'/specs/'+ version +'" target="_blank">specs '+ version +'</a>. ' +
+							((version == results.draft) ? 'This is still a draft, see the <a style="text-decoration: underline;" href="http://openspace.slopjong.de/specs/changelog" target="_blank">changelog</a>.' : "") +
+							'</div>').addClass("error");
+							
+							$("#results-specs-container").append(error_div).show();
+							
+						});
+						
+						var valid_string = "" + JSON.stringify(results.valid);
+						
+					}
+				})
+				.error(function(){
+					alert("There's a problem with AJAX. One reason can be an adblock add-on in your browser that's blocking the request. Disable your adblock add-on when validating your json. If you're sure that this is not your issue please file a ticket here: https://github.com/slopjong/OpenSpaceLint/issues");
+				});
+				
                 /********************************************************************************/
                     
 
@@ -225,12 +262,6 @@ jsl.interactions = (function () {
             $('#results').text(parseException.message);
             $('#results').removeClass('success').addClass('error');
             $('div.linedwrap').removeClass('greenBorder').addClass('redBorder');
-            
-			$('#results-specs-container-0.13').hide();
-            $('#results-specs-container-0.12').hide();
-            $('#results-specs-container-0.11').hide();
-            $('#results-specs-container-0.9').hide();
-            $('#results-specs-container-0.8').hide();
         }
 
         $('#loadSpinner').hide();

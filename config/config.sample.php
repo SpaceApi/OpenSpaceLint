@@ -78,6 +78,8 @@ define('CURL_USER_AGENT', "Mozilla/5.0 (X11; Linux x86_64; rv:18.0) Gecko/201001
 // After how many seconds should the curl timeout appear?
 define('CURL_TIMEOUT', "15");
 
+// which is the specs draft version?
+define('SPECSDRAFTVERSION', '13');
 
 /**************************************************************/
 // just don't change this

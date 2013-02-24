@@ -1,59 +1,3 @@
-/**
- * This is the javascript part of the 'add new space' feature. It provides
- * the #add=<url> route and adds a 'New Space' link to the DOM.
- */
-
-function poll(url){
-  
-  setTimeout(function(){
-    
-      var valid = $('h1:contains("Your JSON is compliant")').size();
-      var invalid = $('h1:contains("Your JSON is not compliant ")').size();
-    
-      if(valid) {
-          // set the space name and url in the form
-          // to be sent to the add-hacker-space php script                 
-          var json;
-          try{
-            var jsonVal = $('#json_input').val();
-            json = JSON.parse(jsonVal);
-          } catch(e){
-            alert("Something went wrong: " + e.message);
-            // no extra exception handling is required because
-            // JSON should already be checked by json lint
-            return;
-          }
-          if(json.hasOwnProperty("url")){
-             // TODO: check if json.url is part of the passed url argument.
-             //       This should prevent to override an existent entry
-          }
-          $("#add-hackerspace-url").val(url);
-           
-          if(json.hasOwnProperty("space"))
-            $("#add-hackerspace-space").val(json.space);
-          
-          // reload the captcha and focus the text field
-          Recaptcha.reload();
-          Recaptcha.focus_response_field();
-          
-          // reset the error message
-          $("#add-space-form-error")
-            .text("")
-            .hide();
-          
-          // show the overlay
-          jQuery(".valid-overlay").data("overlay").load();
-          
-      } else {
-          var total = valid+invalid;
-          if(total==4)
-            jQuery(".invalid-overlay").data("overlay").load();
-          else{
-            poll(url);
-          }
-      }
-  }, 200);
-}
 
 // TODO: some duplicate with openspace.js
 function reload_space_list(){
@@ -167,28 +111,65 @@ $(document).ready(function(){
         },
         closeOnClick: false
     });			
-    
-    $.router(/^add=(.+)$/, function(m, url) {
 
+    Recaptcha.create(
+      recaptcha_public_key, // from config.js
+      "recaptcha_div",
+      {
+          lang: "en",
+          theme: "clean",
+          callback: Recaptcha.focus_response_field
+    });
+    
+   
+    $.router(/^add=(.+)$/, function(m, url) {
+        
             // now enter the url in the text field and click
             // on the validate button for the user
+            // this is in fact not necessary but it gives a better
+            // user experience
             $("#json_input").val(url);
             $("#validate").click();
             
-            // now poll the results
-            poll(url);
-        
+            $.getJSON( site_url + "/validate/?url=" + url)
+            .success(function(results){ 
+                
+              if(results.valid.length>0)
+              {
+                $("#add-hackerspace-url").val(url);
+                
+                //console.log(Recaptcha);
+                
+                try
+                {
+                  // reload the captcha and focus the text field
+                  Recaptcha.reload();
+                  Recaptcha.focus_response_field();
+                }
+                catch(e)
+                {
+                  if(console != null)
+                    if(console.hasOwnProperty("log"))
+                      console.log("Could not refresch the captcha fields: " + e);
+                }
+                
+                // reset the error message
+                $("#add-space-form-error")
+                  .text("")
+                  .hide();
+                  
+                // show the overlay
+                jQuery(".valid-overlay").data("overlay").load();
+              }
+              else
+                jQuery(".invalid-overlay").data("overlay").load();
+              
+            })
+            .error(function(){
+                alert("There's a problem with AJAX. One reason can be an adblock add-on in your browser that's blocking the request. Disable your adblock add-on when validating your json. If you're sure that this is not your issue please file a ticket here: https://github.com/slopjong/OpenSpaceLint/issues");
+            });
         }, function(m, url) {}
     );
-    
-    Recaptcha.create(
-        recaptcha_public_key, // from config.js
-        "recaptcha_div",
-        {
-            lang: "en",
-            theme: "clean",
-            callback: Recaptcha.focus_response_field
-        });
     
     // on submit
     // add-space-form is the dialog with the captcha field
@@ -198,8 +179,6 @@ $(document).ready(function(){
             site_url + "/directory.json",
             $(this).serialize(),
             function(response){
-
-                console.log(response);
                 
                 if(response.ok){
                     $("#add-space-form-error").text("").hide();

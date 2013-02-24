@@ -1,5 +1,12 @@
 <?php
 
+// because we make the code compatible with php 5.2 and we cannot
+// use namespaces which makes it difficult to load classes from a package
+// within the current class autoloader. in other words, with the class name we
+// could not determine a package and so we use functions for each route
+// in order to reduce the complexity instead of creating a class (in its
+// own package) for every route (which is called delegator in the code)
+
 class Route
 {
     public static function execute($delegator, $action, $resource)
@@ -104,6 +111,18 @@ class Route
                 
                 echo "site_url = 'http://". SITE_URL ."';";
                 echo "recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
+                
+                // the specs versions
+                $specs_versions = array();
+                
+                foreach(glob( SPECSDIR ."*.json") as $filename)
+                {
+                    $filename = basename($filename);
+                    $specs_versions[] = str_replace(".json", "", $filename);
+                }
+                
+                rsort($specs_versions);
+                echo 'var versions = '. json_encode($specs_versions) . ';';
                 
                 break;
             
@@ -627,23 +646,56 @@ class Route
         {
             case "get":
             
+                //$logger->logDebug(print_r($_GET, true));
+            
                 header('Content-type: application/json');
                 header('Access-Control-Allow-Origin: *');
         
+                /*
+                if(isset($_GET["url"]))
+                {
+                    echo "url set";
+                    exit();
+                }
+                else
+                {
+                    echo "url not set";
+                    exit();
+                }
+                */
+                
                 $url = "";
                 
+                // did we get a space api url?
                 if(isset($_GET["url"]))
-                    $url = filter_var($_GET["url"], FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
-                    
-                if($url == "")
                 {
-                    $sanitized_space_name = NiceFileName::get($resource);
+                    $url = $_GET["url"];
                     
+                    // if the url originally contained a + this will end in a whitespace when
+                    // we reach this place here, so turn it back to a + or filter_var will return
+                    // an empty string. Examples for urls that possibly have a + are the urls
+                    // to spacehandlers such as http://openspace.slopjong.de/status/Chaos+inKL.
+                    $url = str_replace(" ", "+", $url);
+
+                    $url = filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
+                    
+                    $logger->logDebug($url);
+                }
+                
+                // or did we get json data or a space name instead?
+                if($url != "")
+                {
+                    $logger->logDebug("Validate a space from its url '$url'");
+                    $mixed = $url;
+                }
+                else
+                {                    
                     // when no url is passed the .htaccess then $resource should contain a string
                     // which is hopefully a space name. the cache GET parameter tells us if we should
                     // validate the cached version
                     if(isset($_GET["cache"]))
                     {
+                        $sanitized_space_name = NiceFileName::get($resource);
                         $space_file = "$sanitized_space_name.json";
                         $mixed = file_get_contents(STATUSCACHEDIR . $space_file);
                         
@@ -653,26 +705,46 @@ class Route
                             exit;
                         }                        
                     }
-                    // if the cache GET parameter is missing, the url from the private directory
-                    // is taken and validated
+                    // we got either a space name or raw json data if the cache GET parameter
+                    // is missing, we're trying to find out  the url from the private directory is taken and validated
                     else
                     {
-                        $private_directory = new PrivateDirectory;
-                        $mixed = $private_directory->get_url($sanitized_space_name, true);
-                        $logger->logDebug("Validating $resource:$mixed");
+                        // the following rewrite rule seems to not pass the raw json to the resource parameter for
+                        // whatever reason
+                        //
+                        //    RewriteCond %{QUERY_STRING} ^$
+                        //    RewriteRule ^validate/(.*)$  /c/php/controller.php?delegator=validator&action=get&resource=$1 [L]
+                        //
+                        // workaround: get ge resource from the request uri
+                        $resource = str_replace("/validate/", "", $_SERVER["REQUEST_URI"]);
+                        $resource = urldecode($resource);
+                        //$resource = urldecode($resource);
+                        
+                        if(null !== json_decode($resource))
+                        {
+                            $mixed = $resource;
+                            $logger->logDebug("Validating raw json data from a frontend");
+                        }
+                        else
+                        {
+                            $logger->logDebug("Validating a space ('$resource:$mixed') from its name");
+                            $sanitized_space_name = NiceFileName::get($resource);
+                            $private_directory = new PrivateDirectory;
+                            $mixed = $private_directory->get_url($sanitized_space_name, true);
+                        }
                     }
                 }
-                else
-                    $mixed = $url;
                 
                 $space_api_file = new SpaceApiFile($mixed);
                 
-                if(!$space_api_file->has_error())
+                if(!$space_api_file->has_error() || $space_api_file->error_code() == SpaceApiFile::OTHER)
                 {
                     $space_validator = new SpaceApiValidator;
                     $space_validator->validate($space_api_file);
                     
                     $ret = new stdClass;
+                    $ret->space = $space_api_file->name();
+                    $ret->draft = "0.".SPECSDRAFTVERSION;
                     $ret->valid = $space_validator->get_valid_versions();
                     $ret->invalid = $space_validator->get_invalid_versions();
                     $ret->errors = $space_validator->get_errors();
@@ -682,7 +754,7 @@ class Route
                 else
                 {
                     $logger->logDebug("Space could not be validated: ". $space_api_file->error());
-                    echo '{"error" : "URL doesn\'t provide a space api implementation."}';
+                    echo '{"error" : "URL/JSON doesn\'t provide a space api implementation."}';
                     exit;
                 }
                 

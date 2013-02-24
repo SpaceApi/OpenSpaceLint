@@ -37,14 +37,7 @@
 	
 	<script src="c/js/jquery.makecolumnlists.js" type="text/javascript"></script>
 
-        <script type="text/javascript" src="c/js/jsv/uri/uri.js"></script>
-        <script type="text/javascript" src="c/js/jsv/jsv.js"></script>
-        <script type="text/javascript" src="c/js/jsv/json-schema-draft-03.js"></script>
-
-		
-        <script type="text/javascript" src="c/js/openspace.js"></script>
-        <script type="text/javascript" src="c/js/apienv.js"></script>
-        
+        <script type="text/javascript" src="c/js/openspace.js"></script>        
         	        
         <script type="text/javascript" src="c/js/jsl.parser.js"></script>
         <script type="text/javascript" src="c/js/jsl.format.js"></script>
@@ -56,7 +49,7 @@
         <script type="text/javascript" src="c/js/jquery.router-0.5.3.js"></script>
         <script type="text/javascript" src="c/js/jquery.tools.min.js"></script>
         
-        <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>	
+        <script type="text/javascript" src="c/js/recaptcha_ajax.js"></script>	
         <script type="text/javascript" src="c/js/add-hackerspace.js"></script> 
                 
         <link rel="stylesheet" href="c/css/blueprint/compressed/screen.css" type="text/css" media="screen, projection">
@@ -395,11 +388,10 @@
                 
                 <div id="results-container">
                     <pre id="results"></pre>
-					<div id="results-specs-container-13" class=".spec-result"><div id="results-specs-header-13"></div><pre id="results-specs-13"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.13" target="_blank">specs 0.13</a>. This is still a draft, see the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/changelog" target="_blank">changelog</a>.</div></div>
-                    <div id="results-specs-container-12" class=".spec-result"><div id="results-specs-header-12"></div><pre id="results-specs-12"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.12" target="_blank">specs 0.12</a>.</div></div>
-                    <div id="results-specs-container-11" class=".spec-result"><div id="results-specs-header-11"></div><pre id="results-specs-11"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.11" target="_blank">specs 0.11</a>.</div></div>
-                    <div id="results-specs-container-9" class=".spec-result"><div id="results-specs-header-9"></div><pre id="results-specs-9"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.9" target="_blank">specs 0.9</a>.</div></div>
-                    <div id="results-specs-container-8" class=".spec-result"><div id="results-specs-header-8"></div><pre id="results-specs-8"></pre><div class="specs-link" style="margin-top: 12px; display:none;">Please check the <a style="text-decoration: underline;" href="http://<?= SITE_URL ?>/specs/0.8" target="_blank">specs 0.8</a>.</div></div>
+					
+					<div id="results-specs-container">
+					</div>
+					
                 </div>
                         
                 <div id="props" class="hide">
