@@ -26,4 +26,16 @@ class Email
             $logger->logNotice("Report mail sent to $email");
         }
     }
+    
+    /**
+     * @param string $encoded_string An email which can be base64 encoded
+     */
+    public static function get($encoded_string)
+    {
+        if(base64_decode($encoded_string, true) !== false)
+            return base64_decode($encoded_string);
+        
+        // here we assume that the string is not encoded
+        return $encoded_string;
+    }
 }
