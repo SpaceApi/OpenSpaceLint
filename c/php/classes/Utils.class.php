@@ -114,4 +114,20 @@ class Utils
         foreach($constants as $index => $constant)
             echo "$constant: ". constant($constant) ."\n";
     }
+    
+    
+    /**
+     * Sorts an array by key case-insensitive, maintaining key to data correlations. This is useful mainly for associative arrays.
+     * 
+     * @param array $array_arg Array to be sorted by key case-insensitive
+     */
+    public static function ksort(&$array_arg)
+    {        
+        function _strcmp($a, $b)
+        {
+            return strcasecmp($a, $b);
+        }
+        
+        uksort($array_arg, "_strcmp");
+    }
 }

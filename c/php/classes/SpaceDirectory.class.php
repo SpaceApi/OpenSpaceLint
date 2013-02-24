@@ -381,6 +381,9 @@ abstract class SpaceDirectory
             }
         }
         
+        // sort the directory alphanumerical
+        $mixed = Utils::ksort((array) $mixed);
+        
         $json_str = json_encode($mixed);
         //$logger->logInfo("Writing the following string back to the file:\n". $json_str);
         
