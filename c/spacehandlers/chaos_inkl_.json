@@ -12,8 +12,12 @@
         "email": "info@chaos-inkl.de",
         "irc": "irc://irc.hackint.eu/c3kl",
         "ml": "main-subscribe@lists.chaostreff-kaiserslautern.de",
-        "twitter": "@chaos_inkl"
+        "twitter": "@chaos_inkl",
+		"issue-mail": "c3BhY2VhcGlAc2xvcGpvbmcuZGUK"
     },
+	"issue-report-channels": [
+        "issue-mail"
+    ],
     "cache": {
         "schedule": "m.02"
     }

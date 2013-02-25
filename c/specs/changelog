@@ -3,22 +3,26 @@ Stable: 0.12
 Author: slopjong
 =============================================
 
-0.13: (last update: 24.2.2013)
+0.13: (last update: 25.2.2013)
 
-  * Added cache/schedule
-  * Made contact/email a required field to be able to send a report
-    email on a revalidation failure.
-  * Moved lat and lon to location/{lat,lon}
-  * Made location and location/{lat,lon} required fields
-  * The meaning of the status field has changed, it's now a compound
-    object of all the fields that are related to the space status
-  * Moved the fields open, lastchange and icon to status/{open,lastchange,icon}
-  * Added the message field which was the former status field
-  * Made the status icons non-required, because there's no app that
-    is really using them and furthermore some spaces use them incorrectly
-    because they (haven't|don't want) such icons.
-  * Moved address to location/address
-  * Changed events/t to events/timestamp to make that field more clear
+  (1) Added cache/schedule
+  (2) Made contact/email a required field to be able to send a report
+      email on a revalidation failure. (reverted, replaced by point 11 & 12)
+  (3) Moved lat and lon to location/{lat,lon}
+  (4) Made location and location/{lat,lon} required fields
+  (5) The meaning of the status field has changed, it's now a compound
+      object of all the fields that are related to the space status
+  (6) Moved the fields open, lastchange and icon to status/{open,lastchange,icon}
+  (7) Added the message field which was the former status field
+  (8) Made the status icons non-required, because there's no app that
+      is really using them and furthermore some spaces use them incorrectly
+      because they (haven't|don't want) such icons.
+  (9) Moved address to location/address
+  (10) Changed events/t to events/timestamp to make that field more clear
+  (11) Added contact/issue-mail (optional), an email address where SpaceAPI
+       issues can be sent to. The value can be base64-encoded.
+  (12) Added issue-report-channels (required), a list of communication channels
+       where issues should be reported to. At least one channel must be defined.
 
 0.12:
 

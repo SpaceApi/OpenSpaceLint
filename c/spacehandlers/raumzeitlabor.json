@@ -13,8 +13,12 @@
         "irc": "irc://irc.hackint.eu/raumzeitlabor",
         "ml": "raumzeitlabor@raumzeitlabor.de",
         "twitter": "@RaumZeitLabor",
-        "phone": "+4962176231370"
+        "phone": "+4962176231370",
+		"issue-mail": "c3BhY2VhcGlAc2xvcGpvbmcuZGUK"
     },
+    "issue-report-channels": [
+        "issue-mail"
+    ],
     "cache": {
         "schedule": "m.02"
     },

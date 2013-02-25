@@ -131,7 +131,7 @@
         },
         "contact": {
             "description": "",
-            "required": false,
+            "required": true,
             "type": "object",
             "properties": {
                 "phone": {
@@ -164,7 +164,7 @@
                 },
                 "email": {
                     "description": "Email address to which other people can contact your space",
-                    "required": true,
+                    "required": false,
                     "type": "string"
                 },
                 "ml": {
@@ -176,7 +176,22 @@
                     "description": "",
                     "required": false,
                     "type": "string"
+                },
+                "issue-mail": {
+                    "description": "A seperate email address for issue reports (see the issue-report-channels field). The value can be base64-encoded.",
+                    "required": false,
+                    "type": "string"
                 }
+            }
+        },
+        "issue-report-channels": {
+            "description": "Define all the communication channels where you want to get issue reports. At least one must be defined.",
+            "required": true,
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["email", "issue-mail", "twitter", "ml"],
+                "minItems": 1
             }
         },
         "sensors": {

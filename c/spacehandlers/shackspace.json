@@ -13,8 +13,12 @@
         "irc": "irc://irc.freenode.net/shackspace",
         "ml": "public@lists.shackspace.de",
         "twitter": "@shackspace",
-        "phone": "+4971121729823"
+        "phone": "+4971121729823",
+		"issue-mail": "c3BhY2VhcGlAc2xvcGpvbmcuZGUK"
     },
+    "issue-report-channels": [
+        "issue-mail"
+    ],
     "cache": {
         "schedule": "m.02"
     },
