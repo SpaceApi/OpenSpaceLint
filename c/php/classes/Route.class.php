@@ -271,6 +271,8 @@ class Route
                             Cron::create($space_api_file->name());
                             Cache::cache($space_api_file);
                             
+                            FilterKeys::update();
+                            
                             $logger->logDebug("The space got added to the directory.");
                         }
                         else
@@ -462,7 +464,11 @@ class Route
                 header('Content-type: application/json');
                 header('Access-Control-Allow-Origin: *');
                 
-                echo json_encode(FilterKeys::get());       
+                if(!file_exists(CACHEDIR . "filter-keys/filter_keys.json"))
+                    FilterKeys::update();
+                
+                echo file_get_contents(CACHEDIR . "filter-keys/filter_keys.json");
+                
                 break;
             
             default:

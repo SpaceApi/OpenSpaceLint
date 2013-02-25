@@ -67,6 +67,8 @@ class Cache
             // a proper space name in order to let the cron rotator work properly
             $space_api_file = new SpaceApiFile($url, $space_name);
             self::cache($space_api_file);
+            
+            FilterKeys::update();
         }
     }
     

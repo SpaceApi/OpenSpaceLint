@@ -28,6 +28,10 @@ su $1 -c '/usr/bin/env php -f create_crondirs.php'
 echo "Populating the directory, get some coffee because this can take several minutes ..."
 su $1 -c '/usr/bin/env php -f populate_directory.php'
 
+# cache a json with the filter keys the spaces have implemented
+echo "Caching a json with the filter keys the spaces have implemented ..."
+su $1 -c '/usr/bin/env php -f create_filterkeys.php'
+
 # now run the daily cronjobs once to populate the cache
 # echo "Do you want to populate the whole cache? Please press the key 1 or 2."
 

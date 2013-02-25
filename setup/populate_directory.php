@@ -62,6 +62,7 @@
 *     */8   *    *    *    run-parts ${crondir}scron.h.08
 *     */12  *    *    *    run-parts ${crondir}scron.h.12
 40    4     */1  *    *    run-parts ${crondir}scron.d.01
+23    22    */1  *    *    run-parts ${crondir}daily-tasks
 EOF;
     
         echo "\nAdd this to the crontab of the user under which the web server is running: \n";

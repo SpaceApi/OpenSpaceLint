@@ -89,4 +89,15 @@ class FilterKeys
         
         return array($sorted_to_space, $sorted_to_member);
     }
+    
+    
+    /**
+     * Updates the cached json file with the filter keys.
+     */
+    public static function update()
+    {
+        $json = json_encode(self::get());
+        $json = Utils::json_pretty_print($json);
+        file_put_contents(CACHEDIR . "filter-keys/filter_keys.json", $json);
+    }
 }
