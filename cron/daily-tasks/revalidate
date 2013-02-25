@@ -4,9 +4,8 @@
 
 error_reporting(E_ALL ^ E_NOTICE);
 
-chdir("../..");
-require_once("config/config.php");
-require_once("c/php/classes/KLogger.class.php");
+require_once(dirname(__FILE__) . "/../../config/config.php");
+require_once(CLASSDIR . "KLogger.class.php");
 
 $logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
 
