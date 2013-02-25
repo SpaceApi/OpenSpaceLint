@@ -381,8 +381,12 @@ abstract class SpaceDirectory
             }
         }
         
+        // here $mixed should be an object
+        $mixed = (array) $mixed;
+        
         // sort the directory alphanumerical
-        $mixed = Utils::ksort((array) $mixed);
+        // TODO: this makes some trouble, when adding a space it's added to the private but not the public directory
+        //Utils::ksort($mixed);
         
         $json_str = json_encode($mixed);
         //$logger->logInfo("Writing the following string back to the file:\n". $json_str);

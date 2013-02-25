@@ -1,0 +1,67 @@
+#!/usr/bin/env php
+
+<?php
+
+error_reporting(E_ALL ^ E_NOTICE);
+
+chdir("../..");
+require_once("config/config.php");
+require_once("c/php/classes/KLogger.class.php");
+
+$logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
+
+// define the auto class loader
+function class_loader($classname)
+{
+    $classfile = CLASSDIR . "$classname.class.php";
+    
+    if (file_exists($classfile))
+    {
+        require_once($classfile);
+        return true;
+    }
+    
+    // this is not so ideal, when the config cannot be loaded this fails
+    // so just be sure the Config class is always included!
+    $logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
+    $logger->logEmerg("The class '$classname' cannot be loaded!");
+    
+    return false;
+}
+
+spl_autoload_register("class_loader");
+
+$space_api_valdiator = new SpaceApiValidator();
+
+$mail_message = "";
+
+foreach(glob( STATUSCACHEDIR ."*.json") as $filename)
+{
+    $json = file_get_contents($filename);
+    $space_api_file = new SpaceApiFile($json);
+    $ok = $space_api_valdiator->validate($space_api_file);
+    
+    if(!$ok)
+    {
+        $errors = $space_api_valdiator->get_errors();
+        
+        $mail_message .= "\n\n[". $space_api_file->name() . "]\n\n";
+
+        // iterate over all the versions that have errors
+        foreach($errors as $version => $error)
+        {
+            // iterate over the errors for the current iterated version
+            foreach($error as $err)
+                $mail_message .= "$version => ". $err->msg . "\n";
+        }
+        
+        $mail_message .= "\n==============================================================";
+    }
+}
+
+$mail_message = "The spaces below have no valid space API implementation. If you are ".
+                "a member of one of these please tell your admin to fix it. It's ".
+                "sufficient to make an implementation conform to one version of the ".
+                "specification.\n\n" . $mail_message;
+
+Email::send("Revalidation report", "", $mail_message);

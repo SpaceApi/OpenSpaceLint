@@ -691,8 +691,8 @@ class Route
                 else
                 {                    
                     // when no url is passed the .htaccess then $resource should contain a string
-                    // which is hopefully a space name. the cache GET parameter tells us if we should
-                    // validate the cached version
+                    // which is hopefully a space name. the cache GET parameter _explicitly_ tells
+                    // us if we should validate the cached version
                     if(isset($_GET["cache"]))
                     {
                         $sanitized_space_name = NiceFileName::get($resource);
@@ -730,7 +730,20 @@ class Route
                             $logger->logDebug("Validating a space ('$resource:$mixed') from its name");
                             $sanitized_space_name = NiceFileName::get($resource);
                             $private_directory = new PrivateDirectory;
-                            $mixed = $private_directory->get_url($sanitized_space_name, true);
+                            
+                            if(!$private_directory->has_space($sanitized_space_name) && !Cache::is_cached($sanitized_space_name))
+                            {
+                                echo '{"error" : "'. $resource .' is not in the directory nor cached."}';
+                                exit;
+                            }
+                            else if($private_directory->has_space($sanitized_space_name))
+                            {
+                                $mixed = $private_directory->get_url($sanitized_space_name, true);
+                            }
+                            else
+                            {
+                                $mixed = Cache::get($sanitized_space_name);
+                            }
                         }
                     }
                 }

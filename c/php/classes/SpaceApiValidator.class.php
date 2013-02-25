@@ -6,6 +6,18 @@ class SpaceApiValidator
     private $valid_versions = array();
     private $invalid_versions = array();
     
+    
+    /**
+     * Initializes or resets the errors, valid and invalid versions.
+     * This allows to reuse the same validator instance.
+     */
+    private function init()
+    {
+        $this->errors = null;
+        $this->valid_versions = array();
+        $this->invalid_versions = array();
+    }
+    
     /**
      * Validates the a space api implementation against
      * all the specs versions. If one is valid true is returned
@@ -13,6 +25,8 @@ class SpaceApiValidator
      * the allowed value for a specification being checked, the
      * space api implementation is considered correct and appears
      * in the valid array in the test results.
+     *
+     * Every call of this method resets any previous results.
      * 
      * @param string $space_json A space api implementation
      * @return bool True if the space api file is valid against at least one specs version
@@ -20,6 +34,8 @@ class SpaceApiValidator
     public function validate($space_api_file)
     {
         global $logger;
+        
+        $this->init();
         
         //$space_json = $space_api_file->
         $validator = null;
