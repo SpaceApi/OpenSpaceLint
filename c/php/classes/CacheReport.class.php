@@ -197,7 +197,7 @@ class CacheReport
             $receiver = $this->email;
 		
 
-		Email::send("Space API Issue", $receiver, <<<EOF
+		Email::send("Space API Issue — ". $this->space, $receiver, <<<EOF
 Hi $this->space,
 
 there's an issue with your Space API. OpenSpaceLint tried to fetch your JSON in the last 24 hours but your server didn't response.
