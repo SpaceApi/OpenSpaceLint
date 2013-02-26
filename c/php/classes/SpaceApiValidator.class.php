@@ -6,6 +6,7 @@ class SpaceApiValidator
     private $valid_versions = array();
     private $invalid_versions = array();
     
+    private $plugins = array();
     
     /**
      * Initializes or resets the errors, valid and invalid versions.
@@ -126,7 +127,10 @@ class SpaceApiValidator
                 $logger->logError($e->getMessage());
             }
         }
-       
+        
+        $plugin_results = $this->process_plugins($space_api_file);
+        // TODO: merge $plugin_results into $error_messages
+        
         // it's ok to encode an empty array
         $error_messages = json_encode($results);
         $error_messages = str_replace("root.", "", $error_messages);
@@ -159,4 +163,68 @@ class SpaceApiValidator
         return $this->invalid_versions;
     }
     
+    /**
+     * Register an additional validation checker.
+     */
+    public function register($validation_function)
+    {
+        $this->plugins[] = $validation_function;
+    }
+    
+    /**
+     * Execute the plugins and return occured error messages.
+     *
+     * @param SpaceApiFile $space_api_file A space api file
+     */
+    private function process_plugins($space_api_file)
+    {
+        global $logger;        
+        $results = array();
+        
+        $plugin_arguments = $this->get_plugin_arguments();
+        $plugin_arguments["space_api_file"] = $space_api_file;
+        
+        $space_api_validator = $this;
+        
+        // load all the plugins
+        foreach(glob(PLUGINDIR ."*.php") as $filename)
+            require_once($filename);
+        
+        // execute the plugins
+        foreach($this->plugins as $plugin)
+        {   
+            $result = call_user_func_array($plugin, array($plugin_arguments));
+            // TODO: merge $result into $results
+        }
+        
+        return $results;
+    }
+    
+    /**
+     * Return a set of arguments which are passed to the plugins
+     */
+    private function get_plugin_arguments()
+    {
+        global $logger;
+        
+        $schemas = array();
+        
+        // get the schemas
+        foreach(glob( SPECSDIR ."*.json") as $filename)
+        {
+            $json = file_get_contents($filename);
+            $filename = basename($filename);
+            
+            $version = str_replace(".json", "", $filename);
+            
+            $schemas[$version] = json;
+        }
+        
+        $directory = new PrivateDirectory;
+        
+        return array(
+            "directory" => $directory->get(),
+            "schemas" => $schemas
+        );
+    }
 }

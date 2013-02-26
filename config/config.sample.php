@@ -92,5 +92,6 @@ define('CONFIGFILE', __FILE__); // if you change this, change the path in the Co
 define('CRONDIR', ROOTDIR . "cron/");
 define('DIRECTORYDIR', ROOTDIR . "c/directory/");
 define('LOGDIR', ROOTDIR . "log/");
+define('PLUGINDIR', ROOTDIR ."c/php/validation-plugins/");
 define('STATUSCACHEDIR', CACHEDIR . "status/");
 define('SPECSDIR', ROOTDIR . "c/specs/versions/");
