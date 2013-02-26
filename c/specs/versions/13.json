@@ -59,7 +59,7 @@
             "required": false,
             "type": "object"
         },
-        "status": {
+        "state": {
             "description": "A collection of status-related data. Actual open/closed status, icons, last change timestamp etc.",
             "required": true,
             "type": "object",

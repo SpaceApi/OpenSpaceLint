@@ -3,7 +3,7 @@ Stable: 0.12
 Author: slopjong
 =============================================
 
-0.13: (last update: 25.2.2013)
+0.13: (last update: 26.2.2013)
 
   (1) Added cache/schedule
   (2) Made contact/email a required field to be able to send a report
@@ -12,8 +12,8 @@ Author: slopjong
   (4) Made location and location/{lat,lon} required fields
   (5) The meaning of the status field has changed, it's now a compound
       object of all the fields that are related to the space status
-  (6) Moved the fields open, lastchange and icon to status/{open,lastchange,icon}
-  (7) Added the message field which was the former status field
+  (6) Moved the fields open, lastchange and icon to state/{open,lastchange,icon}
+  (7) Added state/message field which was the former free-text status field
   (8) Made the status icons non-required, because there's no app that
       is really using them and furthermore some spaces use them incorrectly
       because they (haven't|don't want) such icons.
