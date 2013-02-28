@@ -147,8 +147,8 @@ jsl.interactions = (function () {
 					{
 						if(spaceapi.hasOwnProperty("address"))
 							spaceapi.address = "";
-						if(spaceapi.hasOwnProperty("status"))
-							spaceapi.status = "";
+						if(spaceapi.hasOwnProperty("state"))
+							spaceapi.state = "";
 					}
 					else
 					{
@@ -156,8 +156,8 @@ jsl.interactions = (function () {
 							if(spaceapi.location.hasOwnProperty("address"))
 								spaceapi.location.address = "";
 						if(spaceapi.hasOwnProperty("state"))
-							if(spaceapi.status.hasOwnProperty("message"))
-								spaceapi.status.message = "";
+							if(spaceapi.state.hasOwnProperty("message"))
+								spaceapi.state.message = "";
 					}
 				}
 				
