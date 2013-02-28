@@ -155,7 +155,7 @@ jsl.interactions = (function () {
 						if(spaceapi.hasOwnProperty("location"))
 							if(spaceapi.location.hasOwnProperty("address"))
 								spaceapi.location.address = "";
-						if(spaceapi.hasOwnProperty("status"))
+						if(spaceapi.hasOwnProperty("state"))
 							if(spaceapi.status.hasOwnProperty("message"))
 								spaceapi.status.message = "";
 					}

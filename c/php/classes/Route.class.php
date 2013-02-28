@@ -630,7 +630,7 @@ class Route
                     if($inverse)
                         $status = ! $status;
                         
-                    $spacejson->status->open = $status;
+                    $spacejson->state->open = $status;
                     echo json_encode($spacejson);
                 }
                 
