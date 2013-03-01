@@ -767,6 +767,7 @@ class Route
                     $ret->valid = $space_validator->get_valid_versions();
                     $ret->invalid = $space_validator->get_invalid_versions();
                     $ret->errors = $space_validator->get_errors();
+                    $ret->warnings = $space_validator->get_warnings();
                     
                     echo Utils::json_pretty_print(json_encode($ret));
                 }

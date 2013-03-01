@@ -134,4 +134,14 @@ class DataFetch
         
         return $data_fetch_result;
     }
+    
+    /**
+     * Gets the headers from the given URL. Internall the GET method is used.
+     * 
+     * @return null Returns an associative array with the headers
+     */
+    public static function get_headers($url)
+    {
+        return get_headers($url, true);
+    }
 }

@@ -11,15 +11,19 @@ class DataFetchResult
     private $content_length = 0;
     private $content = null;
     private $error_code = 0;
+    //private $headers = null;
+    
+    // limit is not very useful as a fetch result
     private $limit = true;
     
-    public function __construct($url = "", $http_code = 0, $content_length = 0, $content = null, $limit = true, $error_code = self::NONE)
+    public function __construct($url = "", $http_code = 0, $content_length = 0, $content = null, /*$headers = null,*/ $limit = true, $error_code = self::NONE)
     {
         $this->url = $url;
         $this->http_code = $http_code;
         $this->content_length = $content_length;
         $this->content = $content;
         $this->error_code = $error_code;
+        //$this->headers = $headers;
         $this->limit = $limit;
     }
     
@@ -50,7 +54,14 @@ class DataFetchResult
     {
         return $this->error_code;
     }
-
+    
+    /*
+    public function headers()
+    {
+        return $this->headers();
+    }
+    */
+    
     public function limit()
     {
         return $this->limit();

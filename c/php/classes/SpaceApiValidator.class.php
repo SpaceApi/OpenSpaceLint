@@ -3,6 +3,7 @@
 class SpaceApiValidator
 {
     private $errors = null;
+    private $warnings = array();
     private $valid_versions = array();
     private $invalid_versions = array();
     
@@ -14,7 +15,8 @@ class SpaceApiValidator
      */
     private function init()
     {
-        $this->errors = null;
+        $this->errors = new stdClass;
+        $this->warnings = array();
         $this->valid_versions = array();
         $this->invalid_versions = array();
     }
@@ -59,7 +61,7 @@ class SpaceApiValidator
         // when using a sdtClass the top level element is always
         // an object no matter it's filled with error messages
         // or not
-        $results = new stdClass;
+        //$ = new stdClass;
         
         // sort so that the latest version is checked first
         rsort($versions);
@@ -80,6 +82,7 @@ class SpaceApiValidator
             }
             catch(ValidationException $e)
             {
+                // this is not the member but a local variable
                 $errors = $validator->getErrors();
                 
                 // if the error is the 'wrong api version number'
@@ -116,7 +119,7 @@ class SpaceApiValidator
                 
                 if(count($errors)>0)
                 {
-                    $results->$extended_version = (array) $errors;
+                    $this->errors->$extended_version = (array) $errors;
                     $this->invalid_versions[] = $extended_version;
                 }
                 else
@@ -128,13 +131,14 @@ class SpaceApiValidator
             }
         }
         
-        $plugin_results = $this->process_plugins($space_api_file);
-        // TODO: merge $plugin_results into $error_messages
-        
         // it's ok to encode an empty array
-        $error_messages = json_encode($results);
-        $error_messages = str_replace("root.", "", $error_messages);
-        $this->errors = json_decode($error_messages);
+        $this->errors = json_encode($this->errors);
+        $this->errors = str_replace("root.", "", $this->errors);
+        $this->errors = json_decode($this->errors);
+        
+        // we must assume that a plugin is changing the errors,
+        // warnings, valid versions or invalid versions arrays
+        $this->process_plugins($space_api_file);
         
         return (count($this->valid_versions) > 0);
     }
@@ -147,6 +151,14 @@ class SpaceApiValidator
         return $this->errors;
     }
 
+    /**
+     * Returns the warnings.
+     */
+    public function get_warnings()
+    {
+        return $this->warnings;
+    }
+    
     /**
      * Returns the valid versions
      */    
@@ -179,12 +191,14 @@ class SpaceApiValidator
     private function process_plugins($space_api_file)
     {
         global $logger;        
-        $results = array();
+        //$results = array();
         
-        $plugin_arguments = $this->get_plugin_arguments();
-        $plugin_arguments["space_api_file"] = $space_api_file;
+        //$plugin_arguments = $this->get_plugin_arguments();
+        //$plugin_arguments["space_api_file"] = $space_api_file;
         
-        $space_api_validator = $this;
+        // we need this variable because the plugins use it
+        // to register themselves
+        $space_api_validator = &$this;
         
         // load all the plugins
         foreach(glob(PLUGINDIR ."*.php") as $filename)
@@ -192,12 +206,7 @@ class SpaceApiValidator
         
         // execute the plugins
         foreach($this->plugins as $plugin)
-        {   
-            $result = call_user_func_array($plugin, array($plugin_arguments));
-            // TODO: merge $result into $results
-        }
-        
-        return $results;
+            call_user_func_array($plugin, array($space_api_file, &$this->errors, &$this->warnings, &$this->valid_versions, &$this->invalid_versions));
     }
     
     /**

@@ -109,12 +109,13 @@ abstract class SpaceDirectory
      * in the directory.
      * 
      * @param string $space_name A space name. It can be sanitized or not.
-     * @param bool $sanitized A flag which denotes the space name sanitized if it'ss true 
+     * @param bool $sanitized A flag which denotes the space name sanitized if it'ss true
      */
+    // TODO: $sanitized is deprecated, check where it's used
     public function get_url($space_name, $sanitized = false)
     {
-        if($sanitized)
-            $space_name = $this->get_original_space_name($space_name);
+        $space_name = NiceFileName::get($space_name);
+        $space_name = $this->get_original_space_name($space_name);
             
         if($this->has_space($space_name))
             return $this->dir_array[$space_name];

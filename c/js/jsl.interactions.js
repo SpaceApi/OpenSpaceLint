@@ -141,24 +141,24 @@ jsl.interactions = (function () {
 				if(api != 0)
 				{
 					if(spaceapi.hasOwnProperty("space"))
-						spaceapi.space = "";
+					{
+						spaceapi.space = spaceapi.space.replace(/[^a-zA-Z0-9]/g,"_");
+						spaceapi.space = spaceapi.space.toLowerCase();
+					}
 					
-					if(api<0.13)
-					{
-						if(spaceapi.hasOwnProperty("address"))
-							spaceapi.address = "";
-						if(spaceapi.hasOwnProperty("state"))
-							spaceapi.state = "";
-					}
-					else
-					{
-						if(spaceapi.hasOwnProperty("location"))
-							if(spaceapi.location.hasOwnProperty("address"))
-								spaceapi.location.address = "";
-						if(spaceapi.hasOwnProperty("state"))
-							if(spaceapi.state.hasOwnProperty("message"))
-								spaceapi.state.message = "";
-					}
+					if(spaceapi.hasOwnProperty("address"))
+						spaceapi.address = "";
+						
+					if(spaceapi.hasOwnProperty("status"))
+						spaceapi.status = "";
+						
+					if(spaceapi.hasOwnProperty("location"))
+						if(spaceapi.location.hasOwnProperty("address"))
+							spaceapi.location.address = "";
+						
+					if(spaceapi.hasOwnProperty("state"))
+						if(spaceapi.state.hasOwnProperty("message"))
+							spaceapi.state.message = "";
 				}
 				
 				// uglify the json to remove unwanted whitespaces
@@ -176,6 +176,20 @@ jsl.interactions = (function () {
 					}
 					else
 					{
+						if(results.warnings.length>0)
+						{
+							var warning_msg = "";
+							for(var i=0; i < results.warnings.length; i++)
+								warning_msg += results.warnings[i] + "\n";
+	
+							var warning_div = $('<div class=".spec-result">'+
+							'<div><h1>Warnings</h1></div>' +
+							'<br><pre>'+ warning_msg +'</pre>' +
+							'</div>').addClass("error");
+							
+							$("#results-specs-container").append(warning_div).show();
+						}
+						
 						if(results.valid.length>0)
 						{
 							var success_div = $('<div>'+

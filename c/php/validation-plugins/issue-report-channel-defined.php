@@ -1,6 +1,6 @@
 <?php
 
-function validate_issue_report_channel_defined($args)
+function validate_issue_report_channel_defined($space_api_file, &$errors, &$warnings, &$valid_versions, &$invalid_versions)
 {
     global $logger;
     $logger->logDebug("Processing the plugin 'validate_issue_report_channel_defined'");
