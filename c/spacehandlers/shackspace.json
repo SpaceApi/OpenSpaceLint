@@ -22,7 +22,7 @@
     "cache": {
         "schedule": "m.02"
     },
-    "status": {
+    "state": {
         "icon": {
             "open": "http://shackspace.de/sopen.gif",
             "closed": "http://shackspace.de/sopen.gif"

@@ -22,7 +22,7 @@
     "cache": {
         "schedule": "m.02"
     },
-    "status": {
+    "state": {
         "icon": {
             "open": "http://status.raumzeitlabor.de/images/green.png",
             "closed": "http://status.raumzeitlabor.de/images/red.png"
