@@ -27,5 +27,9 @@
             "open": "http://status.raumzeitlabor.de/images/green.png",
             "closed": "http://status.raumzeitlabor.de/images/red.png"
         }
-    }
+    },
+	"projects": [
+		"http://github.com/raumzeitlabor",
+        "http://wiki.raumzeitlabor.de/wiki/Kategorie:Projekt"
+	]
 }

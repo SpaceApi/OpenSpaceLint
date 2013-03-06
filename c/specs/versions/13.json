@@ -168,7 +168,7 @@
                     "type": "string"
                 },
                 "ml": {
-                    "description": "",
+                    "description": "The email address of your mailing list. If you use google groups then the email looks like your-group@googlegroups.com",
                     "required": false,
                     "type": "string"
                 },
@@ -246,6 +246,15 @@
                     "enum": ["m.02", "m.05", "m.10"]
                 }
             }
-        }        
+        },
+        "projects": {
+            "description": "Your project sites (links to github, wikis or wherever your projects are hosted)",
+            "required": false,
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+            }
+        }
     }
 }

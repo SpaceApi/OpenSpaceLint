@@ -1,0 +1,27 @@
+{
+    "api": "0.13",
+    "space": "H.A.C.K.",
+    "logo": "http://hspbp.org/img/hack.gif",
+    "url": "http://hspbp.org",
+	"location": {
+	  "address": "Bástya utca 12, 1056 Budapest, Hungary ",
+	  "lon": 19.059444,
+	  "lat": 47.489167
+	},
+    "contact": {
+        "email": "hack@hsbp.org",
+        "irc": "irc://irc.ircnet.com/hspbp",
+        "ml": "hspbp@googlegroups.com",
+        "twitter": "@hackerspacebp",
+		"issue-mail": "c3BhY2VhcGlAc2xvcGpvbmcuZGUK"
+    },
+	"issue-report-channels": [
+        "issue-mail"
+    ],
+    "cache": {
+        "schedule": "m.02"
+    },
+	"projects": [
+		"http://github.com/hsbp"
+	]
+}

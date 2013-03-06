@@ -20,5 +20,8 @@
     ],
     "cache": {
         "schedule": "m.02"
-    }
+    },
+	"projects": [
+		"http://chaos-inkl.de/wiki/project:alleprojekte"
+	]
 }

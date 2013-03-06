@@ -4,6 +4,11 @@
         "pattern" : "offen",
         "inverse" : false
     },
+    "H.A.C.K." : {
+        "url" : "http://vsza.hu/hacksense/status",
+        "pattern" : "closed",
+        "inverse" : true
+    },
     "RaumZeitLabor" : {
         "url" : "http://status.raumzeitlabor.de/",
         "pattern" : "green.png",

@@ -27,5 +27,9 @@
             "open": "http://shackspace.de/sopen.gif",
             "closed": "http://shackspace.de/sopen.gif"
         }
-    }
+    },
+	"projects": [
+		"http://github.com/shackspace",
+        "http://shackspace.de/wiki/doku.php?id=projekte"
+	]
 }
