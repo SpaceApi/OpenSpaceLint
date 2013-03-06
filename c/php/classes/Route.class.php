@@ -597,6 +597,7 @@ class Route
                 
                 header('Content-type: application/json');
                 header('Access-Control-Allow-Origin: *');
+                header('Cache-Control: no-cache');
                 
                 $spaces = file_get_contents(ROOTDIR . "c/spacehandlers/spaces.json");
                 $spaces = json_decode($spaces);
