@@ -159,11 +159,11 @@ input.text, input.title {
     color: #AAA;
 }
 
-.success h1, .error h1 {
+.success h1, .error h1, .notice h1 {
 	font-size: 1.5em;
 }
 
-.success pre, .error pre {
+.success pre, .error pre, .notice pre {
 	margin: 0;
 }
 
@@ -173,6 +173,10 @@ input.text, input.title {
 
 .error h1 {
     color: #D12F19;
+}
+
+.notice h1 {
+	color: #F88017;
 }
 
 /* The URL displayed next to the select box */

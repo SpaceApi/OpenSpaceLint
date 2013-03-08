@@ -185,7 +185,7 @@ jsl.interactions = (function () {
 							var warning_div = $('<div class=".spec-result">'+
 							'<div><h1>Warnings</h1></div>' +
 							'<br><pre>'+ warning_msg +'</pre>' +
-							'</div>').addClass("error");
+							'</div>').addClass("notice");
 							
 							$("#results-specs-container").append(warning_div).show();
 						}
