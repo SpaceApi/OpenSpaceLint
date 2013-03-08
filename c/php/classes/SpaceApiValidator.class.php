@@ -140,7 +140,63 @@ class SpaceApiValidator
         // warnings, valid versions or invalid versions arrays
         $this->process_plugins($space_api_file);
         
+        // the order of versions might not be ascendent after processing the plugins
+        $this->sort_member_invalid_versions();
+        $this->sort_member_valid_versions();
+        $this->sort_member_errors(); // relies on sort_member_invalid_versions()
+        
         return (count($this->valid_versions) > 0);
+    }
+    
+    
+    private function sort_member_invalid_versions()
+    {
+        if(! empty($this->invalid_versions))
+            $this->invalid_versions = $this->sort_version_array($this->invalid_versions);
+    }
+
+
+    private function sort_member_valid_versions()
+    {
+        if(! empty($this->valid_versions))
+            $this->valid_versions = $this->sort_version_array($this->valid_versions);
+    }
+    
+    
+    private function sort_version_array($version_array)
+    {                
+        global $logger;
+        
+        // remove the prefix '0.' so that we can define a ordinal order because 0.8 is less than 0.13
+        // in the specs but mathematically 0.8 greater than 0.13.
+        $va = preg_replace("/0./", "", $version_array);
+        
+        // sort ascendent
+        sort($va);
+        $va = array_reverse($va);
+        
+        // add the '0.' prefix again
+        $new_array = array();
+        foreach($va as $index => $value)
+            $new_array[] = "0.$value";
+            
+        return $new_array;
+    }
+    
+    /**
+     * Sorts the error array. Make sure that the invalid versions array is sorted descendent when calling this method!
+     */
+    private function sort_member_errors()
+    {
+        $errors = new stdClass;
+        
+        foreach($this->invalid_versions as $index => $version)
+        {
+            if(property_exists($this->errors, $version))
+                $errors->$version = $this->errors->$version;
+        }
+        
+        $this->errors = $errors;
     }
     
     /**
