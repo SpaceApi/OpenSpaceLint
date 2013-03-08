@@ -190,9 +190,9 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["email", "issue-mail", "twitter", "ml"],
-                "minItems": 1
-            }
+                "enum": ["email", "issue-mail", "twitter", "ml"]
+            },
+            "minItems": 1
         },
         "sensors": {
             "description": "",
