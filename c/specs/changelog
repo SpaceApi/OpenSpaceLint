@@ -3,7 +3,7 @@ Stable: 0.12
 Author: slopjong
 =============================================
 
-0.13: (last update: 26.2.2013)
+0.13: (last update: 6.3.2013)
 
   (1) Added cache/schedule
   (2) Made contact/email a required field to be able to send a report
@@ -23,6 +23,7 @@ Author: slopjong
        issues can be sent to. The value can be base64-encoded.
   (12) Added issue-report-channels (required), a list of communication channels
        where issues should be reported to. At least one channel must be defined.
+  (13) Field projects added which is an array of the project sites.
 
 0.12:
 
