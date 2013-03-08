@@ -703,8 +703,9 @@ class JsonSchemaValidator
         }
 
         if (!$valid) {
+            $entityName = $this->removeArrayIndex($entityName);
             //throw new ValidationException(sprintf('Invalid value(s) for [%s], allowed values are [%s]', $entityName, implode(',', $schema->enum)));
-            $this->addValidationError($entityName, sprintf('Invalid value(s) for [%s], allowed values are [%s]', $entityName, implode(',', $schema->enum)));
+            $this->addValidationError($entityName, sprintf('Invalid value(s) for \'%s\', allowed values are: %s', $entityName, implode(', ', $schema->enum)));
             
         }
 
@@ -830,6 +831,13 @@ class JsonSchemaValidator
     }
     
     
+    /**
+     * Adds a validation error to the validation error reports array.
+     * It's constructing a stdClass object with the members 'msg' and 'description'.
+     *
+     * @param string $path an element's path in the JSON specification
+     * @param string $msg the error message
+     */
     protected function addValidationError($path, $msg)
     {        
         $report = new stdClass;
@@ -839,6 +847,12 @@ class JsonSchemaValidator
     }
     
     
+    /**
+     * Returns an element's description from the schema.
+     * 
+     * @param string $path the path to the element in the JSON specification
+     * @return string the element's description
+     */
     protected function getDescriptionFromElement($path)
     {
         $description = "";
@@ -864,5 +878,17 @@ class JsonSchemaValidator
         }
         
         return $description;
+    }
+    
+    
+    /**
+     * Removes the array index from a string. Example: an-element[0] is turned into an-element
+     *
+     * @param string $entityName an entity name
+     * @return string an entity name withouth the array index
+     */
+    private function removeArrayIndex($entityName)
+    {
+        return preg_replace("/\[\d+\]/","",$entityName);
     }
 }
