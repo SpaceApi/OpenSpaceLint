@@ -120,12 +120,13 @@ class Utils
      * Sorts an array by key case-insensitive, maintaining key to data correlations. This is useful mainly for associative arrays.
      * 
      * @param array $array_arg Array to be sorted by key case-insensitive
+     * @param bool $ascendent Sort the array ascendent (when true) or descendent (when false)
      */
-    public static function ksort(&$array_arg)
+    public static function ksort(&$array_arg, $ascendent = true)
     {        
         function _strcmp($a, $b)
         {
-            return strcasecmp($a, $b);
+            return (ascendent) ? strcasecmp($a, $b) : strcasecmp($b, $a) ;
         }
         
         uksort($array_arg, "_strcmp");
