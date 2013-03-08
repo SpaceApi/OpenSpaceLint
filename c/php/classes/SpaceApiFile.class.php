@@ -219,6 +219,8 @@ class SpaceApiFile
     /**
      * Returns the json object.
      */
+    // TODO: $this->json is not a json but an object
+    //       don't mix up the terminology of json and the deserialized json
     public function json()
     {
         return $this->json;
