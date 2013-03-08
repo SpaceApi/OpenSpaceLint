@@ -125,6 +125,7 @@ jsl.interactions = (function () {
 				// remove any previous spaceapi validation results
 				$("#results-specs-container .error").remove();
 				$("#results-specs-container .success").remove();
+				$("#results-specs-container .notice").remove();
 				
 				var spaceapi = JSON.parse(jsonVal);
 				var api = 0;
