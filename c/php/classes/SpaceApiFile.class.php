@@ -171,7 +171,7 @@ class SpaceApiFile
     
     
     /**
-     * Returns the space api version.
+     * Returns the implemented space api version.
      */
     public function version()
     {

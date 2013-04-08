@@ -159,6 +159,9 @@ abstract class SpaceDirectory
         if($this->subset_by_filter_requested())
             return $this->get_subset_by_filter();
         
+        if($this->subset_by_api())
+            return $this->get_subset_by_api();
+        
         return $this->dir_json;   
     }
     
@@ -224,6 +227,24 @@ abstract class SpaceDirectory
                 
         return false;
     }
+
+
+    /**
+     * Returns true if a directory for a specific specs version should be returned to the client
+     */
+    protected function subset_by_api()
+    {
+        if(isset($_GET['api']))
+           return true;
+        
+        global $argv;
+        if(isset($argv))
+            foreach($argv as $val)
+                if(preg_match("/api=.*/", $val))
+                    return true;
+                
+        return false;
+    }
     
     
     /**
@@ -256,6 +277,41 @@ abstract class SpaceDirectory
         }
            
         return json_encode((object) $arr);
+    }
+
+    /**
+     * Returns a directory subset with spaces implementing a certain specs version
+     */
+    // TODO: document, make it public to the world
+    protected function get_subset_by_api()
+    {
+        if(SAPI == 'cli')
+        {
+            // we already did the check for the existence of the api argument
+            global $argv;
+            foreach($argv as $val)
+                if(preg_match("/api=.*/", $val))
+                    $version = str_replace("api=", "", $val);
+        }
+        else
+            $version = stripslashes(strip_tags($_GET["api"]));
+        
+        $spaces = new stdClass;
+        
+        foreach(glob( STATUSCACHEDIR ."*.json") as $filename)
+        {
+            $json = file_get_contents($filename);
+            $space_api_file = new SpaceApiFile($json);
+            if($space_api_file->version() == $version)
+            {
+                $space_name = $space_api_file->name();
+                $endpoint_url = $this->get_url($space_name);
+                if(!empty($endpoint_url))
+                    $spaces->$space_name = $endpoint_url;
+            }
+        }
+           
+        return json_encode($spaces);    
     }
     
     /**

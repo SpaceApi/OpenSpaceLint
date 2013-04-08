@@ -28,6 +28,7 @@ RewriteRule ^validate            /c/php/controller.php?delegator=validator&actio
 RewriteCond %{QUERY_STRING} ^$ [OR]
 RewriteCond %{QUERY_STRING} ^space [OR]
 RewriteCond %{QUERY_STRING} ^filter [OR]
+RewriteCond %{QUERY_STRING} ^api [OR]
 RewriteCond %{QUERY_STRING} ^fmt
 RewriteRule ^directory.json$     /c/php/controller.php?delegator=directory&action=get [QSA,NE,L]
 
