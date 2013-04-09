@@ -285,24 +285,75 @@ abstract class SpaceDirectory
     // TODO: document, make it public to the world
     protected function get_subset_by_api()
     {
+        $operator = "";
+        
         if(SAPI == 'cli')
         {
             // we already did the check for the existence of the api argument
             global $argv;
             foreach($argv as $val)
                 if(preg_match("/api=.*/", $val))
+                {
                     $version = str_replace("api=", "", $val);
+                    $version = urldecode($operator_version);
+                }
         }
         else
-            $version = stripslashes(strip_tags($_GET["api"]));
+        {
+            $version = stripslashes($_GET["api"]);
+            $version = urldecode($version);
+        }
         
+        $first_char = substr($version, 0, 1);
+        $allowed_operators = array('<', '>', '!');
+        
+        // check if the first character is an operator
+        // and split the operator and version
+        if(in_array($first_char, $allowed_operators))
+        {            
+            $operator = $first_char;
+            $version = substr($version, 1);
+            
+            // remove the leading 0.
+            $version = str_replace("0.", "", $version);
+        }
+
         $spaces = new stdClass;
         
         foreach(glob( STATUSCACHEDIR ."*.json") as $filename)
         {
             $json = file_get_contents($filename);
             $space_api_file = new SpaceApiFile($json);
-            if($space_api_file->version() == $version)
+            
+            $match = false;
+            
+            switch($operator)
+            {
+                case ">":
+                    
+                    // using the < operator is not an error! => $version is on the left side
+                    $match = ( $version < (int) $space_api_file->real_version());
+                    break;
+                
+                case "<":
+                    
+                    // using the > operator is not an error! => $version is on the left side
+                    $match = ( $version > (int) $space_api_file->real_version());
+                    break;
+
+                case "!":
+                    
+                    $match = ( $version != (int) $space_api_file->real_version());
+                    break;
+                
+                default:
+                    
+                    // here we mustn't use real_version()
+                    $match = ( (float) $version == (float) $space_api_file->version() );
+                    break;
+            }
+
+            if($match)
             {
                 $space_name = $space_api_file->name();
                 $endpoint_url = $this->get_url($space_name);
@@ -310,7 +361,7 @@ abstract class SpaceDirectory
                     $spaces->$space_name = $endpoint_url;
             }
         }
-           
+        
         return json_encode($spaces);    
     }
     

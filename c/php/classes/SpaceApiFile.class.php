@@ -6,7 +6,7 @@ class SpaceApiFile
     const COULD_NOT_DECODE = 1;
     const OTHER = 2;
     
-    private $version = "";
+    private $version = "";    
     private $space_name = "";
     private $contact_email = "";
     private $json = null;
@@ -176,6 +176,15 @@ class SpaceApiFile
     public function version()
     {
         return $this->version;
+    }
+    
+    
+    /**
+     * Returns the implemented space api version without the leading 0.
+     */
+    public function real_version()
+    {
+        return str_replace("0.", "", $this->version);
     }
     
     
