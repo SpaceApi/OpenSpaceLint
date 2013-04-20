@@ -86,7 +86,7 @@ jsl.interactions = (function () {
      * @return string the url parameter's value, if any
     **/
     function getURLParameter(name) {
-        param = (new RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || ['', null])[1];
+        var param = (new RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || ['', null])[1];
         if (param) {
             return decodeURIComponent(param);
         } else {

@@ -109,8 +109,8 @@ class Route
                 
                 header('Content-type: application/x-javascript');
                 
-                echo "site_url = 'http://". SITE_URL ."';";
-                echo "recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
+                echo "var site_url = 'http://". SITE_URL ."';";
+                echo "var recaptcha_public_key = '" . RECAPTCHA_KEY_PUBLIC . "';";
                 
                 // the specs versions
                 $specs_versions = array();
