@@ -45,6 +45,11 @@
                 }
             }
         },
+        "spacefed-auth": {
+            "description": "A flag denoting if a space is using the inter-(hacker)space federated authentication platform.",
+            "required": false,
+            "type": "boolean"
+        },
         "cam": {
             "description": "",
             "required": false,
