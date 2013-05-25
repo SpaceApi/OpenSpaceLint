@@ -46,7 +46,7 @@
             }
         },
         "spacefed-auth": {
-            "description": "A flag denoting if a space is using the inter-(hacker)space federated authentication platform.",
+            "description": "A Flag indicating if the hackerspace uses spacefed - a federated login scheme so that visiting hackers can use the space wifi with their home space credentials.",
             "required": false,
             "type": "boolean"
         },
