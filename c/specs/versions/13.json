@@ -167,6 +167,11 @@
                     "required": false,
                     "type": "string"
                 },
+                "identica": {
+                    "description": "",
+                    "required": false,
+                    "type": "string"
+                },
                 "email": {
                     "description": "Email address to which other people can contact your space",
                     "required": false,
@@ -248,7 +253,19 @@
                     "description": "",
                     "type": "string",
                     "required": true,
-                    "enum": ["m.02", "m.05", "m.10"]
+                    "enum": [
+                        "m.02",
+                        "m.05",
+                        "m.10",
+                        "m.15",
+                        "m.30",
+                        "h.01",
+                        "h.02",
+                        "h.04",
+                        "h.08",
+                        "h.12",
+                        "d.01"
+                    ]
                 }
             }
         },
