@@ -26,6 +26,7 @@ Author: slopjong
   (13) Field projects added which is an array of the project sites.
   (14) Field 'spacefed-auth' added which is a flag denoting if a space is using
        the inter-(hacker)space federated authentication platform.
+  (15) Field 'identica' added. This is a micro-blogging platform.
 
 0.12:
 
