@@ -88,10 +88,28 @@
         <!-- a spacer -->
         <div class="row">&nbsp;</div>
         
-        <div id="page-content">
-          %CONTENT%  
+        <div id="page-content" style="/*display: none;*/">
+
+            <div id="javascript-available-container">
+                %CONTENT%
+            </div>
+
+            <!-- if javascript is disabled, we let'em know -->
+            <noscript>
+                <style type="text/css">
+                    #javascript-available-container {display:none;}
+                </style>
+
+                <div style="text-align: center;">
+                    <img src="c/images/nojavascriptenabled.png" alt="No javascript enabled"/>
+                </div>
+            </noscript>
         </div>
-          
+
+
+
+
+
         
     </div> <!-- /container -->
 
