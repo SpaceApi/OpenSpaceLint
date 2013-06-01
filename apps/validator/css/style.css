@@ -1,0 +1,108 @@
+.linedwrap textarea {
+  font-size: 10pt;
+  font-family: monospace;
+  line-height: normal !important;
+  border: none;
+  
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+
+.linedwrap textarea:focus {
+  -moz-transition: none !important;
+  -webkit-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+.linedwrap .codelines {
+  padding: 0px;
+}
+
+.linedwrap, .linedwrap textarea {
+  background: white !important;
+}     
+
+.error, .notice, .success {
+    /*border: 2px solid #DDDDDD;*/
+    margin-bottom: 1em;
+    padding: 0.8em;
+}
+
+.error h1, .notice h1, .success h1 {
+  line-height: 0px;
+  font-size: 1.3em;
+}
+
+/*********************************************/
+
+.error pre, .notice pre, .success pre {
+  font-family: monospace;
+  margin: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+#results {
+  background: none;
+  border: none;
+  border-radius: 0px;
+}
+
+/*********************************************/
+
+.error {
+    background: none repeat scroll 0 0 #FBE3E4 !important;
+    border: solid 2px #FBC2C4 !important;
+}
+
+.notice {
+    background: none repeat scroll 0 0 #FFF6BF !important;
+    border: solid 2px #FFD324 !important;
+}
+
+.success {
+    background: none repeat scroll 0 0 #E6EFC2 !important;
+    border: solid 2px #C6D880 !important;
+}
+
+/*********************************************/
+
+.error, .error a, .error pre {
+    color: #D12F19;
+}
+.notice, .notice a, .notice pre {
+    color: #817134;
+}
+.success, .success a, .success pre  {
+    color: #529214;
+}
+
+/*********************************************/
+
+.success pre, .error pre, .notice pre {
+    margin: 0;
+    line-height: normal;
+}
+
+#spacedirectory {
+  border-radius: 0px;
+}
+
+#space-url {
+  line-height: 34px;
+}
+
+.validateButtons a {
+  margin-right: 7px;
+}
+
+.validateButtons #validate {
+  padding-top: 2px;
+  font-size: 1.55em;
+  line-height: normal;
+  font-family: Sans;
+}

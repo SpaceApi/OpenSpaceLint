@@ -4,3 +4,6 @@
 
 # test wrong filter, check the log and stdout
 php -f ../php/controller.php delegator=directory action=get filter=or\(sensor\)
+
+# list the defined constants from the config
+php -f ../php/controller.php delegator=environment action=get

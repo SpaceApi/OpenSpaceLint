@@ -36,7 +36,7 @@ RewriteRule ^directory.json$     /c/php/controller.php?delegator=directory&actio
 RewriteCond %{QUERY_STRING} ^recaptcha_challenge_field [OR]
 RewriteCond %{QUERY_STRING} ^recaptcha_response_field [OR]
 RewriteCond %{QUERY_STRING} ^url
-RewriteRule ^directory.json$ /c/php/controller.php?delegator=directory&action=add&resource= [QSA,NE,L]
+RewriteRule ^directory.json$     /c/php/controller.php?delegator=directory&action=add&resource= [QSA,NE,L]
 
 RewriteRule ^proxy\.php?(.*)$    /c/php/controller.php?delegator=proxy&action=get&$1 [QSA,L]
 
@@ -44,6 +44,13 @@ RewriteRule ^proxy\.php?(.*)$    /c/php/controller.php?delegator=proxy&action=ge
 RewriteRule ^filters.json$       /c/php/controller.php?delegator=filterkeys&action=get [L]
 RewriteRule ^filterkeys.json$    /c/php/controller.php?delegator=filterkeys&action=get [L]
 #RewriteRule ^filterkeys.json$   /cache/filter-keys/filter_keys.json [L] # L doesn't stop but goes to a new subprocess
+
+# TODO: forbid the access of the template file
+#RewriteRule ^template.html   [F]
+
+# If a file is requested that doesn't exist, then route to the app handler
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*) index.php [QSA,NE,L]
 
 </IfModule>
 

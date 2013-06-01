@@ -1,0 +1,17 @@
+Put this to /etc/httpd/config/httpd.conf (or in a seperate vhost config):
+
+
+    <VirtualHost *:80>
+        ServerAdmin root@localhost
+        DocumentRoot "/srv/http/OpenSpaceLint"
+        ServerName openspace.slopjong.de
+        ServerAlias www.openspace.slopjong.de
+    </VirtualHost>
+
+
+Add this to your /etc/hosts:
+
+    127.0.0.1 openspace.slopjong.de
+    
+
+Alternatively run the script: run-server.sh (needs htrouter)
