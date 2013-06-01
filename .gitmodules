@@ -4,3 +4,6 @@
 [submodule "apps"]
 	path = apps
 	url = git@github.com:SpaceApi/apps.git
+[submodule "c/php/validation-plugins"]
+	path = c/php/validation-plugins
+	url = git@github.com:SpaceApi/validation-plugins.git
