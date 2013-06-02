@@ -30,6 +30,84 @@
         return $amount_per_column;
     }
 
+    function dump($mixed, $is_html = false)
+    {
+        //if($is_html)
+            //echo "<pre>" . print_r($mixed, true) . "</pre>";
+        //else
+            echo "<pre>" . htmlspecialchars(print_r($mixed, true)) . "</pre>";
+    }
+
+    function dumpx($mixed)
+    {
+        dump($mixed);
+        exit();
+    }
+
+    function make_columns($data, $amount_columns, $attributes = array(), $links = array())
+    {
+        $list_type = isset($attributes['list_type']) ? $attributes['list_type'] : 'ul';
+        $row_id = isset($attributes['row_id']) ? $attributes['row_id'] : '';
+        $row_class = isset($attributes['row_class']) ? $attributes['row_class'] : '';
+        $before_text = isset($attributes['before_text']) ? $attributes['before_text'] : '';
+
+        // number used for the bootstrap span class
+        $bootstrap_span_columns = floor(12/$amount_columns);
+
+        // calculate the amount of elements per column
+        $amounts = amount_per_column($data, $amount_columns);
+
+        $columns = "";
+        $list_item_number = 0;
+
+        foreach($amounts as $column_number => $amount)
+        {
+            $column = <<<COLUMN
+                <div class="span$bootstrap_span_columns">
+                    <$list_type>
+                        %LISTITEMS%
+                    </$list_type>
+                </div>
+COLUMN;
+            $list_items = "";
+            for($i=0; $i<$amount; $i++)
+            {
+                $list_item_number++;
+                $filter = array_shift($data);
+                if(empty($links))
+                    $list_items .= '<li value="'. $list_item_number .'">'. $filter .'</li>';
+                else
+                {
+                    $link = array_shift($links);
+                    $list_items .= <<<LI
+                        <li value="$list_item_number">
+                            <a href="$link">
+                                $filter
+                            </a>
+                        </li>
+LI;
+                }
+            }
+
+            $column = str_replace('%LISTITEMS%', $list_items, $column);
+            $columns .= $column;
+        }
+
+        $html = <<<HTML
+                <div class="row $row_class" id="$row_id">
+                    <div class="span12">
+                        $before_text
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    $columns
+                </div>
+HTML;
+
+        return $html;
+    }
+
     class Page
 	{
 		private $prefetch_assets = array();
