@@ -3,10 +3,38 @@
     require_once("config/config.php");
 	error_reporting( (DEBUG_MODE) ? E_ALL : 0 );
 
+    // this is in the global space, maybe not a good idea
+    // don't put this into a Utils class, if an app is using an autoloader to use the backend classes
+    // this Utils might conflict with the backend's Utils.
+    function amount_per_column($mixed, $amount_columns)
+    {
+        $amount = 0;
+
+        switch(true)
+        {
+            case is_array($mixed): $amount = count($mixed); break;
+            case is_object($mixed): $amount = count((array) $mixed); break;
+            default: // should never happen
+        }
+
+        $amount_per_column = array();
+        $equal_amount = floor($amount / $amount_columns);
+
+        for($i=0; $i < $amount_columns; $i++)
+            $amount_per_column[] = $equal_amount;
+
+        $rest = $amount % $amount_columns;
+        for($i=0; $i < $rest; $i++)
+            $amount_per_column[$i]++;
+
+        return $amount_per_column;
+    }
+
     class Page
 	{
 		private $prefetch_assets = array();
         private $scripts = array();
+        private $require_global_scripts = array();
         private $stylesheets = array();
 		private $inline_styles = array();
         private $content = "";
@@ -16,10 +44,53 @@
         private $routes = array();
         
         public function __construct() {}
-        
+
+        public function process_backend_route($delegator = "", $action = "", $resource = "")
+        {
+            // get the headers list before processing the route
+            // $before = headers_list();
+
+            ob_start();
+            Route::execute($delegator, $action, $resource);
+            $result = ob_get_contents();
+            ob_end_clean();
+
+            // get the possibly changed headers list
+            //$after = headers_list();
+
+            // recover the old headers
+            //header_remove();
+            /*
+            // doesn't work, the content type is application/json anyway
+            // after the loop
+            foreach(array_diff($after, $before) as $header)
+            {
+                $header = preg_replace("|:.*|", "", $header);
+                header_remove($header);
+            }
+            */
+
+            // we need to fix the content-type
+            // if other headers were set they possibly need to be
+            // overridden too if they make trouble, think also about
+            // not visible effects
+            header("Content-Type: text/html");
+            return $result;
+        }
+
         public function addScript($script)
         {
             $this->scripts[] = $script;
+        }
+
+        public function requireScript($script)
+        {
+            $this->require_global_scripts[] = $script;
+        }
+
+        public function requireScripts()
+        {
+            return $this->require_global_scripts;
         }
         
         public function addStylesheet($stylesheet)
@@ -124,7 +195,18 @@
 	$output = str_replace("%SCRIPTS%", $script_tags, $output);
 	
 	/*************************************************************/
-	
+
+    $global_script_tags = "";
+    foreach($page->requireScripts() as $script)
+    {
+        if(! empty($script))
+            $global_script_tags .= '<script src="c/js/'. $script .'"></script>';
+    }
+
+    $output = str_replace("%REQUIRE_GLOBAL_SCRIPTS%", $global_script_tags, $output);
+
+    /*************************************************************/
+
 	$stylesheet_tags = "";	
 	foreach($page->stylesheets() as $stylesheet)
 	{
