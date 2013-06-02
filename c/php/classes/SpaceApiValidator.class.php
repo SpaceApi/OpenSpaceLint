@@ -236,7 +236,8 @@ class SpaceApiValidator
      */
     public function register($validation_function)
     {
-        $this->plugins[] = $validation_function;
+        if(! in_array($validation_function, $this->plugins))
+            $this->plugins[] = $validation_function;
     }
     
     /**
@@ -282,7 +283,7 @@ class SpaceApiValidator
             
             $version = str_replace(".json", "", $filename);
             
-            $schemas[$version] = json;
+            $schemas[$version] = $json;
         }
         
         $directory = new PrivateDirectory;
