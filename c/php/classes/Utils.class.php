@@ -17,7 +17,7 @@ class Utils
                 foreach( $glob as $file)
                 {
                     if(is_dir($file))
-                        rrmdir($file);
+                        self::rrmdir($file);
                     else
                         unlink($file);
                 }
@@ -123,12 +123,22 @@ class Utils
      * @param bool $ascendent Sort the array ascendent (when true) or descendent (when false)
      */
     public static function ksort(&$array_arg, $ascendent = true)
-    {        
-        function _strcmp($a, $b)
+    {
+        function _ascendent($a, $b)
         {
-            return (ascendent) ? strcasecmp($a, $b) : strcasecmp($b, $a) ;
+            return strcasecmp($a, $b);
         }
-        
-        uksort($array_arg, "_strcmp");
+
+        function _descendent($a, $b)
+        {
+            return strcasecmp($b, $a);
+        }
+
+        // don't declare one single function where this check is done,
+        // in differen php version this seems not work equivalent,
+        // the inner function seens not be able to access the outer $ascendent
+        // variable in php 5.4.15
+        $order = $ascendent ? '_ascendent' : '_descendent';
+        uksort($array_arg, $order);
     }
 }
