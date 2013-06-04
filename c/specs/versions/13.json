@@ -207,7 +207,254 @@
         "sensors": {
             "description": "Data of various sensors in your space (e.g. temperature, humidity, amount of Club-Mate left, …). The only canonical property is the <em>temp</em> property, additional sensor types may be defined by you. In this case, you are requested to share your definition for inclusion in this specification.",
             "required": false,
-            "type": "array",
+            "type": "object",
+            "properties": {
+                "temperature" : {
+                    "description" : "Temperature sensor",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "barometer" : {
+                    "description" : "Barometer sensor",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "humidity" : {
+                    "description" : "Humidity sensor",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "beverage_supply" : {
+                    "description" : "How much Mate and beer is in your fridge?",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "power_consumption" : {
+                    "description" : "The power consumption of a specific device or of your whole space.",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "wind" : {
+                    "description" : "Your wind sensor.",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "network_connections" : {
+                    "description" : "This sensor type is to specify the currently active  ethernet or wireless network devices. You can create different instances for each network type.",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "any"
+                            },
+                            "unit" : {
+                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
             "items": {
                 "type": "object",
                 "properties": {
