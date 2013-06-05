@@ -79,6 +79,11 @@
                     "required": false,
                     "type": "number"
                 },
+                "trigger_person": {
+                    "description": "The person who lastly changed the state e.g. opened or closed the space.",
+                    "required": false,
+                    "type": "string"
+                },
                 "message": {
                     "description": "An additional free-form string, could be something like <samp>'open for public'</samp>, <samp>'members only'</samp> or whatever you want it to be",
                     "required": false,
