@@ -3,7 +3,7 @@ Stable: 0.12
 Author: slopjong
 =============================================
 
-0.13: (last update: 5.6.2013)
+0.13: (last update: 6.6.2013)
 
   (1) Added cache/schedule
   (2) Made contact/email a required field to be able to send a report
@@ -29,6 +29,7 @@ Author: slopjong
   (15) Field 'identica' added. This is a micro-blogging platform.
   (16) Added new sensor types and sensor instances now have a given structure.
   (17) Added state/trigger_person
+  (18) Added radio_show/{name,url,type,start,end}
 
 0.12:
 

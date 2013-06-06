@@ -140,7 +140,7 @@
             }
         },
         "contact": {
-            "description": "Contact information about your space",
+            "description": "Contact information about your space. You must define at least one which is in the list of allowed values of the issue-report-channels field.",
             "required": true,
             "type": "object",
             "properties": {
@@ -527,6 +527,42 @@
             "type": "array",
             "items": {
                 "type": "string"
+            }
+        },
+        "radio_show": {
+            "description": "A list of radio shows that your hackerspace might broadcast.",
+            "required": false,
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "The name of the radio show.",
+                        "required": true,
+                        "type": "string"
+                    },
+                    "url": {
+                        "description": "The stream URL which must end in a filename or a semicolon such as <br><ul><li>http://signal.hackerspaces.org:8090/signal.mp3</li><li>http://85.214.64.213:8060/;</ul>",
+                        "required": true,
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The stream encoder.",
+                        "required": true,
+                        "type": "string",
+                        "enum": ["mp3", "ogg"]
+                    },
+                    "start": {
+                        "description": "The start time as a timestamp.",
+                        "required": true,
+                        "type": "number"
+                    },
+                    "end": {
+                        "description": "The ending time as a timestamp.",
+                        "required": true,
+                        "type": "number"
+                    }
+                }
             }
         }
     }
