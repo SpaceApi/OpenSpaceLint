@@ -44,12 +44,16 @@
         exit();
     }
 
-    function make_columns($data, $amount_columns, $attributes = array(), $links = array())
+    function make_columns($data, $amount_columns, $attributes = array())
     {
+        if(count($data) == 0)
+            return;
+
         $list_type = isset($attributes['list_type']) ? $attributes['list_type'] : 'ul';
         $row_id = isset($attributes['row_id']) ? $attributes['row_id'] : '';
         $row_class = isset($attributes['row_class']) ? $attributes['row_class'] : '';
         $before_text = isset($attributes['before_text']) ? $attributes['before_text'] : '';
+        $list_class = isset($attributes['list_class']) ? $attributes['list_class'] : '';
 
         // number used for the bootstrap span class
         $bootstrap_span_columns = floor(12/$amount_columns);
@@ -63,28 +67,54 @@
         foreach($amounts as $column_number => $amount)
         {
             $column = <<<COLUMN
-                <div class="span$bootstrap_span_columns">
-                    <$list_type>
-                        %LISTITEMS%
-                    </$list_type>
-                </div>
+                    <div class="span$bootstrap_span_columns">
+                        <$list_type class="$list_class">
+                            %LISTITEMS%
+                        </$list_type>
+                    </div>
 COLUMN;
             $list_items = "";
             for($i=0; $i<$amount; $i++)
             {
                 $list_item_number++;
-                $filter = array_shift($data);
-                if(empty($links))
-                    $list_items .= '<li value="'. $list_item_number .'">'. $filter .'</li>';
+                $list_element = array_shift($data);
+
+                if(! is_object($list_element))
+                    $list_items .= '<li value="'. $list_item_number .'">'. $list_element .'</li>';
                 else
                 {
-                    $link = array_shift($links);
+                    // href and label must be defined when generating the html later
+                    $href = isset($list_element->href) ? $list_element->href : "#";
+                    $label = isset($list_element->label) ? $list_element->label : "";
+
+                    // generate a string with all the attributes
+                    $link_attr = array();
+                    foreach(get_object_vars($list_element) as $key => $content)
+                    {
+                        // the label is already processed
+                        if($key != "label")
+                        {
+                            if(is_string($content))
+                                $link_attr[] = $key.'="'. $content .'"';
+
+                            if(is_array($content) && $key == "data")
+                            {
+                                foreach($content as $k => $d)
+                                {
+                                    $link_attr[] = 'data-'.$k.'="'. $d .'"';
+                                }
+                            }
+                        }
+                    }
+
+                    $link_attr_str = join(' ', $link_attr);
+
                     $list_items .= <<<LI
-                        <li value="$list_item_number">
-                            <a href="$link">
-                                $filter
-                            </a>
-                        </li>
+                            <li value="$list_item_number">
+                                <a $link_attr_str>
+                                   $label
+                                </a>
+                            </li>
 LI;
                 }
             }
@@ -94,15 +124,15 @@ LI;
         }
 
         $html = <<<HTML
-                <div class="row $row_class" id="$row_id">
-                    <div class="span12">
-                        $before_text
+                    <div class="row $row_class" id="$row_id">
+                        <div class="span12">
+                            $before_text
+                        </div>
                     </div>
-                </div>
-                <br>
-                <div class="row">
-                    $columns
-                </div>
+                    <br>
+                    <div class="row">
+                        $columns
+                    </div>
 HTML;
 
         return $html;
