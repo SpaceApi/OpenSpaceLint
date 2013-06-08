@@ -7,3 +7,6 @@
 [submodule "c/php/validation-plugins"]
 	path = c/php/validation-plugins
 	url = git@github.com:SpaceApi/validation-plugins.git
+[submodule "c/images/round-social-media-buttons"]
+	path = c/images/round-social-media-buttons
+	url = git://github.com/timhuisman/round-social-media-buttons.git

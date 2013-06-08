@@ -65,3 +65,30 @@ input:required:valid, textarea:required:valid {
     -moz-border-radius: 4px 0 4px 0;
     border-radius: 4px 0 4px 0;
 }
+
+/* the social icons */
+.header-social-icons a {
+    margin-right: 40px;
+    margin-top: 20px;
+    opacity: 1;
+}
+
+.header-social-icons a:hover {
+    opacity: 1;
+    -moz-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
+    -webkit-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
+    -o-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
+    -ms-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
+    transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
+
+    -webkit-transition-duration: all 2s;
+}
+
+.github-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.header-social-icons .tooltip {
+    opacity: 0.8;
+}

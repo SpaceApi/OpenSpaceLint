@@ -28,11 +28,12 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
-        
+
     <!--<link rel="shortcut icon" href="bootstrap/ico/favicon.png"> -->
     <!-- The first icon is used by browsers that don't support animated icons -->
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"><link rel="shortcut icon" type="image/x-icon" href="favicon.gif">
-    
+
+    <link rel="stylesheet" href="c/images/round-social-media-buttons/css/social-buttons.css">
     <link rel="prerender" href="directory" />
     
     %PREFETCHASSETS%    
@@ -49,10 +50,16 @@
     <div class="container">
 
         <div class="row" style="line-height: 0px;">
-            <div class="span6">
-                <img style="width: 200px;" src="c/images/spaceapi-logo.png">
+            <div class="span5">
+                <a href="%SITEURL%"><img style="width: 200px;" src="c/images/spaceapi-logo.png"></a>
             </div>
-            <div class="span6" style="text-align: right;">
+            <div class="span4 header-social-icons">
+                <a data-toggle="tooltip" data-placement="bottom" target="_blank" href="http://github.com/spaceapi" class="social-btn github" title="Github"></a>
+                <a data-toggle="tooltip" data-placement="bottom" target="_blank" href="http://twitter.com/spaceapi" class="social-btn twitter" title="Twitter"></a>
+                <a data-toggle="tooltip" data-placement="bottom" target="_blank" href="http://slopjong.de/category/spaceapi" class="social-btn wordpress" title="Blog"></a>
+
+            </div>
+            <div class="span3" style="text-align: right;">
                 <div>
                     <a target="_blank" href="http://hackerspaces.org">
                       <img alt="Hacker Zone" src="c/images/hackerzone.png" style="margin-right: 9px;">
@@ -79,16 +86,9 @@
                     </li>
                 </ul>
             </div>
-            <div class="span8">
+            <div class="span9">
                 <ul id="main-nav" class="nav nav-pills pull-right">
                   %MENU%
-                </ul>
-            </div>
-            <div class="span1">
-                <ul class="nav nav-pills pull-right">
-                    <li>
-                        <a class="button" href="http://slopjong.de/category/spaceapi" target="_blank">Blog</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -113,11 +113,6 @@
                 </div>
             </noscript>
         </div>
-
-
-
-
-
         
     </div> <!-- /container -->
 
@@ -126,7 +121,8 @@
     <!-- Placed at the end of the document so the pages load faster -->
     
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    
+    <script src="c/js/spaceapi.js"></script>
+
     <!-- the following scripts are included in bootstrap.js and bootstrap.min.js -->
     <!--
     <script src="bootstrap/js/bootstrap-transition.js"></script>

@@ -345,5 +345,6 @@ HTML;
 	}
 	
 	$output = str_replace("%MENU%", $menu_tags, $output);
+    $output = str_replace("%SITEURL%", "http://".SITE_URL, $output);
 	
     echo $output;
