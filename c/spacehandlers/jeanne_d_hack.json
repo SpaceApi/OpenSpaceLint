@@ -1,0 +1,31 @@
+{
+    "api": "0.13",
+    "space": "Jeanne d'Hack",
+    "url": "http://www.jeannedhack.org/",
+    "location": {
+        "address": "18 Rue Sainte-Croix-des-Pelletiers, 76000 Rouen, France",
+        "lat": 49.4438225,
+        "lon": 1.0897465
+    },
+    "contact": {
+        "twitter": "@jeannedhack",
+        "identica": " @jeannedhack",
+        "irc": "irc://irc.freenode.org/jeannedhack",
+        "email": "info@jeannedhack.org",
+        "issue-mail": "c3BhY2VoYW5kbGVyQHNwYWNlYXBpLm5ldAo="
+    },
+    "issue-report-channels": [
+        "issue-mail"
+    ],
+    "state": {
+        "open": false,
+        "lastchange": 1362402457
+    },
+    "projects": [
+        "http://wiki.jeannedhack.org/index.php/Cat%C3%A9gorie:Projet",
+        "https://github.com/moebiuseye/jeanneDHack-twittbot"
+    ],
+    "cache": {
+        "schedule": "d.01"
+    }
+}
