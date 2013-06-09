@@ -70,7 +70,7 @@
             "type": "object",
             "properties": {
                 "open": {
-                    "description": "A boolean which indicates if the space is currently open",
+                    "description": "A flag which indicates if the space is currently open or closed. The state 'ndefined' can be achieved by assigning this field the value 'null' (without the quotes). In most (all?) programming languages this is evaluated to false so that no app should break",
                     "required": true,
                     "type": "boolean"
                 },
@@ -177,6 +177,11 @@
                     "required": false,
                     "type": "string"
                 },
+                "foursquare": {
+                    "description": "Foursquare ID, in the form <samp>4d8a9114d85f3704eab301dc</samp>.",
+                    "required": false,
+                    "type": "string"
+                },
                 "email": {
                     "description": "E-mail address for contacting your space",
                     "required": false,
@@ -224,12 +229,13 @@
                             "value" : {
                                 "description" : "The sensor value",
                                 "required" : true,
-                                "type" : "any"
+                                "type" : "number"
                             },
                             "unit" : {
                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                "required" : false,
-                                "type" : "string"
+                                "required" : true,
+                                "type" : "string",
+                                "enum": ["°C","°F","K","°De","°N","°Ré","°Rø"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -259,12 +265,13 @@
                             "value" : {
                                 "description" : "The sensor value",
                                 "required" : true,
-                                "type" : "any"
+                                "type" : "number"
                             },
                             "unit" : {
                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                "required" : false,
-                                "type" : "string"
+                                "required" : true,
+                                "type" : "string",
+                                "enum": ["hPA"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -294,12 +301,13 @@
                             "value" : {
                                 "description" : "The sensor value",
                                 "required" : true,
-                                "type" : "any"
+                                "type" : "number"
                             },
                             "unit" : {
                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                "required" : false,
-                                "type" : "string"
+                                "required" : true,
+                                "type" : "string",
+                                "enum": ["%"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -329,12 +337,13 @@
                             "value" : {
                                 "description" : "The sensor value",
                                 "required" : true,
-                                "type" : "any"
+                                "type" : "number"
                             },
                             "unit" : {
-                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                "required" : false,
-                                "type" : "string"
+                                "description" : "The unit, either <samp>btl</samp> for bottles or <samp>crt</samp> for crates.",
+                                "required" : true,
+                                "type" : "string",
+                                "enum": ["btl", "crt"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -364,12 +373,13 @@
                             "value" : {
                                 "description" : "The sensor value",
                                 "required" : true,
-                                "type" : "any"
+                                "type" : "number"
                             },
                             "unit" : {
                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                "required" : false,
-                                "type" : "string"
+                                "required" : true,
+                                "type" : "string",
+                                "enum" : ["W", "VA"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -396,15 +406,65 @@
                     "items" : {
                         "type" : "object",
                         "properties" : {
-                            "value" : {
-                                "description" : "The sensor value",
-                                "required" : true,
-                                "type" : "any"
-                            },
-                            "unit" : {
-                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                "required" : false,
-                                "type" : "string"
+                            "properties": {
+                                "description": "",
+                                "required": true,
+                                "type": "object",
+                                "properties":{
+                                    "speed":{
+                                        "description": "",
+                                        "required": true,
+                                        "type": "object",
+                                        "properties": {
+                                            "value" : {
+                                                "description" : "The sensor value",
+                                                "required" : true,
+                                                "type" : "number"
+                                            },
+                                            "unit" : {
+                                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                                "required" : true,
+                                                "type" : "string",
+                                                "enum": ["m/s"]
+                                            }
+                                        }
+                                    },
+                                    "direction":{
+                                        "description": "",
+                                        "required": true,
+                                        "type": "object",
+                                        "properties": {
+                                            "value" : {
+                                                "description" : "The sensor value",
+                                                "required" : true,
+                                                "type" : "number"
+                                            },
+                                            "unit" : {
+                                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                                "required" : false,
+                                                "type" : "string"
+                                            }
+                                        }
+                                    },
+                                    "elevation":{
+                                        "description": "Height above mean sea level.",
+                                        "required": true,
+                                        "type": "object",
+                                        "properties": {
+                                            "value" : {
+                                                "description" : "The sensor value",
+                                                "required" : true,
+                                                "type" : "number"
+                                            },
+                                            "unit" : {
+                                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                                "required" : true,
+                                                "type" : "string",
+                                                "enum": ["m"]
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -434,12 +494,13 @@
                             "value" : {
                                 "description" : "The sensor value",
                                 "required" : true,
-                                "type" : "any"
+                                "type" : "number"
                             },
                             "unit" : {
                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
                                 "required" : false,
-                                "type" : "string"
+                                "type" : "string",
+                                "enum" : ["ncs"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -458,15 +519,77 @@
                             }
                         }
                     }
-                }
-            },
-            "items": {
-                "type": "object",
-                "properties": {
-                    "temp": {
-                        "description": "A mapping of measuring locations to temperature values. The values should match the basic regular expression <code>^[+-]?[0-9]+(\\.[0-9]+)?[FCK]$</code>. Example: <samp>{'kitchen':'48F', 'storage':'-273.1K'}</samp>",
-                        "required": false,
-                        "type": "object"
+                },
+                "space_members" : {
+                    "description" : "Specify the number of space members.",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The amount of your space members.",
+                                "required" : true,
+                                "type" : "number"
+                            },
+                            "unit" : {
+                                "description" : "",
+                                "required" : false,
+                                "type" : "string",
+                                "enum" : ["ppl"]
+                            },
+                            "location" : {
+                                "description" : "Specify the location if your hackerspace has different departments (for whatever reason). This field is for one department. Every department should have its own sensor instance.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "You can use this field to specify if this sensor instance counts active or inactive members.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "people" : {
+                    "description" : "Specify the number of people that are currently in your space..",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The amount of present people.",
+                                "required" : true,
+                                "type" : "number"
+                            },
+                            "unit" : {
+                                "description" : "",
+                                "required" : false,
+                                "type" : "string",
+                                "enum" : ["ppl"]
+                            },
+                            "location" : {
+                                "description" : "If you use multiple sensor instances for different rooms, use this field to indicate the location.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "A name. Maybe not really required. Use the location field for the rooms.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             }
