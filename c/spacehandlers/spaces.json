@@ -17,6 +17,13 @@
     "Shackspace" : {
         "url" : "http://shackspace.de/sopen/text/en",
         "pattern" : "open",
-        "inverse" : false
+        "inverse" : false,
+        "comment" : "In the meantime they have implemented the API."
+    },
+    "Jeanne d'Hack" : {
+        "url" : "",
+        "pattern" : "",
+        "inverse" : false,
+        "comment" : "They are no longer providing an endpoint. The cached version will be delivered."
     }
 }

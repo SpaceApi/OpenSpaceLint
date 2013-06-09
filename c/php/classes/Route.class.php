@@ -601,7 +601,7 @@ class Route
                 
                 $spaces = file_get_contents(ROOTDIR . "c/spacehandlers/spaces.json");
                 $spaces = json_decode($spaces);
-                
+
                 foreach($spaces as $space => $val)
                 {
                     if($space == $resource)
@@ -615,23 +615,32 @@ class Route
                         break;
                     }
                 }
-                
+
                 if(isset($file) && file_exists($file))
                 {
                     // we do no checks on the json, we assume it's validated with openspacelint
                     $spacejson = json_decode(file_get_contents($file));
-                    
-                    $data_fetch_result = DataFetch::get_data($url);
-                    $data = $data_fetch_result->content();
-                    
-                    // the status in this place might still be open or close
-                    $status = (bool) preg_match("/$pattern/", $data);
-                    
-                    // with the inverse flag we know if we were checking the open or closed status
-                    if($inverse)
-                        $status = ! $status;
-                        
-                    $spacejson->state->open = $status;
+
+                    // get the actual status if a url is provided
+                    if(!empty($url))
+                    {
+                        $data_fetch_result = DataFetch::get_data($url);
+                        $data = $data_fetch_result->content();
+
+                        // the status in this place might still be open or close
+                        $status = (bool) preg_match("/$pattern/", $data);
+
+                        // with the inverse flag we know if we were checking the open or closed status
+                        if($inverse)
+                            $status = ! $status;
+
+                        $spacejson->state->open = $status;
+                    }
+
+                    if(! property_exists($spacejson, "logo") ||
+                        (property_exists($spacejson, "logo") && empty($spacejson->logo)))
+                        $spacejson->logo = "http://" . SITE_URL . "/c/images/space-has-no-logo.png";
+
                     echo json_encode($spacejson);
                 }
                 
