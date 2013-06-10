@@ -154,12 +154,40 @@
                     "required": false,
                     "type": "string"
                 },
-                "keymaster": {
-                    "description": "Phone numbers of people who carry a key and are able to open the space upon request. Example: <samp>['+1 800 555 4567','+1 800 555 4544']</samp>",
+                "keymasters": {
+                    "description": "Persons who carry a key and are able to open the space upon request. One of the fields irc_nick, phone, email or twitter must be specified.",
                     "required": false,
                     "type": "array",
+                    "minItems": 1,
                     "items": {
-                        "type": "string"
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "Real name",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "irc_nick": {
+                                "description": "Contact the person with this nickname directly in irc if available. The irc channel to be used is defined in the contact/irc field.",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "phone": {
+                                "description": "Example: <samp>['+1 800 555 4567','+1 800 555 4544']</samp>",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "email": {
+                                "description": "Email address which can be base64 encoded.",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "twitter": {
+                                "description": "Twitter username with leading <samp>@</samp>.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
                     }
                 },
                 "irc": {
@@ -169,6 +197,11 @@
                 },
                 "twitter": {
                     "description": "Twitter handle, with leading @",
+                    "required": false,
+                    "type": "string"
+                },
+                "facebook": {
+                    "description": "Facebook account.",
                     "required": false,
                     "type": "string"
                 },
@@ -239,6 +272,36 @@
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                "required" : true,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "door_locked" : {
+                    "description" : "Sensor type to indicate if a certain door is locked.",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "The sensor value",
+                                "required" : true,
+                                "type" : "boolean"
+                            },
+                            "location" : {
+                                "description" : "The location of your sensor such as <samp>front door</samp>, <samp>chill room</samp> or <samp>lab</samp>.",
                                 "required" : true,
                                 "type" : "string"
                             },
@@ -425,11 +488,11 @@
                                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
                                                 "required" : true,
                                                 "type" : "string",
-                                                "enum": ["m/s"]
+                                                "enum": ["m/s","km/h","kn"]
                                             }
                                         }
                                     },
-                                    "direction":{
+                                    "gust":{
                                         "description": "",
                                         "required": true,
                                         "type": "object",
@@ -441,8 +504,27 @@
                                             },
                                             "unit" : {
                                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
-                                                "required" : false,
-                                                "type" : "string"
+                                                "required" : true,
+                                                "type" : "string",
+                                                "enum": ["m/s","km/h","kn"]
+                                            }
+                                        }
+                                    },
+                                    "direction":{
+                                        "description": "The wind direction in degrees. Use this <a href=\"https://github.com/slopjong/OpenSpaceLint/issues/80\" target=\"_blank_\">mapping</a> to convert the degrees into a string.",
+                                        "required": true,
+                                        "type": "object",
+                                        "properties": {
+                                            "value" : {
+                                                "description" : "The sensor value",
+                                                "required" : true,
+                                                "type" : "number"
+                                            },
+                                            "unit" : {
+                                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                                "required" : true,
+                                                "type" : "string",
+                                                "enum": ["°"]
                                             }
                                         }
                                     },
@@ -492,7 +574,7 @@
                         "type" : "object",
                         "properties" : {
                             "value" : {
-                                "description" : "The sensor value",
+                                "description" : "The amount of network connections.",
                                 "required" : true,
                                 "type" : "number"
                             },
@@ -501,6 +583,26 @@
                                 "required" : false,
                                 "type" : "string",
                                 "enum" : ["ncs"]
+                            },
+                            "machines": {
+                                "description": "The machines that are currently connected with the network.",
+                                "required": false,
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "description": "The machine name.",
+                                            "required": true,
+                                            "type": "string"
+                                        },
+                                        "mac": {
+                                            "description": "The machine's MAC address of the format <samp>D3:3A:DB:EE:FF:00</samp>.",
+                                            "required": true,
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
@@ -557,7 +659,7 @@
                     }
                 },
                 "people" : {
-                    "description" : "Specify the number of people that are currently in your space..",
+                    "description" : "Specify the number of people that are currently in your space.",
                     "required" : false,
                     "type" : "array",
                     "items" : {
@@ -597,24 +699,94 @@
         "feeds": {
             "description": "Feeds where users can get updates of your space",
             "required": false,
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
-                        "required": true,
-                        "type": "string"
-                    },
-                    "type": {
-                        "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
-                        "required": false,
-                        "type": "string"
-                    },
-                    "url": {
-                        "description": "Feed URL",
-                        "required": true,
-                        "type": "string"
+            "type": "object",
+            "properties": {
+                "blog": {
+                    "description": "",
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                        "name": {
+                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
+                            "required": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
+                            "required": false,
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "Feed URL",
+                            "required": true,
+                            "type": "string"
+                        }
+                    }
+                },
+                "wiki": {
+                    "description": "",
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                        "name": {
+                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
+                            "required": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
+                            "required": false,
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "Feed URL",
+                            "required": true,
+                            "type": "string"
+                        }
+                    }
+                },
+                "calendar": {
+                    "description": "",
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                        "name": {
+                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
+                            "required": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
+                            "required": false,
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "Feed URL",
+                            "required": true,
+                            "type": "string"
+                        }
+                    }
+                },
+                "flickr": {
+                    "description": "",
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                        "name": {
+                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
+                            "required": true,
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
+                            "required": false,
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "Feed URL",
+                            "required": true,
+                            "type": "string"
+                        }
                     }
                 }
             }
