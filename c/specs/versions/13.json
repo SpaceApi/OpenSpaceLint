@@ -14,12 +14,12 @@
             "required": true
         },
         "logo": {
-            "description": "The space logo",
+            "description": "URL to your space logo",
             "type": "string",
             "required": true
         },
         "url": {
-            "description": "The main website",
+            "description": "URL to your space website",
             "required": true,
             "type": "string"
         },
@@ -29,7 +29,7 @@
             "type": "object",
             "properties": {
                 "address": {
-                    "description": "The postal address of your space (street, block, housenumber, zip code, city, whatever you usually need in your country, and the country itself)",
+                    "description": "The postal address of your space (street, block, housenumber, zip code, city, whatever you usually need in your country, and the country itself).<br>Examples: <ul><li>Netzladen e.V., Breite Straße 74, 53111 Bonn, Germany</li></ul>",
                     "required": false,
                     "type": "string"
                 },
@@ -573,6 +573,16 @@
                     "items" : {
                         "type" : "object",
                         "properties" : {
+                            "type" : {
+                                "description" : "This field is optional but you can use it to the network type such as <samp>wifi</samp> or <samp>cable</samp>. You can even expose the number of <a href=\"https://spacefed.net/wiki/index.php/Spacenet\" target=\"_blank\">spacenet</a>-authenticated connections.",
+                                "required" : false,
+                                "type" : "string",
+                                "enum": [
+                                    "wifi",
+                                    "cable",
+                                    "spacenet"
+                                ]
+                            },
                             "value" : {
                                 "description" : "The amount of network connections.",
                                 "required" : true,
@@ -606,7 +616,7 @@
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
-                                "required" : true,
+                                "required" : false,
                                 "type" : "string"
                             },
                             "name" : {
@@ -642,7 +652,7 @@
                             },
                             "location" : {
                                 "description" : "Specify the location if your hackerspace has different departments (for whatever reason). This field is for one department. Every department should have its own sensor instance.",
-                                "required" : true,
+                                "required" : false,
                                 "type" : "string"
                             },
                             "name" : {
@@ -678,7 +688,7 @@
                             },
                             "location" : {
                                 "description" : "If you use multiple sensor instances for different rooms, use this field to indicate the location.",
-                                "required" : true,
+                                "required" : false,
                                 "type" : "string"
                             },
                             "name" : {
