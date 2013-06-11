@@ -35,7 +35,8 @@ Author: slopjong
   (21) Changed the structure of contact/keymasters (as discussed with bitlair)
   (22) Changed the structure of feeds to make the feed types (blog, calendar, ...) explicit
   (23) Added contact/facebook, sensors/{door_locked,network_connections/machines,wind.gust}
-  .... stopped to list further changes here, just check the commits
+  (24) Replaced spacefed-auth with spacefed and introduced spacefed/{spacenet,spacesaml,spacephone}
+  .... stopped to list further changes here, just check the commits and the reference
 
 0.12:
 
