@@ -247,20 +247,20 @@
                     "required": false,
                     "type": "string"
                 },
-                "issue-mail": {
-                    "description": "A seperate email address for issue reports (see the <em>issue-report-channels</em> field). This value can be Base64-encoded.",
+                "issue_mail": {
+                    "description": "A seperate email address for issue reports (see the <em>issue_report_channels</em> field). This value can be Base64-encoded.",
                     "required": false,
                     "type": "string"
                 }
             }
         },
-        "issue-report-channels": {
+        "issue_report_channels": {
             "description": "This array defines all communication channels where you want to get issue reports about your SpaceAPI endpoint. At least one channel must be defined. Please consider that when using <samp>ml</samp> the mailing list moderator has to moderate incoming emails or add the sender email to the subscribers. If you don't break your SpaceAPI implementation you won't get any notifications ;-)",
             "required": true,
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["email", "issue-mail", "twitter", "ml"]
+                "enum": ["email", "issue_mail", "twitter", "ml"]
             },
             "minItems": 1
         },
