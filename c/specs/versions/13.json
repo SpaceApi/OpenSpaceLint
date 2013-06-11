@@ -706,11 +706,6 @@
                     "type": "object",
                     "required": false,
                     "properties": {
-                        "name": {
-                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
-                            "required": true,
-                            "type": "string"
-                        },
                         "type": {
                             "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
                             "required": false,
@@ -728,11 +723,6 @@
                     "type": "object",
                     "required": false,
                     "properties": {
-                        "name": {
-                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
-                            "required": true,
-                            "type": "string"
-                        },
                         "type": {
                             "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
                             "required": false,
@@ -750,11 +740,6 @@
                     "type": "object",
                     "required": false,
                     "properties": {
-                        "name": {
-                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
-                            "required": true,
-                            "type": "string"
-                        },
                         "type": {
                             "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
                             "required": false,
@@ -772,11 +757,6 @@
                     "type": "object",
                     "required": false,
                     "properties": {
-                        "name": {
-                            "description": "A mnemonic identifier, like <samp>wiki</samp>, <samp>blog</samp>, etc.",
-                            "required": true,
-                            "type": "string"
-                        },
                         "type": {
                             "description": "Type of the feed, for example <samp>rss</samp>, <samp>atom</atom>, <samp>ical</samp>",
                             "required": false,
