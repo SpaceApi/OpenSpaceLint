@@ -442,7 +442,7 @@
                                 "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
                                 "required" : true,
                                 "type" : "string",
-                                "enum" : ["W", "VA"]
+                                "enum" : [ "mW", "W", "VA"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
