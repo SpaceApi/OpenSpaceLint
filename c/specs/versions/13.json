@@ -216,7 +216,7 @@
                     "type": "string"
                 },
                 "email": {
-                    "description": "E-mail address for contacting your space",
+                    "description": "E-mail address for contacting your space. If this is a mailing list consider to use the contact/ml field.",
                     "required": false,
                     "type": "string"
                 },
