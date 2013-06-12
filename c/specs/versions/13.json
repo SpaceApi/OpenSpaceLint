@@ -631,7 +631,7 @@
                                     "properties": {
                                         "name": {
                                             "description": "The machine name.",
-                                            "required": true,
+                                            "required": false,
                                             "type": "string"
                                         },
                                         "mac": {
