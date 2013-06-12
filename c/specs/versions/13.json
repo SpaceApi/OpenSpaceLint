@@ -77,9 +77,26 @@
             "minItems": 1
         },
         "stream": {
-            "description": "A mapping of stream types to stream URLs. Example: <samp>{'mp4':'http\/\/example.org/stream.mpg', 'mjpeg':'http:\/\/example.org/stream.mjpeg'}</samp>",
+            "description": "A mapping of stream types to stream URLs.If you use other stream types make a <a href=\"add-your-space\" target=\"_blank\">change request</a> or prefix yours with <samp>ext_</samp> .",
             "required": false,
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "m4" : {
+                    "description": "Your mpg stream URL. Example: <samp>{\"mp4\": \"http\/\/example.org/stream.mpg\"}</samp>",
+                    "required": false,
+                    "type": "string"
+                },
+                "mjpeg": {
+                    "description": "Your mjpeg stream URL. Example: <samp>{\"mjpeg\": \"http:\/\/example.org/stream.mjpeg\"}</samp>",
+                    "required": false,
+                    "type": "string"
+                },
+                "ustream": {
+                    "description": "Your ustream stream URL. Example: <samp>{\"ustream\": \"http:\/\/www.ustream.tv\/channel\/hackspsps\"}</samp>",
+                    "required": false,
+                    "type": "string"
+                }
+            }
         },
         "state": {
             "description": "A collection of status-related data: actual open/closed status, icons, last change timestamp etc.",
@@ -813,6 +830,8 @@
                 "type": "string"
             }
         },
+
+
         "radio_show": {
             "description": "A list of radio shows that your hackerspace might broadcast.",
             "required": false,
@@ -837,14 +856,14 @@
                         "enum": ["mp3", "ogg"]
                     },
                     "start": {
-                        "description": "The start time as a timestamp.",
+                        "description": "Specify the start time by using the <a href=\"http://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO 8601</a> standard. This encodes the time as follows: <br><br><ul><li>Combined date and time in UTC: 2013-06-10T10:00Z</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T12:00+02</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T07:00-03</li></ul> The examples refer all to the same time.",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     },
                     "end": {
-                        "description": "The ending time as a timestamp.",
+                        "description": "Specify the end time by using the <a href=\"http://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO 8601</a> standard. This encodes the time as follows: <br><br><ul><li>Combined date and time in UTC: 2013-06-10T10:00Z</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T12:00+02</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T07:00-03</li></ul> The examples refer all to the same time.",
                         "required": true,
-                        "type": "number"
+                        "type": "string"
                     }
                 }
             }
