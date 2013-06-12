@@ -856,12 +856,12 @@
                         "enum": ["mp3", "ogg"]
                     },
                     "start": {
-                        "description": "Specify the start time by using the <a href=\"http://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO 8601</a> standard. This encodes the time as follows: <br><br><ul><li>Combined date and time in UTC: 2013-06-10T10:00Z</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T12:00+02</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T07:00-03</li></ul> The examples refer all to the same time.",
+                        "description": "Specify the start time by using the <a href=\"http://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO 8601</a> standard. This encodes the time as follows: <br><br><ul><li>Combined date and time in UTC: 2013-06-10T10:00Z</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T12:00+02:00</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T07:00-03:00</li></ul> The examples refer all to the same time.",
                         "required": true,
                         "type": "string"
                     },
                     "end": {
-                        "description": "Specify the end time by using the <a href=\"http://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO 8601</a> standard. This encodes the time as follows: <br><br><ul><li>Combined date and time in UTC: 2013-06-10T10:00Z</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T12:00+02</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T07:00-03</li></ul> The examples refer all to the same time.",
+                        "description": "Specify the end time by using the <a href=\"http://en.wikipedia.org/wiki/ISO_8601\" target=\"_blank\">ISO 8601</a> standard. This encodes the time as follows: <br><br><ul><li>Combined date and time in UTC: 2013-06-10T10:00Z</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T12:00+02:00</li><li>Combined date and time in localtime with the timezone offset: 2013-06-10T07:00-03:00</li></ul> The examples refer all to the same time.",
                         "required": true,
                         "type": "string"
                     }
