@@ -12,10 +12,10 @@
         "identica": " @jeannedhack",
         "irc": "irc://irc.freenode.org/jeannedhack",
         "email": "info@jeannedhack.org",
-        "issue-mail": "c3BhY2VoYW5kbGVyQHNwYWNlYXBpLm5ldAo="
+        "issue_mail": "c3BhY2VoYW5kbGVyQHNwYWNlYXBpLm5ldAo="
     },
-    "issue-report-channels": [
-        "issue-mail"
+    "issue_report_channels": [
+        "issue_mail"
     ],
     "state": {
         "open": false,

@@ -13,10 +13,10 @@
         "irc": "irc://irc.ircnet.com/hspbp",
         "ml": "hspbp@googlegroups.com",
         "twitter": "@hackerspacebp",
-		"issue-mail": "c3BhY2VoYW5kbGVyQHNwYWNlYXBpLm5ldAo"
+		"issue_mail": "c3BhY2VoYW5kbGVyQHNwYWNlYXBpLm5ldAo"
     },
-	"issue-report-channels": [
-        "issue-mail"
+	"issue_report_channels": [
+        "issue_mail"
     ],
     "cache": {
         "schedule": "m.02"
