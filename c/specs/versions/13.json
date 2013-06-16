@@ -672,6 +672,12 @@
                                 "required" : true,
                                 "type" : "number"
                             },
+                            "unit": {
+                                "description": "What's the currency? If your currency is missing open a new <a href=\"https://github.com/slopjong/OpenSpaceLint/issues\" target=\"_blank\">issue</a> and request the addition of your currency according <a href=\"http://de.wikipedia.org/wiki/ISO_4217\" target=\"_blank\">ISO 4217</a>.",
+                                "required": true,
+                                "type": "string",
+                                "enum": ["EUR","USD","GBP"]
+                            },
                             "location" : {
                                 "description" : "If you have more than one account you can use this field to specify where it is.",
                                 "required" : false,
