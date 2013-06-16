@@ -11,7 +11,7 @@ Author: slopjong
   (3) Moved lat and lon to location/{lat,lon}
   (4) Made location and location/{lat,lon} required fields
   (5) The meaning of the status field has changed, it's now a compound
-      object of all the fields that are related to the space status
+      object of all the fields that are related to the space status. As suggested by tdfischer.
   (6) Moved the fields open, lastchange and icon to state/{open,lastchange,icon}
   (7) Added state/message field which was the former free-text status field
   (8) Made the status icons non-required, because there's no app that
@@ -27,10 +27,10 @@ Author: slopjong
   (14) Field 'spacefed-auth' added which is a flag denoting if a space is using
        the inter-(hacker)space federated authentication platform.
   (15) Added contact/identica added. This is a micro-blogging platform.
-  (16) Added new sensor types and sensor instances now have a given structure. As suggested by spaceapi people.
+  (16) Added new sensor types and sensor instances now have a given structure. As suggested by a couple of spaceapi people.
   (17) Added state/trigger_person
   (18) Added radio_show/{name,url,type,start,end}
-  (19) Added contact/foursquare as requested by the spaceapi people.
+  (19) Added contact/foursquare as requested by the spaceapi people on github.
   (20) Added new sensors. Updated some descriptions.
   (21) Changed the structure of contact/keymasters (as discussed with bitlair)
   (22) Changed the structure of feeds to make the feed types (blog, calendar, ...) explicit
