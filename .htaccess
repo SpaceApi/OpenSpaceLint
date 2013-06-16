@@ -21,7 +21,8 @@ RewriteCond %{QUERY_STRING} ^$
 RewriteRule ^validate/(.*)$      /c/php/controller.php?delegator=validator&action=get&resource=$1 [L]
 
 # validate a space api implementation from a URL (the trailing slash is optional)
-RewriteCond %{QUERY_STRING} ^url
+RewriteCond %{QUERY_STRING} ^url [OR]
+RewriteCond %{QUERY_STRING} ^json
 RewriteRule ^validate            /c/php/controller.php?delegator=validator&action=get&resource= [QSA,NE,L]
 
 # get the directory or a subset of it

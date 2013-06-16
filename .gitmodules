@@ -10,3 +10,6 @@
 [submodule "c/images/round-social-media-buttons"]
 	path = c/images/round-social-media-buttons
 	url = git://github.com/timhuisman/round-social-media-buttons.git
+[submodule "c/js/phpjs"]
+	path = c/js/phpjs
+	url = git@github.com:SpaceApi/phpjs.git

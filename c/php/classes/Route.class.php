@@ -725,16 +725,7 @@ class Route
                     // is missing, we're trying to find out  the url from the private directory is taken and validated
                     else
                     {
-                        // the following rewrite rule seems to not pass the raw json to the resource parameter for
-                        // whatever reason
-                        //
-                        //    RewriteCond %{QUERY_STRING} ^$
-                        //    RewriteRule ^validate/(.*)$  /c/php/controller.php?delegator=validator&action=get&resource=$1 [L]
-                        //
-                        // workaround: get ge resource from the request uri
-                        $resource = str_replace("/validate/", "", $_SERVER["REQUEST_URI"]);
-                        $resource = urldecode($resource);
-                        //$resource = urldecode($resource);
+                        $resource = urldecode($_GET["json"]);
                         
                         if(null !== json_decode($resource))
                         {
