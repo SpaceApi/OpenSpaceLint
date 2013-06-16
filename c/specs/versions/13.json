@@ -287,7 +287,7 @@
             "type": "object",
             "properties": {
                 "temperature" : {
-                    "description" : "Temperature sensor",
+                    "description" : "Temperature sensor. To convert from one unit of temperature to another consider <a href=\"http://en.wikipedia.org/wiki/Temperature_conversion_formulas\" target=\"_blank\">Wikipedia</a>.",
                     "required" : false,
                     "type" : "array",
                     "items" : {
@@ -299,10 +299,10 @@
                                 "type" : "number"
                             },
                             "unit" : {
-                                "description" : "The unit of the sensor value. You should always define the unit though if the sensor is a flag of a boolean type then you can of course omit it.",
+                                "description" : "The unit of the sensor value.",
                                 "required" : true,
                                 "type" : "string",
-                                "enum": ["°C","°F","K","°De","°N","°Ré","°Rø"]
+                                "enum": ["°C","°F","K","°De","°N","°R","°Ré","°Rø"]
                             },
                             "location" : {
                                 "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
