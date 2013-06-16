@@ -660,6 +660,36 @@
                         }
                     }
                 },
+                "account_balance" : {
+                    "description" : "How rich is your hackerspace?",
+                    "required" : false,
+                    "type" : "array",
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "value" : {
+                                "description" : "How much?",
+                                "required" : true,
+                                "type" : "number"
+                            },
+                            "location" : {
+                                "description" : "If you have more than one account you can use this field to specify where it is.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "name" : {
+                                "description" : "Give your sensor instance a name.",
+                                "required" : false,
+                                "type" : "string"
+                            },
+                            "description": {
+                                "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
                 "total_member_count" : {
                     "description" : "Specify the number of space members.",
                     "required" : false,
@@ -713,7 +743,7 @@
                                 "type" : "string"
                             },
                             "names": {
-                                "description" : "",
+                                "description" : "List of hackerspace members that are currently occupying the space.",
                                 "required": false,
                                 "type": "array",
                                 "items": {

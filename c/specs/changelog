@@ -40,6 +40,7 @@ Author: slopjong
   (26) Renamed sensors/space_members to sensors/total_member_count as suggested on the mailing-list.
   (27) Renamed sensors/people to sensors/people_now_present as suggested on the mailing-list.
   (28) Added sensors/people_now_present/names to specify names of the people that are occupying the space, as suggested on the mailing-list.
+  (29) Added sensors/account_balance as suggested by spaceapi people (tiefpunkt)
   .... stopped to list further changes here, just check the commits and the reference
 
 0.12:
