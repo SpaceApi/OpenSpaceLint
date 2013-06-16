@@ -27,16 +27,19 @@ Author: slopjong
   (14) Field 'spacefed-auth' added which is a flag denoting if a space is using
        the inter-(hacker)space federated authentication platform.
   (15) Added contact/identica added. This is a micro-blogging platform.
-  (16) Added new sensor types and sensor instances now have a given structure.
+  (16) Added new sensor types and sensor instances now have a given structure. As suggested by spaceapi people.
   (17) Added state/trigger_person
   (18) Added radio_show/{name,url,type,start,end}
-  (19) Added contact/foursquare
+  (19) Added contact/foursquare as requested by the spaceapi people.
   (20) Added new sensors. Updated some descriptions.
   (21) Changed the structure of contact/keymasters (as discussed with bitlair)
   (22) Changed the structure of feeds to make the feed types (blog, calendar, ...) explicit
   (23) Added contact/facebook, sensors/{door_locked,network_connections/machines,wind.gust}
-  (24) Replaced spacefed-auth with spacefed and introduced spacefed/{spacenet,spacesaml,spacephone}
+  (24) Replaced spacefed-auth with spacefed and introduced spacefed/{spacenet,spacesaml,spacephone} as discussed with the spacefed devs.
   (25) Replaced dashes with underscores as advised by @toba
+  (26) Renamed sensors/space_members to sensors/total_member_count as suggested on the mailing-list.
+  (27) Renamed sensors/people to sensors/people_now_present as suggested on the mailing-list.
+  (28) Added sensors/people_now_present/names to specify names of the people that are occupying the space, as suggested on the mailing-list.
   .... stopped to list further changes here, just check the commits and the reference
 
 0.12:

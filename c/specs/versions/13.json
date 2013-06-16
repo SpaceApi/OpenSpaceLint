@@ -660,7 +660,7 @@
                         }
                     }
                 },
-                "space_members" : {
+                "total_member_count" : {
                     "description" : "Specify the number of space members.",
                     "required" : false,
                     "type" : "array",
@@ -690,8 +690,8 @@
                         }
                     }
                 },
-                "people" : {
-                    "description" : "Specify the number of people that are currently in your space.",
+                "people_now_present" : {
+                    "description" : "Specify the number of people that are currently in your space. Optionally you can define a list of names.",
                     "required" : false,
                     "type" : "array",
                     "items" : {
@@ -708,9 +708,18 @@
                                 "type" : "string"
                             },
                             "name" : {
-                                "description" : "A name. Maybe not really required. Use the location field for the rooms.",
+                                "description" : "Give this sensor a name if necessary at all. Use the location field for the rooms. This field is not intended to be used for names of hackerspace members. Use the field 'names' instead.",
                                 "required" : false,
                                 "type" : "string"
+                            },
+                            "names": {
+                                "description" : "",
+                                "required": false,
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 1
                             },
                             "description": {
                                 "description": "An extra field that you can use to attach some additional information to this sensor instance.",
