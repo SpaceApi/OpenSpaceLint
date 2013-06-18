@@ -693,9 +693,17 @@ class Route
                     // to spacehandlers such as http://openspace.slopjong.de/status/Chaos+inKL.
                     $url = str_replace(" ", "+", $url);
 
-                    $url = filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
-                    
-                    $logger->logDebug($url);
+                    if(empty($url))
+                    {
+                        // the URL is empty if a user submitted an empty form on the 'Add your space' page
+                        echo '{"error" : "You should not submit an empty URL."}';
+                        exit;
+                    }
+                    else
+                    {
+                        $url = filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED);
+                        $logger->logDebug($url);
+                    }
                 }
                 
                 // or did we get json data or a space name instead?
@@ -734,7 +742,7 @@ class Route
                         }
                         else
                         {
-                            $logger->logDebug("Validating a space ('$resource:$mixed') from its name");
+                            $logger->logDebug("Validating a space ('$resource') from its name");
                             $sanitized_space_name = NiceFileName::get($resource);
                             $private_directory = new PrivateDirectory;
                             
