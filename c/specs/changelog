@@ -42,6 +42,7 @@ Author: slopjong
   (28) Added sensors/people_now_present/names to specify names of the people that are occupying the space, as suggested on the mailing-list.
   (29) Added sensors/account_balance as suggested by spaceapi people (tiefpunkt)
   (30) Added sensors/account_balance/unit for the currency
+  (31) Added sensors/radiation/{alpha,beta,gamma,beta_gamma}, radiation sensor type wished by chron0
   .... stopped to list further changes here, just check the commits and the reference
 
 0.12:

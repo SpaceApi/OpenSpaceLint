@@ -388,6 +388,197 @@
                         }
                     }
                 },
+                "radiation" : {
+                    "description": "Compound radiation sensor. Check this <a rel=\"nofollow\" href=\"https://sites.google.com/site/diygeigercounter/gm-tubes-supported\" target=\"_blank\">resource</a>.",
+                    "required": false,
+                    "type": "object",
+                    "properties": {
+                        "alpha": {
+                            "description": "An alpha sensor",
+                            "required": false,
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value" : {
+                                        "description" : "Observed counts per minute (ocpm) or actual radiation value. If the value are the observed counts then the dead_time and conversion_factor fields must be defined as well. CPM formula: <div>cpm = ocpm ( 1 + 1 / (1 - ocpm x dead_time) )</div> Conversion formula: <div>µSv/h = cpm x conversion_factor</div>",
+                                        "required" : true,
+                                        "type" : "number"
+                                    },
+                                    "unit" : {
+                                        "description" : "Choose the appropriate unit for your radiation sensor instance.",
+                                        "required" : true,
+                                        "type" : "string",
+                                        "enum": ["cpm", "r/h", "µSv/h", "mSv/a", "µSv/a"]
+                                    },
+                                    "dead_time" : {
+                                        "description" : "The dead time in µs. See the description of the value field to see how to use the dead time.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "conversion_factor" : {
+                                        "description" : "The conversion from the <em>cpm</em> unit to another unit hardly depends on your tube type. See the description of the value field to see how to use the conversion factor. <strong>Note:</strong> only trust your manufacturer if it comes to the actual factor value. The internet seems <a rel=\"nofollow\" href=\"http://sapporohibaku.wordpress.com/2011/10/15/conversion-factor/\" target=\"_blank\">full of wrong copy & pastes</a>, don't even trust your neighbour hackerspace. If in doubt ask the tube manufacturer.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "location" : {
+                                        "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "name" : {
+                                        "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "description": {
+                                        "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                        "required": false,
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "beta": {
+                            "description": "A beta sensor",
+                            "required": false,
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value" : {
+                                        "description" : "Observed counts per minute (ocpm) or actual radiation value. If the value are the observed counts then the dead_time and conversion_factor fields must be defined as well. CPM formula: <div>cpm = ocpm ( 1 + 1 / (1 - ocpm x dead_time) )</div> Conversion formula: <div>µSv/h = cpm x conversion_factor</div>",
+                                        "required" : true,
+                                        "type" : "number"
+                                    },
+                                    "unit" : {
+                                        "description" : "Choose the appropriate unit for your radiation sensor instance.",
+                                        "required" : true,
+                                        "type" : "string",
+                                        "enum": ["cpm", "r/h", "µSv/h", "mSv/a", "µSv/a"]
+                                    },
+                                    "dead_time" : {
+                                        "description" : "The dead time in µs. See the description of the value field to see how to use the dead time.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "conversion_factor" : {
+                                        "description" : "The conversion from the <em>cpm</em> unit to another unit hardly depends on your tube type. See the description of the value field to see how to use the conversion factor. <strong>Note:</strong> only trust your manufacturer if it comes to the actual factor value. The internet seems <a rel=\"nofollow\" href=\"http://sapporohibaku.wordpress.com/2011/10/15/conversion-factor/\" target=\"_blank\">full of wrong copy & pastes</a>, don't even trust your neighbour hackerspace. If in doubt ask the tube manufacturer.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "location" : {
+                                        "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "name" : {
+                                        "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "description": {
+                                        "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                        "required": false,
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "gamma": {
+                            "description": "A gamma sensor",
+                            "required": false,
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value" : {
+                                        "description" : "Observed counts per minute (ocpm) or actual radiation value. If the value are the observed counts then the dead_time and conversion_factor fields must be defined as well. CPM formula: <div>cpm = ocpm ( 1 + 1 / (1 - ocpm x dead_time) )</div> Conversion formula: <div>µSv/h = cpm x conversion_factor</div>",
+                                        "required" : true,
+                                        "type" : "number"
+                                    },
+                                    "unit" : {
+                                        "description" : "Choose the appropriate unit for your radiation sensor instance.",
+                                        "required" : true,
+                                        "type" : "string",
+                                        "enum": ["cpm", "r/h", "µSv/h", "mSv/a", "µSv/a"]
+                                    },
+                                    "dead_time" : {
+                                        "description" : "The dead time in µs. See the description of the value field to see how to use the dead time.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "conversion_factor" : {
+                                        "description" : "The conversion from the <em>cpm</em> unit to another unit hardly depends on your tube type. See the description of the value field to see how to use the conversion factor. <strong>Note:</strong> only trust your manufacturer if it comes to the actual factor value. The internet seems <a rel=\"nofollow\" href=\"http://sapporohibaku.wordpress.com/2011/10/15/conversion-factor/\" target=\"_blank\">full of wrong copy & pastes</a>, don't even trust your neighbour hackerspace. If in doubt ask the tube manufacturer.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "location" : {
+                                        "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "name" : {
+                                        "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "description": {
+                                        "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                        "required": false,
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "beta_gamma": {
+                            "description": "A sensor which cannot filter beta and gamma radiation seperately.",
+                            "required": false,
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "value" : {
+                                        "description" : "Observed counts per minute (ocpm) or actual radiation value. If the value are the observed counts then the dead_time and conversion_factor fields must be defined as well. CPM formula: <div>cpm = ocpm ( 1 + 1 / (1 - ocpm x dead_time) )</div> Conversion formula: <div>µSv/h = cpm x conversion_factor</div>",
+                                        "required" : true,
+                                        "type" : "number"
+                                    },
+                                    "unit" : {
+                                        "description" : "Choose the appropriate unit for your radiation sensor instance.",
+                                        "required" : true,
+                                        "type" : "string",
+                                        "enum": ["cpm", "r/h", "µSv/h", "mSv/a", "µSv/a"]
+                                    },
+                                    "dead_time" : {
+                                        "description" : "The dead time in µs. See the description of the value field to see how to use the dead time.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "conversion_factor" : {
+                                        "description" : "The conversion from the <em>cpm</em> unit to another unit hardly depends on your tube type. See the description of the value field to see how to use the conversion factor. <strong>Note:</strong> only trust your manufacturer if it comes to the actual factor value. The internet seems <a rel=\"nofollow\" href=\"http://sapporohibaku.wordpress.com/2011/10/15/conversion-factor/\" target=\"_blank\">full of wrong copy & pastes</a>, don't even trust your neighbour hackerspace. If in doubt ask the tube manufacturer.",
+                                        "required" : false,
+                                        "type" : "number"
+                                    },
+                                    "location" : {
+                                        "description" : "The location of your sensor such as <samp>Outside</samp>, <samp>Inside</samp>, <samp>Ceiling</samp>, <samp>Roof</samp> or <samp>Room 1</samp>.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "name" : {
+                                        "description" : "This field is an additional field to give your sensor a name. This can be useful if you have multiple sensors in the same location.",
+                                        "required" : false,
+                                        "type" : "string"
+                                    },
+                                    "description": {
+                                        "description": "An extra field that you can use to attach some additional information to this sensor instance.",
+                                        "required": false,
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "humidity" : {
                     "description" : "Humidity sensor",
                     "required" : false,
