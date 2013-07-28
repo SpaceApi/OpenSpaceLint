@@ -1,6 +1,6 @@
 body {
-  padding: 0px 20px;
-  background: #eee;
+  padding: 30px 20px 0px;
+    background: url("../images/background.jpg") no-repeat fixed 50% 0 transparent;
 }
 
 #main-nav li {
@@ -27,7 +27,7 @@ body {
 }
 
 .container {
-  box-shadow: 0px 0px 23px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 23px 5px rgba(0, 0, 0, 0.5);
   background: #fff;
   padding: 40px 60px 40px;
 }
