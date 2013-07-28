@@ -1,3 +1,33 @@
+@font-face {
+    font-family: "Yanone Kaffeesatz";
+    font-style: normal;
+    font-weight: bold;
+    src: url("../fonts/yanonekaffeesatz/YanoneKaffeesatz-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Yanone Kaffeesatz";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/yanonekaffeesatz/YanoneKaffeesatz-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Yanone Kaffeesatz";
+    font-style: normal;
+    font-weight: 300;
+    src: url("../fonts/yanonekaffeesatz/YanoneKaffeesatz-Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Yanone Kaffeesatz";
+    font-style: normal;
+    font-weight: 200;
+    src: url("../fonts/yanonekaffeesatz/YanoneKaffeesatz-ExtraLight.ttf") format("truetype");
+}
+
+/******************************************************************/
+
 body {
   padding: 30px 20px 0px;
     background: url("../images/background.jpg") no-repeat fixed 50% 0 transparent;
@@ -32,8 +62,8 @@ body {
   padding: 40px 60px 40px;
 }
 
-.container > section {
-  padding: 10px 0px 10px 0px;
+.container  section {
+  padding: 0px 0px 25px 0px !important;
 }
 
 /*
@@ -100,8 +130,6 @@ input:required:valid, textarea:required:valid {
     -o-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
     -ms-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
     transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
-
-
 }
 
 .github-icon {
@@ -111,4 +139,12 @@ input:required:valid, textarea:required:valid {
 
 .header-social-icons .tooltip {
     opacity: 0.8;
+}
+
+h2 {
+    font-family: Yanone Kaffeesatz;
+    font-weight: 300;
+    font-size: 3em;
+    margin-bottom: 25px;
+    letter-spacing: 0.08em;
 }
