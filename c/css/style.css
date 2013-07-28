@@ -85,6 +85,12 @@ input:required:valid, textarea:required:valid {
     margin-right: 40px;
     margin-top: 20px;
     opacity: 1;
+
+    -webkit-transition: all 0.2s ;
+    -moz-transition: all 0.2s ;
+    -ms-transition: all 0.2s ;
+    -o-transition: all 0.2s ;
+    transition: all 0.2s ;
 }
 
 .header-social-icons a:hover {
@@ -95,7 +101,7 @@ input:required:valid, textarea:required:valid {
     -ms-transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
     transform: scale(1) rotate(0deg) translateX(0px) translateY(-5px) skewX(0deg) skewY(0deg);
 
-    -webkit-transition-duration: all 2s;
+
 }
 
 .github-icon {
