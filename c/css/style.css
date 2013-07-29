@@ -110,6 +110,10 @@ input:required:valid, textarea:required:valid {
     border-radius: 4px 0 4px 0;
 }
 
+.spaceapi-box-note:after {
+    content: "Note";
+}
+
 /* the social icons */
 .header-social-icons a {
     margin-right: 40px;
@@ -143,8 +147,38 @@ input:required:valid, textarea:required:valid {
 
 h2 {
     font-family: Yanone Kaffeesatz;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 3em;
     margin-bottom: 25px;
     letter-spacing: 0.08em;
+}
+
+h3 {
+    font-family: Yanone Kaffeesatz;
+    font-weight: 400;
+    font-size: 2.5em;
+    margin-bottom: 18px;
+    letter-spacing: 0.03em;
+}
+
+h4 {
+    font-family: Yanone Kaffeesatz;
+    font-weight: 400;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    letter-spacing: 0em;
+}
+
+h5 {
+    font-family: Yanone Kaffeesatz;
+    font-weight: 400;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    letter-spacing: 0em;
+}
+
+/* some rules to be applied if now bootstrap rows are used */
+pre, ul, table {
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
