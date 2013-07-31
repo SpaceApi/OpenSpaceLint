@@ -138,127 +138,33 @@ HTML;
         return $html;
     }
 
-    class Page
-	{
-		private $prefetch_assets = array();
-        private $scripts = array();
-        private $require_global_scripts = array();
-        private $stylesheets = array();
-		private $inline_styles = array();
-        private $content = "";
-		private $active_page = "";
-        
-        /* not yet used */
-        private $routes = array();
-        
-        public function __construct() {}
+    /************************************************************************************************/
+    // define the auto class loader
+    function class_loader($classname)
+    {
+        $classfile = CLASSDIR . "$classname.class.php";
 
-        public function process_backend_route($delegator = "", $action = "", $resource = "")
+        if (file_exists($classfile))
         {
-            // get the headers list before processing the route
-            // $before = headers_list();
-
-            ob_start();
-            Route::execute($delegator, $action, $resource);
-            $result = ob_get_contents();
-            ob_end_clean();
-
-            // get the possibly changed headers list
-            //$after = headers_list();
-
-            // recover the old headers
-            //header_remove();
-            /*
-            // doesn't work, the content type is application/json anyway
-            // after the loop
-            foreach(array_diff($after, $before) as $header)
-            {
-                $header = preg_replace("|:.*|", "", $header);
-                header_remove($header);
-            }
-            */
-
-            // we need to fix the content-type
-            // if other headers were set they possibly need to be
-            // overridden too if they make trouble, think also about
-            // not visible effects
-            header("Content-Type: text/html");
-            return $result;
+            require_once($classfile);
+            return true;
         }
 
-        public function addScript($script)
-        {
-            $this->scripts[] = $script;
-        }
+        // this is not so ideal, when the config cannot be loaded this fails
+        // so just be sure the Config class is always included!
+        $logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
+        $logger->logEmerg("The class '$classname' cannot be loaded!");
 
-        public function requireScript($script)
-        {
-            $this->require_global_scripts[] = $script;
-        }
-
-        public function requireScripts()
-        {
-            return $this->require_global_scripts;
-        }
-        
-        public function addStylesheet($stylesheet)
-        {
-            $this->stylesheets[] = $stylesheet;
-        }
-		
-		public function addInlineStyle($style)
-		{
-			$this->inline_styles[] = $style;
-		}
-		
-		public function inlineStyles()
-		{
-			return $this->inline_styles;
-		}
-        
-        public function addContent($content)
-        {
-            $this->content .= $content;
-        }
-		
-		public function addPrefetchAsset($asset)
-		{
-			$this->prefetch_assets[] = $asset;
-		}
-		
-        public function content()
-        {
-            return $this->content;
-        }
-		
-		public function scripts()
-		{
-			return $this->scripts;
-		}
-		
-		public function stylesheets()
-		{
-			return $this->stylesheets;
-		}
-		
-		public function prefetchAssets()
-		{
-			return $this->prefetch_assets;
-		}
-		
-		public function setActivePage($page)
-		{
-			$this->active_page = $page;
-		}
-		
-		public function activePage()
-		{
-			return $this->active_page;
-		}
+        return false;
     }
 
-    $page = new Page();
-    
+    spl_autoload_register("class_loader");
+
+    // whenever the backend classes are used, we most probably need the logger and the SAPI constant
+    $logger = KLogger::instance(LOGDIR, DEBUG_LEVEL);
+    define('SAPI', 'apache');
+    /************************************************************************************************/
+
     // get the page that should be displayed, note that REDIRECT_URL
     // is set by apache after the rewrite rule was processed
     $requested_app = str_replace("/", "", $_SERVER['REDIRECT_URL']);
@@ -271,10 +177,13 @@ HTML;
 	$load_app = APPSDIR . "error-page";
     foreach(glob( APPSDIR . "*") as $app_dir)
     {
-        $app = str_replace(APPSDIR , "", $app_dir);
-		if ( "$requested_app"    == $app )
+		if ( "$requested_app" === basename($app_dir) )
 			$load_app = $app_dir;
     }
+
+    include("Page.php");
+    $page = new Page(basename($load_app));
+
 	include($load_app . "/app.php");
     
 	$output = file_get_contents("template.html");
