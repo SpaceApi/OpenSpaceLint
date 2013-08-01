@@ -184,8 +184,10 @@ HTML;
     include("Page.php");
     $page = new Page(basename($load_app));
 
-	include($load_app . "/app.php");
-    
+    chdir($load_app);
+	include("app.php");
+    chdir(ROOTDIR);
+
 	$output = file_get_contents("template.html");
 	$output = str_replace("%CONTENT%", $page->content(), $output);
 	
