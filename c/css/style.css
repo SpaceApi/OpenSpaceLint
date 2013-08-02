@@ -191,6 +191,12 @@ pre, ul, table {
     top: -50px;
     right: -50px;
     width: 150px;
+
+    -webkit-transition: all 0.2s ;
+    -moz-transition: all 0.2s ;
+    -ms-transition: all 0.2s ;
+    -o-transition: all 0.2s ;
+    transition: all 0.2s ;
 }
 
 .app-badge:hover {
