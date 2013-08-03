@@ -179,7 +179,7 @@ h5 {
 }
 
 /* some rules to be applied if now bootstrap rows are used */
-pre, ul, table {
+pre, ul, ol, table {
     margin-top: 12px;
     margin-bottom: 12px;
 }
