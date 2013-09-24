@@ -106,7 +106,7 @@
                 "open": {
                     "description": "A flag which indicates if the space is currently open or closed. The state 'undefined' can be achieved by assigning this field the value 'null' (without the quotes). In most (all?) programming languages this is evaluated to false so that no app should break",
                     "required": true,
-                    "type": "boolean"
+                    "type": ["boolean", "null"]
                 },
                 "lastchange": {
                     "description": "The Unix timestamp when the space status changed most recently",
