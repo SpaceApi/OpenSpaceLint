@@ -1,0 +1,39 @@
+{
+    "api": "0.13",
+    "space": "MechArtLab",
+    "logo": "http://www.mechatronicart.ch/assets/gfx/logos/SGMK_Stempel.png",
+    "url": "http://www.mechatronicart.ch/",
+	"location": {
+        "address": "Hohlstrasse 52, CH-8004 Zürich, Switzerland",
+        "lon": 8.525816,
+        "lat": 47.378185
+	},
+    "contact": {
+        "email": "info@sgmk-ssam.ch",
+        "ml": "mechartlab@mechatronicart.ch",
+        "twitter": "@RaumZeitLabor",
+		"issue_mail": "info@sgmk-ssam.ch"
+    },
+    "issue_report_channels": [
+        "issue_mail"
+    ],
+    "cache": {
+        "schedule": "d.01"
+    },
+    "spacefed": {
+        "spacenet": false,
+        "spacesaml": false,
+        "spacephone": false
+    },
+    "feeds": {
+        "calendar": {
+            "url": "https://www.google.com/calendar/embed?title=the+one+and+only!&src=uk591vdm59td54dg1vrtfb2ebg@group.calendar.google.com"
+        }
+    },
+    "state": {
+        "open": null
+    },
+	"projects": [
+		"http://wiki.sgmk-ssam.ch/index.php/Projects"
+	]
+}

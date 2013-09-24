@@ -12,7 +12,8 @@
     "RaumZeitLabor" : {
         "url" : "http://status.raumzeitlabor.de/",
         "pattern" : "green.png",
-        "inverse" : false
+        "inverse" : false,
+        "comment" : "In the meantime they have implemented the API."
     },
     "Shackspace" : {
         "url" : "http://shackspace.de/sopen/text/en",
@@ -25,5 +26,11 @@
         "pattern" : "",
         "inverse" : false,
         "comment" : "They are no longer providing an endpoint. The cached version will be delivered."
+    },
+    "MechArtLab" : {
+        "url" : "",
+        "pattern" : "",
+        "inverse" : null,
+        "comment" : "They don't have a 'open' sensor yet. If no URL is provided no substitution takes place."
     }
 }
