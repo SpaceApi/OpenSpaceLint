@@ -239,7 +239,7 @@
                     "required": false,
                     "type": "string"
                 },
-                "google.plus": {
+                "google_plus": {
                     "description": "Google plus.",
                     "required": false,
                     "type": "string"
