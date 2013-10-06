@@ -239,10 +239,17 @@
                     "required": false,
                     "type": "string"
                 },
-                "google_plus": {
-                    "description": "Google plus.",
+                "google": {
+                    "description": "Google services.",
                     "required": false,
-                    "type": "string"
+                    "type": "object",
+                    "properties": {
+                        "plus": {
+                            "description": "Google plus.",
+                            "required": false,
+                            "type": "string"
+                        }
+                    }
                 },
                 "identica": {
                     "description": "Identi.ca or StatusNet account, in the form <samp>yourspace@example.org</samp>",
