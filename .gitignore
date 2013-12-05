@@ -2,3 +2,4 @@ config.php
 cron/reports
 log
 .idea
+.vagrant
