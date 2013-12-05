@@ -10,7 +10,7 @@ In your ```DocumentRoot``` get OpenSpaceLint via git
 
 ```
 git clone git://github.com/SpaceApi/OpenSpaceLint.git .
-git submodule --init --recursive
+git submodule update --init --recursive
 ```
 
 or if git isn't installed via wget
