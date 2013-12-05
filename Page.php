@@ -15,7 +15,7 @@ class Page
 
     public function __construct($page_id)
     {
-        $this->app_dir = _APPSDIR . $page_id;
+        $this->app_dir = APPSDIR . $page_id;
     }
 
     public function process_backend_route($delegator = "", $action = "", $resource = "")
