@@ -109,3 +109,12 @@ Troubleshooting
 ---------------
 
 In cli you can check some filepaths with ```php -f c/php/controller.php delegator=environment```.
+
+Submodules
+----------
+
+Example of how to add a submodule:
+
+```
+git submodule add git@github.com:SpaceApi/phpjs.git c/js/phpjs
+```
