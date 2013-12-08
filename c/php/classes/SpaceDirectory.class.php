@@ -149,20 +149,30 @@ abstract class SpaceDirectory
      */
     public function get()
     {
-        if($this->special_array_format_requested())
-            return $this->get_special_array();
+
+        if(
+            ! $this->special_array_format_requested() &&
+            ! $this->subset_by_list_requested() &&
+            ! $this->subset_by_api() &&
+            ! $this->subset_by_filter_requested()
+
+        )
+        {
+            return $this->dir_json;
+        }
+
         
         if($this->subset_by_list_requested())
             return $this->get_subset_by_list();
-        
         
         if($this->subset_by_filter_requested())
             return $this->get_subset_by_filter();
         
         if($this->subset_by_api())
             return $this->get_subset_by_api();
-        
-        return $this->dir_json;   
+
+        if($this->special_array_format_requested())
+            return $this->get_special_array();
     }
     
     
@@ -295,7 +305,7 @@ abstract class SpaceDirectory
                 if(preg_match("/api=.*/", $val))
                 {
                     $version = str_replace("api=", "", $val);
-                    $version = urldecode($operator_version);
+                    $version = urldecode($version);
                 }
         }
         else
