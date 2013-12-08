@@ -9,10 +9,8 @@ Checkout
 In your ```DocumentRoot``` get OpenSpaceLint via git
 
 ```
-git clone git://github.com/slopjong/OpenSpaceLint.git
-mv OpenSpaceLint/* .
-mv OpenSpaceLint/.* .
-rm -rf OpenSpaceLint
+git clone git://github.com/SpaceApi/OpenSpaceLint.git .
+git submodule update --init --recursive
 ```
 
 or if git isn't installed via wget
@@ -35,7 +33,7 @@ find . -type d -exec chmod g+s {} \;
 Configuration
 -------------
 
-Copy config.sample.php to config.php and fill in the correct api keys.
+Copy ```config/config.sample.php``` to ```config/config.php``` and fill in the correct api keys.
 
 By default the ```site_url``` variable is set to the hostname or if virtual hosts are used then it's set to its ```ServerName```. Here is an example how the VirtualHost block looks like:
 

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# we want to bail on any and all errors
+set -e 
+sudo apt-get update || true # except this one
+# Check to make sure we have apache and the php module
+dpkg -l | grep -q libapache2-mod-php5 || sudo apt-get -y install libapache2-mod-php5
+
+# enable mod_rewrite
+sudo a2enmod rewrite
+
+# Allow mod_rewrite to actually work
+# this is an ugly hack, but it works on the dev box
+sudo sed -i -e '/AllowOverride None/d' /etc/apache2/sites-enabled/000-default
+
+# restart apache
+sudo service apache2 restart

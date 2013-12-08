@@ -95,3 +95,7 @@ define('LOGDIR', ROOTDIR . "log/");
 define('PLUGINDIR', ROOTDIR ."c/php/validation-plugins/");
 define('STATUSCACHEDIR', CACHEDIR . "status/");
 define('SPECSDIR', ROOTDIR . "c/specs/versions/");
+
+// define where our apps live 
+define('_APPSDIR', "apps/");
+define('APPSDIR', ROOTDIR . _APPSDIR);
