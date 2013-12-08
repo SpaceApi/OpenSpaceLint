@@ -34,8 +34,6 @@ define('SECOND_STAGE_PROXY_URL', "http://jasonproxy.herokuapp.com/?api=". APIKEY
 // Use an URL of the form openspace.slopjong.de and leave the protocol away.
 define('SITE_URL', $_SERVER["SERVER_NAME"]);
 
-// define where our apps live in relation to us
-define('APPSDIR', './apps/');
 /**
  * Cache report emails
  */
@@ -97,3 +95,7 @@ define('LOGDIR', ROOTDIR . "log/");
 define('PLUGINDIR', ROOTDIR ."c/php/validation-plugins/");
 define('STATUSCACHEDIR', CACHEDIR . "status/");
 define('SPECSDIR', ROOTDIR . "c/specs/versions/");
+
+// define where our apps live 
+define('_APPSDIR', "apps/");
+define('APPSDIR', ROOTDIR . _APPSDIR);
