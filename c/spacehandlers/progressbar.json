@@ -1,0 +1,32 @@
+{
+    "api": "0.13",
+    "space": "Progressbar",
+    "logo": "http://progressbar.sk/assets/content/progressbar_black.png",
+    "url": "http://progressbar.sk",
+	"location": {
+        "address": "Michalská 3, 81103 Bratislava, Slovensko",
+        "lon": -0.1275650,
+        "lat": 51.5033550
+	},
+    "contact": {
+        "email": "info@progressbar.sk",
+        "irc": "irc://irc.freenode.net/#progressbar",
+        "ml": "general-discussion@lists.progressbar.sk",
+        "twitter": "@progressbarsk",
+        "phone": "+421232603287",
+		"issue_mail": "c3BhY2VoYW5kbGVyQHNwYWNlYXBpLm5ldAo"
+    },
+    "issue_report_channels": [
+        "issue_mail"
+    ],
+    "cache": {
+        "schedule": "m.02"
+    },
+    "state": {
+        "open": null
+    },
+	"projects": [
+		"https://github.com/progressbarsk",
+        "https://progressbar.sk/galeria/projekty"
+	]
+}
