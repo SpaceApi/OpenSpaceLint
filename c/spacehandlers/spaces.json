@@ -35,7 +35,7 @@
     },
     "Progressbar" : {
         "url" : "http://progressbar.sk/api/door-status",
-        "pattern" : "is_open:\s*true",
+        "pattern" : "is_open:\\s*true",
         "inverse" : false
     }
 }
