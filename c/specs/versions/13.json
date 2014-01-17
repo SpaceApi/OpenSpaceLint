@@ -976,7 +976,7 @@
             "type": "object",
             "properties": {
                 "blog": {
-                    "description": "",
+                    "description": "Link to the feed where users can get your blog entries",
                     "type": "object",
                     "required": false,
                     "properties": {
@@ -993,7 +993,7 @@
                     }
                 },
                 "wiki": {
-                    "description": "",
+                    "description": "Link to the feed where users can get recent changes to your wiki",
                     "type": "object",
                     "required": false,
                     "properties": {
@@ -1010,7 +1010,7 @@
                     }
                 },
                 "calendar": {
-                    "description": "",
+                    "description": "Link to the feed where users can get your upcoming events (this should most probably be in iCal format)",
                     "type": "object",
                     "required": false,
                     "properties": {
@@ -1027,7 +1027,7 @@
                     }
                 },
                 "flickr": {
-                    "description": "",
+                    "description": "Link to the feed where users can get your latest pictures on flickr",
                     "type": "object",
                     "required": false,
                     "properties": {
